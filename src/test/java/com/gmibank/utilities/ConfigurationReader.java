@@ -1,4 +1,4 @@
-package com.gmibank.utulities;
+package com.gmibank.utilities;
 
 import java.io.FileInputStream;
 import java.util.Properties;

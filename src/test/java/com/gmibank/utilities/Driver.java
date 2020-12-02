@@ -1,4 +1,4 @@
-package com.gmibank.utulities;
+package com.gmibank.utilities;
 
 
 import io.github.bonigarcia.wdm.WebDriverManager;
