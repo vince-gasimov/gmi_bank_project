@@ -1,4 +1,4 @@
-package com.gmibank.utulities;
+package com.gmibank.utilities;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
