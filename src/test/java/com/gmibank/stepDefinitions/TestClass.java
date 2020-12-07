@@ -34,9 +34,11 @@ public class TestClass {
         values.put("newPassword", "11111111");
         values.put("passwordConfirmation", "11111111");
 
+
         registrationPage.registerNewUser(values);
 
-
+        System.out.println("registrationPage.getRgbAttributesOfLeds() = " + registrationPage.getRgbAttributesOfLeds());
+        System.out.println("registrationPage.checkConsistency() = " + registrationPage.checkConsistency());
 /*
 
         typeSsnNumber(fieldsValuesMap.get("ssnNumber"));
