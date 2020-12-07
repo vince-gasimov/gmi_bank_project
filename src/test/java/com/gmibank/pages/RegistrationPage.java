@@ -82,6 +82,10 @@ public class RegistrationPage extends BasePage {
     public List<WebElement> passwordStrengthBarLeds;
 
 
+    public String getMessage(WebElement errorWebElement){
+        return errorWebElement.getText();
+    }
+
     public void clickRegisterButton() {
         registerButton.click();
     }
