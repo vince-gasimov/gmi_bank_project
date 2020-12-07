@@ -13,49 +13,7 @@ import java.util.Map;
 
 public class RegistrationPage extends BasePage {
 
-/*
-    Abla bu kismi BasePage sayfasinda yaptik. RegistrationPage sayfasini da
-    BasePage'den extend ettik. Dolayisiyla tekrardan locate etmeye gerek yok.
-    Burada ihtiyac oldugunda direkt BasePage'den geldigi icin kullanilabilir.
 
-    @FindBy(xpath = "//a[@href='#']")
-    public WebElement loginAndRegisterButton;
-*/
-
-/*
-    Abla bu kismi BasePage sayfasinda yaptik. RegistrationPage sayfasini da
-    BasePage'den extend ettik. Dolayisiyla tekrardan locate etmeye gerek yok.
-    Burada ihtiyac oldugunda direkt BasePage'den geldigi icin kullanilabilir.
-
-    @FindBy(xpath = "//span[.='Register']")
-    public WebElement registerMenuLink;*/
-
-/*
-    bu locator'a beraber bakabiliriz. Benim anladigim kadariyla bu uyari mesaji icin kullanilacak.
-    Bunlarin text'leri degisebiliyor, o yuzden biraz daha dynamic yapmakta fayda var
-
-    @FindBy(xpath = "//div[.='Your SSN is invalid']")
-    public WebElement ssnHataMesaji;*/
-
-
-/*
-    Uyari mesajlari Yukaridaki ile ayni kategoride
-
-    @FindBy(xpath = "//div[.='Your First Name is required']")
-    public WebElement firstnameHataMesaji;*/
-
-
-/*
-    Uyari mesajlari
-
-    @FindBy(xpath = "//div[.='Your Last Name is required']")
-    public WebElement lastnameHataMesaji;*/
-
-/*
-    uyari mesajlari
-
-    @FindBy(xpath = "//div[.='Your mobile phone number is invalid']")
-    public WebElement mobilePhoneHataMesaji;*/
 
     @FindBy(id = "ssn")
     public WebElement ssnTextBox;
@@ -146,7 +104,6 @@ public class RegistrationPage extends BasePage {
         lastNameTextBox.sendKeys(Keys.TAB);
     }
 
-
     public void typeAddress(String address) {
         addressTextBox.click();
         addressTextBox.sendKeys(address);
@@ -228,14 +185,13 @@ public class RegistrationPage extends BasePage {
         return rgbValues;
     }
 
+    //sifrenin gucluluk derecesini veriyor
     public int getNumberOfLightingLedsForPasswordStrength(){
        List<String> rgbValues = getRgbAttributesOfLeds();
-
-
-
        return countRgbValue(rgbValues, rgbValues.get(0));
     }
 
+    //renk uyumunu check ediyor
     public boolean checkConsistency(){
         int numberOfLightingLed = getNumberOfLightingLedsForPasswordStrength();
         List<String> rgbValues = getRgbAttributesOfLeds();
@@ -259,6 +215,7 @@ public class RegistrationPage extends BasePage {
         }
     }
 
+    //ilgili pattern ile ayni pattern'a sahip olan isik sayisi doner
     public int countRgbValue(List<String> rgbValues, String pattern){
         int count = 0;
         for (String rgbValue : rgbValues) {
