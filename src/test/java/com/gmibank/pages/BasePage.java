@@ -28,11 +28,19 @@ public class BasePage {
     public List<WebElement> accountIconDropDownItems;
 
 
+    //sayfabasligi(hersayfadayok.registration,accountgibibirkacsayfadavar
+    @FindBy(xpath="//div[@class='view-routes']//h2")
+    public WebElement pageHeader;
+
+    //eger sayfa basligi varsa, sayfa basligini doner
+    public String getPageHeader(){
+        return pageHeader.getText();
+    }
+
     /*
     BasePage icindeki Home, Loans, About Us, Blog, About ve Contact sayfalarinin expected URL adreslerini
     doner. Fakat sig in yaptiktan sonra gelen My Operations ve User sayfalari icin baska method kullanilmali.
      */
-
     public String getPageUrl(String pageName){
        String pageUrl = null;
 
