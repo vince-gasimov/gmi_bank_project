@@ -257,7 +257,6 @@ public class RegistrationPage extends BasePage {
         }else{
             return false;
         }
-
     }
 
     public int countRgbValue(List<String> rgbValues, String pattern){
