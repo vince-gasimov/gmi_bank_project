@@ -50,6 +50,7 @@ public class ExcelUtilities {
         }
     }
     //============getting all data into two dimentional array and returning the data===
+    // okudugumuz tüm verileri iki boyutlu diziye alma ve verileri döndürme
     public String[][] getDataArray() {
         String[][] data = new String[rowCount()][columnCount()];
         for (int i = 0; i < rowCount(); i++) {
