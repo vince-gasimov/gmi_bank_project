@@ -1,6 +1,6 @@
 Feature: Login Functionality
 
-  @wip
+
   Scenario Outline: verify login functionality for all user type with valid info
 
     When user navigates to "Sign in" page under account menu icon
