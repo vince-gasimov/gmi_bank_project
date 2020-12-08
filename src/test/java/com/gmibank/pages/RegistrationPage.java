@@ -1,6 +1,7 @@
 package com.gmibank.pages;
 
 
+import com.gmibank.utilities.BrowserUtils;
 import com.gmibank.utilities.Driver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -82,6 +83,10 @@ public class RegistrationPage extends BasePage {
     public List<WebElement> passwordStrengthBarLeds;
 
 
+    public String getMessage(WebElement errorWebElement){
+        return errorWebElement.getText();
+    }
+
     public void clickRegisterButton() {
         registerButton.click();
     }
@@ -140,6 +145,45 @@ public class RegistrationPage extends BasePage {
         passwordConfirmationTextBox.sendKeys(Keys.TAB);
     }
 
+
+    public void typeValueInsideASpecifiedTextBox(String textBox, String value){
+
+        switch (textBox.toLowerCase()){
+            case "ssn":
+                typeSsnNumber(value);
+                break;
+            case "firstname":
+                typeFirstName(value);
+                break;
+            case "lastname":
+                typeLastName(value);
+                break;
+            case "address":
+                typeAddress(value);
+                break;
+            case "mobilephonenumber":
+                typeMobilePhoneNumber(value);
+                break;
+            case "username":
+                typeUserName(value);
+                break;
+            case "email":
+                typeEmail(value);
+                break;
+            case "newpassword":
+                typeNewPassword(value);
+                break;
+            case "newpasswordconfirmation":
+                typeNewPasswordConfirmation(value);
+                break;
+            default:
+                System.out.println("specified textbox does not exist!!!");
+                break;
+        }
+
+    }
+
+
     public void typeAllFieldInformation(Map<String, String> fieldsValuesMap) {
         typeSsnNumber(fieldsValuesMap.get("ssnNumber"));
         typeFirstName(fieldsValuesMap.get("firstName"));
@@ -163,7 +207,7 @@ public class RegistrationPage extends BasePage {
     }
 
     public boolean isThereAnyError(){
-        List<WebElement> errorWebElements = Driver.getDriver().findElements(By.cssSelector("invalid-feedback"));
+        List<WebElement> errorWebElements = Driver.getDriver().findElements(By.cssSelector(".invalid-feedback"));
         int size = errorWebElements.size();
         if (size == 0){
             return false;
