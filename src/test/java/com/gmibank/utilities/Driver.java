@@ -60,19 +60,13 @@ public class Driver {
             driver.quit();  // driver'ı kapat
             driver = null;  // driver'ı hafızadan temizle.
         }
+
+
+
+
+
+
     }
-
-    public static void wait(int secs){
-        try {
-            Thread.sleep(1000 * secs);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-
 
 }
 
