@@ -8,10 +8,10 @@ import org.junit.Assert;
 public class PasswordRulesStepDefs {
 
 
-    @When("user types a password {string} and press TAB")
-    public void user_types_a_password_and_press_TAB(String password) {
+    @When("user types a {string} {string} and press TAB")
+    public void user_types_a_and_press_TAB(String textBox, String value) {
         RegistrationPage registrationPage = new RegistrationPage();
-        registrationPage.typeNewPassword(password);
+        registrationPage.typeValueInsideASpecifiedTextBox(textBox, value);
     }
 
 
