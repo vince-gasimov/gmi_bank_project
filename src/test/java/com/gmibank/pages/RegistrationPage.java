@@ -3,6 +3,7 @@ package com.gmibank.pages;
 
 import com.gmibank.utilities.BrowserUtils;
 import com.gmibank.utilities.Driver;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -82,6 +83,18 @@ public class RegistrationPage extends BasePage {
     @FindBy(css = "ul[id='strengthBar']>li")
     public List<WebElement> passwordStrengthBarLeds;
 
+    public List<WebElement> registrationResult;
+
+    public String getTextOfRegistrationResult() {
+            registrationResult = Driver.getDriver().findElements(By.xpath("//div[@role='alert']/span/strong"));
+            if (registrationResult.size() == 0){
+                return null;
+            }else{
+                return registrationResult.get(0).getText();
+            }
+
+
+    }
 
     public String getMessage(WebElement errorWebElement){
         return errorWebElement.getText();
