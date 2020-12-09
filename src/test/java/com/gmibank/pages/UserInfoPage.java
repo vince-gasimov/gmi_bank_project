@@ -31,5 +31,10 @@ public class UserInfoPage {
     @FindBy(xpath = "//button[@class='btn btn-primary']")
     public WebElement saveButton;
 
+    public String getUrl1() {
 
+        String currentUrl = "http://gmibank.com/account/settings";
+      return currentUrl;
+
+    }
 }
