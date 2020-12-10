@@ -37,6 +37,13 @@ public class BasePage {
         return pageHeader.getText();
     }
 
+    @FindBy(css = "li[id='entity-menu']>a")
+    public WebElement myOperationsNavItem;
+
+    @FindBy(css = "[id='entity-menu'] a[class='dropdown-item']")
+    public List<WebElement> myOperationsDropDownItems;
+
+
     /*
     BasePage icindeki Home, Loans, About Us, Blog, About ve Contact sayfalarinin expected URL adreslerini
     doner. Fakat sig in yaptiktan sonra gelen My Operations ve User sayfalari icin baska method kullanilmali.
@@ -87,6 +94,26 @@ public class BasePage {
         for (int i = 0; i < accountIconDropDownItems.size(); i++) {
             if (accountIconDropDownItemsTextList.get(i).equalsIgnoreCase(dropDownItemName)){
                 accountIconDropDownItems.get(i).click();
+                return;
+            }
+        }
+        throw new Exception("cannot find dropdown item");
+    }
+
+
+    public void clickMyOperationsNavItem(){
+        BrowserUtils.waitForClickablility(myOperationsNavItem, 10);
+        myOperationsNavItem.click();
+    }
+
+    //sag ustteki kullanici ikonuna tiklama ve icinden bir option secme
+    public void clickAndSelectDropDownItemUnderMyOperationsNavItem(String dropDownItemName) throws Exception {
+        clickMyOperationsNavItem();
+        BrowserUtils.waitForVisibility(myOperationsDropDownItems.get(0), 5 );
+        List<String> myOperationsDropDownItemsTextList = BrowserUtils.getElementsText(myOperationsDropDownItems);
+        for (int i = 0; i < myOperationsDropDownItems.size(); i++) {
+            if (myOperationsDropDownItemsTextList.get(i).equalsIgnoreCase(dropDownItemName)){
+                myOperationsDropDownItems.get(i).click();
                 return;
             }
         }

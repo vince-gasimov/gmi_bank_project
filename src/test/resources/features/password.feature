@@ -74,7 +74,7 @@ Feature: Password rules
       | sdkjsjsnvnskmn |
       | 01233456       |
 
-  @wip
+
   Scenario: US_003 TC_007 Verify that password having 1-3 chars is not accepted even all other information is valid.
     When Type all valid information into following textboxes with values in the registration page
       | address           | ajfkha 80 57836 Mah.    |
