@@ -4,12 +4,23 @@ import com.gmibank.pages.BasePage;
 import com.gmibank.pages.LoginPage;
 import com.gmibank.utilities.BrowserUtils;
 import com.gmibank.utilities.Driver;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 
 
 public class LoginStepDefs {
+
+
+    @Given("user sign in to the system as {string}")
+    public void user_sign_in_to_the_system_as(String userType) throws Exception {
+        BasePage basePage = new BasePage();
+        basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
+        LoginPage loginPage = new LoginPage();
+        loginPage.loginWithValidInfo(userType);
+        BrowserUtils.waitForTextAppearInElement(basePage.accountMenuIcon, "group16", 10);
+    }
 
     @When("user types and submit the valid {string} credentials")
     public void user_types_and_submit_the_valid_credentials(String userType) {

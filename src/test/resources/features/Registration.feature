@@ -66,7 +66,7 @@ Feature:  System should allow any user to register with valid credentials valida
       | Betululu@gmail.com |
       | Betul@gmail.tr     |
 
-  @US01TC08 @wip
+  @US01TC08
   Scenario Outline: US_001 TC_007 Password confirmation entry should be same with password
     Given user types a "newpassword" "<Password>" and press TAB
     And user types a "newpasswordconfirmation" "<Password>" and press TAB
