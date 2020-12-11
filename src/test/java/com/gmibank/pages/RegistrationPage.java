@@ -217,13 +217,27 @@ public class RegistrationPage extends BasePage {
     }
 
     public boolean isThereAnyError(){
-        List<WebElement> errorWebElements = Driver.getDriver().findElements(By.cssSelector(".invalid-feedback"));
-        int size = errorWebElements.size();
+        List<WebElement> errorWebElements = getAllErrors();
+        int size = getAllErrors().size();
         if (size == 0){
             return false;
         }else{
             return true;
         }
+    }
+
+    public List<WebElement> getAllErrors(){
+        return Driver.getDriver().findElements(By.cssSelector(".invalid-feedback"));
+    }
+
+    public boolean doesExistSuchErrorMessageInsidePage(String message){
+        List<String> messageTextList = BrowserUtils.getElementsText(getAllErrors());
+        for (String messageText : messageTextList) {
+            if (messageText.contains(message)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<String> getRgbAttributesOfLeds(){
