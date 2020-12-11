@@ -76,6 +76,7 @@ Feature:  System should allow any user to register with valid credentials valida
       | 1234      |
       | *Asndjf34 |
 
+#alttakinin assertiniu duzelt
 
   @US02TC01
   Scenario Outline: US_002 TC_001 Verify that user cannot register with an ssn number which does not match pattern such as ###-##-####
@@ -104,10 +105,10 @@ Feature:  System should allow any user to register with valid credentials valida
     Given user types a "firstname" "<First Name>" and press TAB
     Then  Verify that this error message "Your first name is invalid" is displayed
     Examples:
-      | First Name  |
+      | First Name   |
       | Betul123 Ulu |
 
-  @US02TC06 @wip
+  @US02TC06
   Scenario Outline: US_002 TC_006 Verify that user cannot register with an ssn number which does not match pattern such as ###-###-####
     Given user types a "mobilephonenumber" "<Mobile Phone Number>" and press TAB
     Then  Verify that error message "Your mobile phone number is invalid" is displayed under "mobilephonenumber" textbox
@@ -116,3 +117,25 @@ Feature:  System should allow any user to register with valid credentials valida
       | 092/101/0812        |
       | 2-11-02             |
       | 0922-1017-0812      |
+
+  @US01TC07
+  Scenario Outline: US_002 TC_0011 email id cannot be created without "@" sign and ".com" extension
+    Given user types a "email" "<Email>" and press TAB
+    Then  Verify that this error message "This field is invalid" is displayed
+    Examples:
+      | Email              |
+      | Betululu#gmail.net |
+      | Betul@gmail.       |
+      | .tr@emregmail      |
+      | @emre.comgmail     |
+      | emre@.gmail        |
+
+  @US01TC08
+  Scenario: US_002 TC_0012 ssn cannot be left blank
+    Given user types click and leaves blank "ssn" textbox
+    Then  Verify that this error message "Your SSN is required" is displayed
+
+  @US01TC09 @wip
+  Scenario: US_002 TC_0013 email cannot be left blank
+    Given user types click and leaves blank "email" textbox
+    Then  Verify that this error message "Your email is required." is displayed
