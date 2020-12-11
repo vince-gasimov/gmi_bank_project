@@ -1,5 +1,5 @@
 Feature: Employee creates a new customer
-  @wip
+
   Scenario: employee is able to search new customer with SSN in the create customer page
     Given user sign in to the system as "employee"
     When user navigates to "Manage Customers" page under My Operations menu
