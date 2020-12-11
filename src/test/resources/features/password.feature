@@ -15,6 +15,7 @@ Feature: Password rules
       | A        |
 
 
+
   Scenario Outline: US_003 TC_002 verifying that  able to login with 4-6 chars without error and with 1 light
     When user types a "newpassword" "<password>" and press TAB
     Then verify that no message is displayed
