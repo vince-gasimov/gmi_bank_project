@@ -1,15 +1,18 @@
 package com.gmibank.pages;
 
+import com.gmibank.utilities.BrowserUtils;
 import com.gmibank.utilities.Driver;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.List;
 
-public class UserInfoPage {
+public class UserInfoPage extends BasePage{
 
     public UserInfoPage() {
 
@@ -45,15 +48,30 @@ public class UserInfoPage {
     public List<WebElement> invalidEmailToAlert;
 
     public void getAlert() {
-        List<WebElement> elements = Driver.getDriver().findElements(By.xpath("invalid-feedback"));
-
-        System.out.println(elements);
 
 
-        if(elements.size()!=0){
-            System.out.println(elements.get(0));
+
+        List<String> invalidEmailToalertList= BrowserUtils.getElementsText(invalidEmailToAlert);
+        if(invalidEmailToalertList.size()!=0){
+            System.out.println(invalidEmailToalertList.get(0));
+        }else{
+            System.out.println("invalidEmailListSize:"+invalidEmailToalertList.size());
         }
 
 
+}
 
-}}
+    public void singOut() throws Exception {
+
+
+
+        clickAndSelectDropDownItemUnderAccountMenuIcon("Sign Out");
+    }
+
+    public  void  languageChooses(){
+        List<String> lanhuageText=BrowserUtils.getElementsText(languageDropDown);
+        System.out.println("language Chooses:"+lanhuageText);
+
+    }
+
+}
