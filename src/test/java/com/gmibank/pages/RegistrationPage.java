@@ -92,8 +92,6 @@ public class RegistrationPage extends BasePage {
             }else{
                 return registrationResult.get(0).getText();
             }
-
-
     }
 
     public String getMessage(WebElement errorWebElement){
@@ -196,7 +194,6 @@ public class RegistrationPage extends BasePage {
 
     }
 
-
     public void typeAllFieldInformation(Map<String, String> fieldsValuesMap) {
         typeSsnNumber(fieldsValuesMap.get("ssnNumber"));
         typeFirstName(fieldsValuesMap.get("firstName"));
@@ -220,13 +217,27 @@ public class RegistrationPage extends BasePage {
     }
 
     public boolean isThereAnyError(){
-        List<WebElement> errorWebElements = Driver.getDriver().findElements(By.cssSelector(".invalid-feedback"));
-        int size = errorWebElements.size();
+        List<WebElement> errorWebElements = getAllErrors();
+        int size = getAllErrors().size();
         if (size == 0){
             return false;
         }else{
             return true;
         }
+    }
+
+    public List<WebElement> getAllErrors(){
+        return Driver.getDriver().findElements(By.cssSelector(".invalid-feedback"));
+    }
+
+    public boolean doesExistSuchErrorMessageInsidePage(String message){
+        List<String> messageTextList = BrowserUtils.getElementsText(getAllErrors());
+        for (String messageText : messageTextList) {
+            if (messageText.contains(message)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<String> getRgbAttributesOfLeds(){
@@ -241,6 +252,34 @@ public class RegistrationPage extends BasePage {
         }
         return rgbValues;
     }
+
+    public String getErrorMessageFromSpecifiedTextBox(String textBox){
+        BrowserUtils.waitForVisibility(By.cssSelector(".invalid-feedback"), 5);
+        //BrowserUtils.waitFor(2);
+        switch (textBox.toLowerCase()){
+            case "ssn":
+                return getMessage(ssnErrorMessage);
+            case "firstname":
+                return getMessage(firstNameErrorMessage);
+            case "lastname":
+                return getMessage(lastNameErrorMessage);
+            case "mobilephonenumber":
+                return getMessage(mobilePhoneErrorMessage);
+            case "username":
+                return getMessage(userNameErrorMessage);
+            case "email":
+                return getMessage(emailErrorMessage);
+            case "newpassword":
+                return getMessage(newPasswordErrorMessage);
+            case "newpasswordconfirmation":
+                return getMessage(passwordConfirmationErrorMessage);
+            default:
+                System.out.println("specified textbox does not exist!!!");
+                break;
+        }
+        return null;
+    }
+
 
     //sifrenin gucluluk derecesini veriyor
     public int getNumberOfLightingLedsForPasswordStrength(){

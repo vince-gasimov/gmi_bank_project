@@ -78,6 +78,10 @@ public class LoginPage {
                 userName = ConfigurationReader.getProperty("employee_user_name");
                 password = ConfigurationReader.getProperty("employee_password");
                 break;
+            case "dynamic_customer":
+                userName = ConfigurationReader.getProperty("dynamic_customer_user_name");
+                password = ConfigurationReader.getProperty("dynamic_customer_password");
+                break;
             default:
                 System.out.println("undefined user type!!");
                 break;
