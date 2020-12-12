@@ -84,4 +84,15 @@ public class RandomStringGenerator {
         return result.stream().collect(Collectors.joining());
     }
 
+    public static String compareAndGenerateAgain(String oldPassword, int passwordLength, int lowerCaseLetterNumber, int upperCaseLetterNumber, int digitNumber, int specialCharNumber ){
+        String newGenerated;
+        while (true){
+            newGenerated = generateStrongPassword(passwordLength, lowerCaseLetterNumber, upperCaseLetterNumber, digitNumber, specialCharNumber);
+            if (!newGenerated.equals(oldPassword)){
+                break;
+            }
+        }
+        return newGenerated;
+    }
+
 }

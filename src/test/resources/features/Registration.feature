@@ -135,7 +135,7 @@ Feature:  System should allow any user to register with valid credentials valida
     Given user types click and leaves blank "ssn" textbox
     Then  Verify that this error message "Your SSN is required" is displayed
 
-  @US01TC09 @wip
+  @US01TC09
   Scenario: US_002 TC_0013 email cannot be left blank
     Given user types click and leaves blank "email" textbox
     Then  Verify that this error message "Your email is required." is displayed
