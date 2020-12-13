@@ -39,45 +39,7 @@ public class RegistrationStepDefs {
 
     @When("user type valid dummy information into following textBoxes")
     public void user_type_valid_dummy_information_into_following_textBoxes(List<String> textBoxList) {
-
-       Map<String, String> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword(textBoxList);
-
-       //password liste icinde yok ekle.   newPassword
-        String password = RandomStringGenerator.generateStrongPassword(7,1,1,1,1);
-        keyValuePairs.put("newPassword", password);
-        keyValuePairs.put("passwordConfirmation", password);
-
-        //textboxlari doldur
-        RegistrationPage registrationPage = new RegistrationPage();
-        registrationPage.registerNewUser(keyValuePairs);
-
-        //hata var mi diye kontrol et
-
-        //userName double olup olmadigini check et. userName
-        while (true) {
-            String resultMessage = registrationPage.getTextOfRegistrationResult();
-            if (resultMessage.contains("Login name already used!")) {
-                String newUserName = DummyDataGenerator.generateUserName();
-                keyValuePairs.replace("userName", newUserName);
-                registrationPage.typeUserName(newUserName);
-                System.out.println(keyValuePairs);
-                System.out.println("bir deneme basarisiz");
-            } else if (resultMessage.contains("error.ssnexists")) {
-                String newSsn = DummyDataGenerator.generateSsnNumber();
-                keyValuePairs.replace("ssnNumber", newSsn);
-                registrationPage.typeSsnNumber(newSsn);
-                System.out.println(keyValuePairs);
-                System.out.println("bir deneme basarisiz");
-            } else if(resultMessage.contains("Registration saved!")) {
-                System.out.println("no problem it should be passed");
-                System.out.println(keyValuePairs);
-                break;
-            }else{
-                System.out.println("unknown error");
-                System.out.println("resultMessage = " + resultMessage);
-            }
-        }
-
+        new RegistrationPage().registerNewUserWithRandomGeneratedValue(textBoxList);
     }
 
     @Then("verify that new user is registered by getting such a message {string}")
@@ -87,9 +49,5 @@ public class RegistrationStepDefs {
         Assert.assertTrue(actualResultMessage.contains(expectedMessage));
     }
 
-    @Then("verify that new user is appeared in database")
-    public void verify_that_new_user_is_appeared_in_database() {
-
-    }
 
 }

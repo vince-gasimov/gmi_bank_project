@@ -3,6 +3,8 @@ package com.gmibank.pages;
 
 import com.gmibank.utilities.BrowserUtils;
 import com.gmibank.utilities.Driver;
+import com.gmibank.utilities.DummyDataGenerator;
+import com.gmibank.utilities.RandomStringGenerator;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -318,6 +320,46 @@ public class RegistrationPage extends BasePage {
             count = rgbValue.equals(pattern) ? ++count : count;
         }
         return count;
+    }
+
+    public void registerNewUserWithRandomGeneratedValue(List<String> textBoxList){
+        Map<String, String> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword(textBoxList);
+
+        //password liste icinde yok ekle.   newPassword
+        String password = RandomStringGenerator.generateStrongPassword(7,1,1,1,1);
+        keyValuePairs.put("newPassword", password);
+        keyValuePairs.put("passwordConfirmation", password);
+
+        //textboxlari doldur
+        RegistrationPage registrationPage = new RegistrationPage();
+        registrationPage.registerNewUser(keyValuePairs);
+
+        //hata var mi diye kontrol et
+
+        //userName double olup olmadigini check et. userName
+        while (true) {
+            String resultMessage = registrationPage.getTextOfRegistrationResult();
+            if (resultMessage.contains("Login name already used!")) {
+                String newUserName = DummyDataGenerator.generateUserName();
+                keyValuePairs.replace("userName", newUserName);
+                registrationPage.typeUserName(newUserName);
+                System.out.println(keyValuePairs);
+                System.out.println("bir deneme basarisiz");
+            } else if (resultMessage.contains("error.ssnexists")) {
+                String newSsn = DummyDataGenerator.generateSsnNumber();
+                keyValuePairs.replace("ssnNumber", newSsn);
+                registrationPage.typeSsnNumber(newSsn);
+                System.out.println(keyValuePairs);
+                System.out.println("bir deneme basarisiz");
+            } else if(resultMessage.contains("Registration saved!")) {
+                System.out.println("no problem it should be passed");
+                System.out.println(keyValuePairs);
+                break;
+            }else{
+                System.out.println("unknown error");
+                System.out.println("resultMessage = " + resultMessage);
+            }
+        }
     }
 
 }

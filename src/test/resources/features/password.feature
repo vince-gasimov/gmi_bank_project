@@ -100,5 +100,4 @@ Feature: Password rules
       | userName          |
       | email             |
     Then verify that new user is registered by getting such a message "Registration saved!"
-    And verify that new user is appeared in database
 
