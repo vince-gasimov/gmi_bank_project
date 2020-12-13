@@ -20,6 +20,26 @@ public class CreateOrEditCustomer extends BasePage{
     @FindBy(xpath = "//div[@role='alert']")
     public WebElement alertMessage;
 
+
+    //US_011
+    @FindBy (id = "tp-customer-createDate")
+    public WebElement DateTimeBox;
+
+    @FindBy (id="tp-customer-user")
+    public WebElement UserBox;
+
+    @FindBy (id="tp-customer-account")
+    public WebElement AccountBox;
+
+    @FindBy (id="tp-customer-zelleEnrolled")
+    public WebElement ZelleCheckBox;
+
+    @FindBy (id="save-entity")
+    public WebElement SaveButton;
+
+
+
+
     public WebElement getAlert(){
         BrowserUtils.waitForVisibility(By.xpath("//div[@role='alert']"), 5);
         List<WebElement> elements = Driver.getDriver().findElements(By.xpath("//div[@role='alert']"));
