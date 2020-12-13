@@ -1,6 +1,7 @@
 package com.gmibank.stepDefinitions;
 
 import com.gmibank.utilities.ConfigurationReader;
+import com.gmibank.utilities.DummyDataGenerator;
 import com.gmibank.utilities.RandomStringGenerator;
 
 public class TestClass {
@@ -11,7 +12,9 @@ public class TestClass {
             System.out.println(generatedString);
         }*/
 
-        ConfigurationReader.changePropertyValue("dynamic_customer_password", "12345");
+
+        System.out.println("DummyDataGenerator.generateSsnNumber() = " + DummyDataGenerator.generateSsnNumber());
+
 
     }
 }
