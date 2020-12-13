@@ -89,3 +89,9 @@ Feature: Password rules
     And user types a "newpasswordconfirmation" "123" and press TAB
     And click to register in the registration page
     Then verify that new user is not registered
+
+Scenario: a new user should be able to register to the system with a new SSN
+  Type all other valid information in the form
+  Type a password with 4-6 chars
+  Click register button
+  Should be successfull
