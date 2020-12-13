@@ -33,9 +33,27 @@ public class LoginPage {
     @FindBy(linkText = "Did you forget your password?")
     public WebElement forgotPasswordLink;
 
+    @FindBy (css = ".alert-danger")
+    public WebElement resultMessage;
+
+    @FindBy (linkText = "Register a new account")
+    public WebElement registrationPageLink;
+
+    public void clickRegisterLink(){
+        registrationPageLink.click();
+        registrationPageLink.click();
+    }
+
+
+    //Sign in de invalid degerler ile giris yapilamadi mesaji
+    public String getResultMessage(){
+        return resultMessage.getAttribute("outerHTML");
+    }
+
     //parolami unuttum linkine tiklama
     public void clickForgotPassword(){
         makeSureLoginFormDisplayed();
+        forgotPasswordLink.click();
         forgotPasswordLink.click();
     }
 
@@ -78,6 +96,10 @@ public class LoginPage {
                 userName = ConfigurationReader.getProperty("employee_user_name");
                 password = ConfigurationReader.getProperty("employee_password");
                 break;
+            case "dynamic_customer":
+                userName = ConfigurationReader.getProperty("dynamic_customer_user_name");
+                password = ConfigurationReader.getProperty("dynamic_customer_password");
+                break;
             default:
                 System.out.println("undefined user type!!");
                 break;
@@ -99,6 +121,14 @@ public class LoginPage {
     public void loginWithValidInfo(String userType){
         typeUserNameAndPassword(userType);
         clickSignInButton();
+    }
+
+    public void typeUserName(String userName){
+        userNameTextBox.sendKeys(userName);
+    }
+
+    public void typePassword(String password){
+        passwordTextBox.sendKeys(password);
     }
 
 
