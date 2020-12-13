@@ -20,7 +20,7 @@ Feature: user should be able to change password so long as it does not match pre
       | A        |
 
 
-  @wip
+
   Scenario:US_008 TC010 Verify that user should not be able to change password to the previous one
       When user change password with a new one "ismail" and change again with old one
       Then verify that a message is displayed such as "An error has occurred! The password could not be changed." inside password_renew_page
