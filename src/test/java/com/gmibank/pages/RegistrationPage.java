@@ -90,7 +90,7 @@ public class RegistrationPage extends BasePage {
             if (registrationResult.size() == 0){
                 return null;
             }else{
-                return registrationResult.get(0).getText();
+                return registrationResult.get(0).getAttribute("outerHTML");
             }
     }
 
@@ -209,7 +209,7 @@ public class RegistrationPage extends BasePage {
     public void registerNewUser(Map<String, String> fieldsValuesMap){
         typeAllFieldInformation(fieldsValuesMap);
         if (!isThereAnyError()){
-            registerButton.click();
+            clickRegisterButton();
         }else{
             System.out.println("There is error inside some textboxes");
         }

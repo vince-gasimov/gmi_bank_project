@@ -36,7 +36,7 @@ public class DummyDataGenerator {
     }
 
     public static String generateMobilePhoneNumber() {
-        return faker.phoneNumber().cellPhone();
+        return "111-111-1111";
     }
 
     public static String generateUserName() {
@@ -51,29 +51,28 @@ public class DummyDataGenerator {
         return RandomStringGenerator.generateStrongPassword(passwordLength, lowerCaseNumber, upperCaseNumber, digitNumber, specialCharNumber);
     }
 
-    public static List<Map<String, Object>> generateAllNeededInformationExceptPassword(List<String> textBoxList) {
-        Map<String, Object> keyValuePairMap = new HashMap<>();
-        List<Map<String, Object>> listOfMap = new ArrayList<>();
+    public static Map<String, String> generateAllNeededInformationExceptPassword(List<String> textBoxList) {
+        Map<String, String> keyValuePairMap = new HashMap<>();
+
         for (String textBox : textBoxList) {
             keyValuePairMap.put(textBox, generateAStringForSpecifiedTextBox(textBox));
-            listOfMap.add(keyValuePairMap);
         }
-        return listOfMap;
+        return keyValuePairMap;
     }
 
     public static String generateAStringForSpecifiedTextBox(String textBox) {
-        switch (textBox.toLowerCase()) {
-            case "ssn":
+        switch (textBox) {
+            case "ssnNumber":
                 return generateSsnNumber();
-            case "first_name":
+            case "firstName":
                 return generateFirstName();
-            case "last_name":
+            case "lastName":
                 return generateLastname();
             case "address":
                 return generateAddress();
-            case "mobile_phone_number":
+            case "mobilePhoneNumber":
                 return generateMobilePhoneNumber();
-            case "username":
+            case "userName":
                 return generateUserName();
             case "email":
                 return generateEmail();
@@ -83,5 +82,4 @@ public class DummyDataGenerator {
         }
         return null;
     }
-
 }

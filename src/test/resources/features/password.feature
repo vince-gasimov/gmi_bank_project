@@ -15,7 +15,6 @@ Feature: Password rules
       | A        |
 
 
-
   Scenario Outline: US_003 TC_002 verifying that  able to login with 4-6 chars without error and with 1 light
     When user types a "newpassword" "<password>" and press TAB
     Then verify that no message is displayed
@@ -90,8 +89,16 @@ Feature: Password rules
     And click to register in the registration page
     Then verify that new user is not registered
 
-Scenario: a new user should be able to register to the system with a new SSN
-  Type all other valid information in the form
-  Type a password with 4-6 chars
-  Click register button
-  Should be successfull
+  @wip
+  Scenario: a new user should be able to register to the system with a new valid SSN and a valid password with length of 7 chars
+    When user type valid dummy information into following textBoxes
+      | ssnNumber         |
+      | firstName         |
+      | lastName          |
+      | address           |
+      | mobilePhoneNumber |
+      | userName          |
+      | email             |
+    Then verify that new user is registered by getting such a message "Registration saved!"
+    And verify that new user is appeared in database
+
