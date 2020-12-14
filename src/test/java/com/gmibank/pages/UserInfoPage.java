@@ -45,9 +45,9 @@ public class UserInfoPage extends BasePage{
 
 
     @FindBy(xpath = "//div[@class='invalid-feedback']")
-    public List<WebElement> invalidEmailToAlert;
+    public static List<WebElement> invalidEmailToAlert;
 
-    public void getAlert() {
+    public static List<String> getAlert() {
 
 
 
@@ -57,7 +57,7 @@ public class UserInfoPage extends BasePage{
         }else{
             System.out.println("invalidEmailListSize:"+invalidEmailToalertList.size());
         }
-
+return invalidEmailToalertList;
 
 }
 

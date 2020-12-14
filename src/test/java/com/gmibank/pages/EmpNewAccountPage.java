@@ -1,5 +1,6 @@
 package com.gmibank.pages;
 
+import com.gmibank.utilities.BrowserUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -8,15 +9,16 @@ import java.util.List;
 public class EmpNewAccountPage extends BasePage {
 
 
-    @FindBy(xpath = "//jh-create-entity")
+    @FindBy(xpath = "//a[@id='jh-create-entity']")
     public WebElement createNewAccountItem;
-    @FindBy(name = "description")
+    @FindBy(id= "tp-account-description")
     public WebElement descriptionBox;
 
     @FindBy(name = "balance")
     public WebElement balanceBox;
+
     @FindBy(id="tp-account-accountType")
-    public List<WebElement> accountTypeDropDownItem;
+    public WebElement accountTypeDropDownItem;
 
 
     @FindBy(id = "tp-account-accountStatusType")
@@ -31,7 +33,4 @@ public class EmpNewAccountPage extends BasePage {
 
 
 
-
-
-
-}
+    }
