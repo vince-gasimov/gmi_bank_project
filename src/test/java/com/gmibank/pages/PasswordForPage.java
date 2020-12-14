@@ -9,6 +9,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PasswordForPage extends BasePage{
@@ -22,8 +23,8 @@ public class PasswordForPage extends BasePage{
     @FindBy(id = "confirmPassword")
     public WebElement confirmPasswordTextBox;
 
-    @FindBy(id = "strengthBar")
-    List<WebElement> StrengthBar;
+    @FindBy(xpath = "//ul[@id='strengthBar']/li")
+    public List<WebElement> strengthBarLeds;
 
     @FindBy(xpath = "//button[@type='submit']")
     public WebElement saveButton;
@@ -34,6 +35,14 @@ public class PasswordForPage extends BasePage{
     @FindBy(xpath = "//*[@role='alert']")
     public WebElement resultAlert;
 
+    public boolean doesExistAnyResultMessageSuchAs(String expectedResultMessage){
+        String resultAlertMessage = resultAlert.getText();
+        if (expectedResultMessage.contains(resultAlertMessage)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public List<WebElement> errorListUnderTextBoxes(){
         return Driver.getDriver().findElements(By.cssSelector(".invalid-feedback"));
@@ -165,5 +174,59 @@ public class PasswordForPage extends BasePage{
         clearNewPasswordConfirmationTextBox();
         clearNewPasswordTextBox();
     }
+
+
+    public List<String> getRgbAttributesOfLeds(){
+        List<String> styleValues = new ArrayList<>();
+        for (WebElement element : strengthBarLeds) {
+            styleValues.add(element.getAttribute("style"));
+        }
+        List<String> rgbValues = new ArrayList<>();
+
+        for (String styleValue : styleValues) {
+            rgbValues.add(styleValue.substring(18));
+        }
+        return rgbValues;
+    }
+
+    //sifrenin gucluluk derecesini veriyor
+    public int getNumberOfLightingLedsForPasswordStrength(){
+        List<String> rgbValues = getRgbAttributesOfLeds();
+        return countRgbValue(rgbValues, rgbValues.get(0));
+    }
+
+    //renk uyumunu check ediyor
+    public boolean checkConsistency(){
+        int numberOfLightingLed = getNumberOfLightingLedsForPasswordStrength();
+        List<String> rgbValues = getRgbAttributesOfLeds();
+
+        String noLightingColor = "rgb(221, 221, 221);";
+        String oneLightingColor = "rgb(255, 0, 0);";
+        String twoLightingColor = "rgb(255, 153, 0);";
+        String fourLightingColor = "rgb(153, 255, 0);";
+        String fiveLightingColor = "rgb(0, 255, 0);";
+
+        if (numberOfLightingLed == 1 && countRgbValue(rgbValues,noLightingColor) == 4){
+            return true;
+        }else if(numberOfLightingLed == 2 && countRgbValue(rgbValues,noLightingColor) == 3){
+            return true;
+        }else if(numberOfLightingLed == 4 && countRgbValue(rgbValues,noLightingColor) == 1){
+            return true;
+        }else if(numberOfLightingLed == 5 && countRgbValue(rgbValues,noLightingColor) == 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //ilgili pattern ile ayni pattern'a sahip olan isik sayisi doner
+    public int countRgbValue(List<String> rgbValues, String pattern){
+        int count = 0;
+        for (String rgbValue : rgbValues) {
+            count = rgbValue.equals(pattern) ? ++count : count;
+        }
+        return count;
+    }
+
 
 }
