@@ -1,4 +1,4 @@
-@Ahmet
+@All
 Feature:User can create a new Account
 
   Background:An Employee sing in

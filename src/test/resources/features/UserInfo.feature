@@ -1,3 +1,4 @@
+@All
 Feature:User info segment (User Settings) sho uld be editable on Homepage
 
   @us0601

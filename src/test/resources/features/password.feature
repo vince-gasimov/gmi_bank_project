@@ -1,3 +1,4 @@
+@All
 Feature: Password rules
 
   Background: user navigates to Register page
