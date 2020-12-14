@@ -8,7 +8,8 @@ import com.gmibank.utilities.BrowserUtils;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.testng.Assert;
+import org.junit.Assert;
+import org.openqa.selenium.Keys;
 
 public class CreateOrEditCustomerStepDefs {
 
@@ -20,7 +21,7 @@ public class CreateOrEditCustomerStepDefs {
     @When("user types ssn number and click search_button")
     public void user_types_ssn_number_and_click_search_button() {
         //ssn numarasini nereden bulmam lazim?
-        new CreateOrEditCustomer().typeSsnAndClickSearchButton("111-11-1111");
+        new CreateOrEditCustomer().typeSsnAndClickSearchButton("450-37-8358");
     }
 
     @Then("the create_or_edit_customer page is populated and getting successful message")
@@ -31,4 +32,19 @@ public class CreateOrEditCustomerStepDefs {
         System.out.println("actualMessage = " + actualMessage);
         Assert.assertTrue(actualMessage.contains(expectedMessage));
     }
+
+
+    @When("user click and leaves blank {string} textBox and press TAB")
+    public void user_click_and_leaves_blank_textBox_and_press_TAB(String textBox) {
+        CreateOrEditCustomer createOrEditCustomer = new CreateOrEditCustomer();
+        createOrEditCustomer.leaveBlankTextBox(textBox);
+
+    }
+
+    @Then("verify that an error message such as {string} is appeared under textBox")
+    public void verify_that_an_error_message_such_as_is_appeared_under_textBox(String errorMessage) {
+        CreateOrEditCustomer createOrEditCustomer = new CreateOrEditCustomer();
+        Assert.assertTrue(createOrEditCustomer.isThereAnySuchErrorUnderTextBoxes(errorMessage));
+    }
+
 }
