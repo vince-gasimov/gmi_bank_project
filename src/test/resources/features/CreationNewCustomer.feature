@@ -65,7 +65,7 @@ Feature: Employee creates a new customer
     And user click and leaves blank "city" textBox and press TAB
     Then verify that an error message such as "This field is required." is appeared under textBox
 
-  @wip
+
   Scenario:US_010 TC_004 Verify that after leaving state textbox blank, error message is generated.
     When user types ssn number and click search_button
     And user click and leaves blank "zipCode" textBox and press TAB

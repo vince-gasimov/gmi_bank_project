@@ -1,9 +1,11 @@
 package com.gmibank.utilities;
 
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ public class ExcelUtilities {
     private Workbook workBook;
     private Sheet workSheet;
     private String path;
+
     public ExcelUtilities(String path, String sheetName) {//This Constructor is to open and access the excel file
         this.path = path;
         try {
@@ -29,15 +32,18 @@ public class ExcelUtilities {
             throw new RuntimeException(e);
         }
     }
+
     //===============Getting the number of columns in a specific single row=================
     public int columnCount() {
         //getting how many numbers in row 1
         return workSheet.getRow(0).getLastCellNum();
     }
+
     //===============how do you get the last row number?Index start at 0.====================
     public int rowCount() {
         return workSheet.getLastRowNum() + 1;
     }//adding 1 to get the actual count
+
     //==============When you enter row and column number, then you get the data==========
     public String getCellData(int rowNum, int colNum) {
         Cell cell;
@@ -49,6 +55,7 @@ public class ExcelUtilities {
             throw new RuntimeException(e);
         }
     }
+
     //============getting all data into two dimentional array and returning the data===
     // okudugumuz tüm verileri iki boyutlu diziye alma ve verileri döndürme
     public String[][] getDataArray() {
@@ -61,6 +68,7 @@ public class ExcelUtilities {
         }
         return data;
     }
+
     //This will get the list of the data in the excel file
     //This is a list of map. This takes the data as string and will return the data as a Map of String
     public List<Map<String, String>> getDataList() {
@@ -82,6 +90,7 @@ public class ExcelUtilities {
         }
         return data;
     }
+
     //==============going to the first row and reading each row one by one==================//
     public List<String> getColumnsNames() {
         List<String> columns = new ArrayList<>();
@@ -90,6 +99,7 @@ public class ExcelUtilities {
         }
         return columns;
     }
+
     //=========When you enter the row and column number, returning the value===============//
     public void setCellData(String value, int rowNum, int colNum) {
         Cell cell;
@@ -110,8 +120,58 @@ public class ExcelUtilities {
             e.printStackTrace();
         }
     }
+
     public void setCellData(String value, String columnName, int row) {
         int column = getColumnsNames().indexOf(columnName);
         setCellData(value, row, column);
+    }
+
+
+    public void writeUserIntoExcel(User user) {
+        //**String excelFilePath = "src/test/resources/CreatedUserInformation.xlsx";
+
+        // Using XSSF for xlsx format, for xls use HSSF
+        //workBook = new XSSFWorkbook();
+
+        int rowIndex = rowCount();;
+
+        Row row = workSheet.createRow(rowIndex++);
+        int cellIndex = 0;
+        //first place in row is ssn
+        row.createCell(cellIndex++).setCellValue(user.getSsn());
+
+        //second place in row is firstName
+        row.createCell(cellIndex++).setCellValue(user.getFirstName());
+
+        //third place in row is lastName
+        row.createCell(cellIndex++).setCellValue(user.getLastName());
+
+        //fourth place in row is address
+        row.createCell(cellIndex++).setCellValue(user.getAddress());
+
+        //fourth place in row is mobilePhoneNumber
+        row.createCell(cellIndex++).setCellValue(user.getMobilePhoneNumber());
+
+        //fourth place in row is username
+        row.createCell(cellIndex++).setCellValue(user.getUsername());
+
+        //fourth place in row is email
+        row.createCell(cellIndex++).setCellValue(user.getEmail());
+
+        //fourth place in row is password
+        row.createCell(cellIndex++).setCellValue(user.getPassword());
+
+        //write this workbook into excel file.
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(path);
+            workBook.write(fileOutputStream);
+            fileOutputStream.close();
+
+            System.out.println(path + " i[enter link description here][1]s successfully written");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

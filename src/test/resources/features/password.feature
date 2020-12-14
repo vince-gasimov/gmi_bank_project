@@ -91,7 +91,7 @@ Feature: Password rules
 
   @wip
   Scenario: a new user should be able to register to the system with a new valid SSN and a valid password with length of 7 chars
-    When user type valid dummy information into following textBoxes
+    When user types following information and click to register button
       | ssnNumber         |
       | firstName         |
       | lastName          |
