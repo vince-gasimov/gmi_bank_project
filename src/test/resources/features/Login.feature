@@ -35,11 +35,11 @@ Feature: Login Functionality
     And user types invalid password "password"
     And user click to sign in button
     Then verify that login operation failed
-  @wip
+
    Scenario: US_005 TC_004 User with invalid credentials should be given an option to reset their password
         When user click on the forget password link
         Then verify that user navigate to forgot password page
-  @wip
+
   Scenario: US_005 TC_006 User should be given the option to navigate to registration page if they did not register yet
       And user click on the register a new account link
       Then verify that user navigate to registration page
