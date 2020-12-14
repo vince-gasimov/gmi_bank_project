@@ -1,4 +1,4 @@
-@wip
+
 Feature: user should be able to change password so long as it does not match previous one
 
   Background:

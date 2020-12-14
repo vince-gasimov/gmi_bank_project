@@ -1,10 +1,7 @@
 package com.gmibank.pages;
 
 
-import com.gmibank.utilities.BrowserUtils;
-import com.gmibank.utilities.Driver;
-import com.gmibank.utilities.DummyDataGenerator;
-import com.gmibank.utilities.RandomStringGenerator;
+import com.gmibank.utilities.*;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -354,6 +351,11 @@ public class RegistrationPage extends BasePage {
             } else if(resultMessage.contains("Registration saved!")) {
                 System.out.println("no problem it should be passed");
                 System.out.println(keyValuePairs);
+
+                User user = new User(keyValuePairs);
+                String path = "src/test/resources/CreatedUserInformation.xlsx";
+                ExcelUtilities excelUtilities = new ExcelUtilities(path, "Deactive");
+                excelUtilities.writeUserIntoExcel(user);
                 break;
             }else{
                 System.out.println("unknown error");

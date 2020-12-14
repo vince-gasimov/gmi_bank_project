@@ -2,6 +2,7 @@ package com.gmibank.stepDefinitions;
 
 import com.gmibank.utilities.ConfigurationReader;
 import com.gmibank.utilities.DummyDataGenerator;
+import com.gmibank.utilities.ExcelUtilities;
 import com.gmibank.utilities.RandomStringGenerator;
 
 public class TestClass {
@@ -12,9 +13,9 @@ public class TestClass {
             System.out.println(generatedString);
         }*/
 
+        ExcelUtilities newUserExcel = new ExcelUtilities("src/test/resources/deneme.xlsx", "Sheet1");
 
-        System.out.println("DummyDataGenerator.generateSsnNumber() = " + DummyDataGenerator.generateSsnNumber());
-
-
+        System.out.println("newUserExcel.rowCount() = " + newUserExcel.rowCount());
+        System.out.println("newUserExcel.getColumnsNames() = " + newUserExcel.getColumnsNames());
     }
 }
