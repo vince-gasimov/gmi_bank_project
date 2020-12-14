@@ -1,3 +1,4 @@
+@All
 Feature: Employee creates a new customer
 
   Background:
