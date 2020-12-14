@@ -45,9 +45,9 @@ public class UserInfoPage extends BasePage{
 
 
     @FindBy(xpath = "//div[@class='invalid-feedback']")
-    public static List<WebElement> invalidEmailToAlert;
+    public  List<WebElement> invalidEmailToAlert;
 
-    public static List<String> getAlert() {
+    public  List<String> getAlert() {
 
 
 
@@ -60,13 +60,6 @@ public class UserInfoPage extends BasePage{
 return invalidEmailToalertList;
 
 }
-
-    public void singOut() throws Exception {
-
-
-
-        clickAndSelectDropDownItemUnderAccountMenuIcon("Sign Out");
-    }
 
     public  void  languageChooses(){
         List<String> lanhuageText=BrowserUtils.getElementsText(languageDropDown);

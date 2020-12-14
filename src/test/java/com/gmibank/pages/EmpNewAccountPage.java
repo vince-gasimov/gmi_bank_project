@@ -11,7 +11,8 @@ public class EmpNewAccountPage extends BasePage {
 
     @FindBy(xpath = "//a[@id='jh-create-entity']")
     public WebElement createNewAccountItem;
-    @FindBy(id= "tp-account-description")
+
+    @FindBy(xpath="//input[@name='description']")
     public WebElement descriptionBox;
 
     @FindBy(name = "balance")
@@ -22,7 +23,7 @@ public class EmpNewAccountPage extends BasePage {
 
 
     @FindBy(id = "tp-account-accountStatusType")
-    public List<WebElement> accountStatusTypeDropDown;
+    public WebElement accountStatusTypeDropDown;
 
 
     @FindBy(id="tp-account-employee")
@@ -30,6 +31,10 @@ public class EmpNewAccountPage extends BasePage {
 
     @FindBy(id="save-entity")
     public WebElement saveButton;
+
+
+   @FindBy(xpath = "//div[@class='invalid-feedback']")
+    public  WebElement invalidFeedbackMessage;
 
 
 
