@@ -60,6 +60,13 @@ public class Driver {
             driver.quit();  // driver'ı kapat
             driver = null;  // driver'ı hafızadan temizle.
         }
+
+
+
+
+
+
     }
+
 }
 
