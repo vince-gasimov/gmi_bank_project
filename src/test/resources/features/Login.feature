@@ -50,8 +50,8 @@ Feature: Login Functionality
     And user types a valid "Firstname" and "Lastname" pres TAB
     And Invalid "<input>" entered to "<credentials>" box user see "<Error Message>" displayed
     Examples: TC_001 Email id cannot contain just digits or chars without "@" sign or ".com" extension
-      | credentials |  input          | Error Message         |
-      | email | @                     | This field is invalid |
-      | email | group.com             | This field is invalid |
-      | email | @group.com            | This field is invalid |
-      | email | employee@group16.com  | Settings saved!       |
+      | credentials |  input                | Error Message         |
+      | email       | @                     | This field is invalid |
+      | email       | group.com             | This field is invalid |
+      | email       | @group.com            | This field is invalid |
+      | email       | employee@group16.com  | Settings saved!       |
