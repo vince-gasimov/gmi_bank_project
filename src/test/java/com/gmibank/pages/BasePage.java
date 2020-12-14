@@ -10,17 +10,17 @@ import java.util.List;
 
 public class BasePage {
 
-    public BasePage(){
+    public BasePage() {
         PageFactory.initElements(Driver.getDriver(), this);
     }
 
     //ust menu cubugundaki butun sayfa isimleri (Home, Loan, Services vs)
-    @FindBy (css = "nav-item")
+    @FindBy(css = "nav-item")
     public List<WebElement> navigateItems;
 
 
     //sag ust kosedeki kullanici ikonu
-    @FindBy (id = "account-menu")
+    @FindBy(id = "account-menu")
     public WebElement accountMenuIcon;
 
     //sag ust kosedeki kullanici ikonu tiklaninca acilan drop down
@@ -29,11 +29,11 @@ public class BasePage {
 
 
     //sayfabasligi(hersayfadayok.registration,accountgibibirkacsayfadavar
-    @FindBy(xpath="//div[@class='view-routes']//h2")
+    @FindBy(xpath = "//div[@class='view-routes']//h2")
     public WebElement pageHeader;
 
     //eger sayfa basligi varsa, sayfa basligini doner
-    public String getPageHeader(){
+    public String getPageHeader() {
         return pageHeader.getText();
     }
 
@@ -48,40 +48,40 @@ public class BasePage {
     BasePage icindeki Home, Loans, About Us, Blog, About ve Contact sayfalarinin expected URL adreslerini
     doner. Fakat sig in yaptiktan sonra gelen My Operations ve User sayfalari icin baska method kullanilmali.
      */
-    public String getPageUrl(String pageName){
-       String pageUrl = null;
+    public String getPageUrl(String pageName) {
+        String pageUrl = null;
 
-       switch (pageName.toLowerCase()){
-           case "home":
-               pageUrl = "https://gmibank.com/";
-               break;
-           case "loans":
-               pageUrl = "https://gmibank.com/loan";
-               break;
-           case "about us":
-               pageUrl = "https://gmibank.com/about";
-               break;
-           case "services":
-               pageUrl = "https://gmibank.com/services";
-               break;
-           case "blog":
-               pageUrl = "https://gmibank.com/blog";
-               break;
-           case "about":
-               pageUrl = "https://gmibank.com/about";
-               break;
-           case "contact":
-               pageUrl = "https://gmibank.com/contact";
-               break;
-           default:
-               break;
-       }
-       return pageUrl;
+        switch (pageName.toLowerCase()) {
+            case "home":
+                pageUrl = "https://gmibank.com/";
+                break;
+            case "loans":
+                pageUrl = "https://gmibank.com/loan";
+                break;
+            case "about us":
+                pageUrl = "https://gmibank.com/about";
+                break;
+            case "services":
+                pageUrl = "https://gmibank.com/services";
+                break;
+            case "blog":
+                pageUrl = "https://gmibank.com/blog";
+                break;
+            case "about":
+                pageUrl = "https://gmibank.com/about";
+                break;
+            case "contact":
+                pageUrl = "https://gmibank.com/contact";
+                break;
+            default:
+                break;
+        }
+        return pageUrl;
     }
 
 
     //sag ustteki kullanici ikonuna tiklama
-    public void clickOnAccountMenuIcon(){
+    public void clickOnAccountMenuIcon() {
         BrowserUtils.waitForClickablility(accountMenuIcon, 10);
         accountMenuIcon.click();
     }
@@ -89,10 +89,10 @@ public class BasePage {
     //sag ustteki kullanici ikonuna tiklama ve icinden bir option secme
     public void clickAndSelectDropDownItemUnderAccountMenuIcon(String dropDownItemName) throws Exception {
         clickOnAccountMenuIcon();
-        BrowserUtils.waitForVisibility(accountIconDropDownItems.get(0), 5 );
+        BrowserUtils.waitForVisibility(accountIconDropDownItems.get(0), 5);
         List<String> accountIconDropDownItemsTextList = BrowserUtils.getElementsText(accountIconDropDownItems);
         for (int i = 0; i < accountIconDropDownItems.size(); i++) {
-            if (accountIconDropDownItemsTextList.get(i).equalsIgnoreCase(dropDownItemName)){
+            if (accountIconDropDownItemsTextList.get(i).equalsIgnoreCase(dropDownItemName)) {
                 accountIconDropDownItems.get(i).click();
                 return;
             }
@@ -101,7 +101,7 @@ public class BasePage {
     }
 
 
-    public void clickMyOperationsNavItem(){
+    public void clickMyOperationsNavItem() {
         BrowserUtils.waitForClickablility(myOperationsNavItem, 10);
         myOperationsNavItem.click();
     }
@@ -109,10 +109,10 @@ public class BasePage {
     //sag ustteki kullanici ikonuna tiklama ve icinden bir option secme
     public void clickAndSelectDropDownItemUnderMyOperationsNavItem(String dropDownItemName) throws Exception {
         clickMyOperationsNavItem();
-        BrowserUtils.waitForVisibility(myOperationsDropDownItems.get(0), 5 );
+        BrowserUtils.waitForVisibility(myOperationsDropDownItems.get(0), 5);
         List<String> myOperationsDropDownItemsTextList = BrowserUtils.getElementsText(myOperationsDropDownItems);
         for (int i = 0; i < myOperationsDropDownItems.size(); i++) {
-            if (myOperationsDropDownItemsTextList.get(i).equalsIgnoreCase(dropDownItemName)){
+            if (myOperationsDropDownItemsTextList.get(i).equalsIgnoreCase(dropDownItemName)) {
                 myOperationsDropDownItems.get(i).click();
                 return;
             }
@@ -121,8 +121,14 @@ public class BasePage {
     }
 
     //sisteme giris yapilmissa user name'i doner. Eger giris yapilmamissa null doner
-    public String getUserNameBesideAccountMenuIcon(){
+    public String getUserNameBesideAccountMenuIcon() {
         return accountMenuIcon.getText();
     }
+
+
+    public void singOut() throws Exception {
+        clickAndSelectDropDownItemUnderAccountMenuIcon("Sign Out");
+    }
+
 
 }
