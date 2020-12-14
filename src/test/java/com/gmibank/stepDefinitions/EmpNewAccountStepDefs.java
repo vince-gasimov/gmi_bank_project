@@ -55,11 +55,12 @@ public class EmpNewAccountStepDefs {
 
 
 //US_13_TC02
-
+//verificition
     @When("user enters {string} on balanceBox")
     public void user_enters_on_balanceBox(String string) {
         page.balanceBox.click();
         page.balanceBox.sendKeys(string);
+
 
     }
 //US13_TC02B

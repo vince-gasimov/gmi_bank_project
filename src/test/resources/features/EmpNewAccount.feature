@@ -1,3 +1,4 @@
+@Ahmet
 Feature:User can create a new Account
 
   Background:An Employee sing in
@@ -25,7 +26,7 @@ Feature:User can create a new Account
     And user clicks on the create a new Account item
     And user enters  description "MyNewAccounts"
     And If the user just clicks on the balance box and no value is entered, the alert will be
-    And the user receives the alert if they click the save button without clicking the balance box
+    Then the user receives the alert if they click the save button without clicking the balance box
 
 
   @us1302negative
