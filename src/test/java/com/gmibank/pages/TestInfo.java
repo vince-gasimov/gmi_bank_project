@@ -23,4 +23,9 @@ public class TestInfo {
     @FindBy(xpath = "//div[@class='invalid-feedback']")
     List<WebElement> invalidMessages;
 
+
+   public void giris(){
+
+   }
+
 }
