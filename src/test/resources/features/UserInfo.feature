@@ -1,7 +1,7 @@
 @All
 Feature:User info segment (User Settings) sho uld be editable on Homepage
 
-  @us0601
+  @UsTc01
 
   Scenario Outline:US_06_TC_01There should be user info being populated when navigating to user info
 

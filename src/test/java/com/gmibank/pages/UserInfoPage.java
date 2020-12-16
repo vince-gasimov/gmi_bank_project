@@ -12,7 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 import javax.xml.bind.SchemaOutputResolver;
 import java.util.List;
 
-public class UserInfoPage extends BasePage{
+public class UserInfoPage extends BasePage {
 
     public UserInfoPage() {
 
@@ -20,12 +20,19 @@ public class UserInfoPage extends BasePage{
     }
 
 
-    //sag ust kosedeki kullanici ikonu
-    @FindBy(id = "account-menu")
-    public WebElement accountMenuIcon;
+    @FindBy(xpath = "//label[@for='firstName']")
+    public WebElement forFirstname;
 
-    @FindBy(css = "[id='account-menu'] a[class='dropdown-item']")
-    public List<WebElement> accountIconDropDownItems;
+    @FindBy(xpath = "//label[@for='lastName']")
+    public WebElement forLastname;
+
+
+    @FindBy(xpath = "//label[@for='email']")
+    public WebElement forEmail;
+
+
+    @FindBy(xpath = "//label[@for='langKey']")
+    public WebElement forLangkey;
 
     @FindBy(name = "firstName")
     public WebElement firstNameBox;
@@ -45,25 +52,24 @@ public class UserInfoPage extends BasePage{
 
 
     @FindBy(xpath = "//div[@class='invalid-feedback']")
-    public  List<WebElement> invalidEmailToAlert;
+    public List<WebElement> invalidEmailToAlert;
 
-    public  List<String> getAlert() {
+    public List<String> getAlert() {
 
 
-
-        List<String> invalidEmailToalertList= BrowserUtils.getElementsText(invalidEmailToAlert);
-        if(invalidEmailToalertList.size()!=0){
+        List<String> invalidEmailToalertList = BrowserUtils.getElementsText(invalidEmailToAlert);
+        if (invalidEmailToalertList.size() != 0) {
             System.out.println(invalidEmailToalertList.get(0));
-        }else{
-            System.out.println("invalidEmailListSize:"+invalidEmailToalertList.size());
+        } else {
+            System.out.println("invalidEmailListSize:" + invalidEmailToalertList.size());
         }
-return invalidEmailToalertList;
+        return invalidEmailToalertList;
 
-}
+    }
 
-    public  void  languageChooses(){
-        List<String> lanhuageText=BrowserUtils.getElementsText(languageDropDown);
-        System.out.println("language Chooses:"+lanhuageText);
+    public void languageChooses() {
+        List<String> lanhuageText = BrowserUtils.getElementsText(languageDropDown);
+        System.out.println("language Chooses:" + lanhuageText);
 
     }
 
