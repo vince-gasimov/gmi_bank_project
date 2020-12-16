@@ -1,20 +1,25 @@
 package com.gmibank.stepDefinitions;
 
-import com.gmibank.utilities.*;
+import com.gmibank.Api.ApiUtilities.AccessToken;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.testng.annotations.Test;
+
 
 public class TestClass {
-    public static void main(String[] args) {
-/*        String generatedString;
-        for (int i = 0; i < 10; i++) {
-            generatedString = RandomStringGenerator.generateStrongPassword(7, 2, 1, 1, 1);
-            System.out.println(generatedString);
-        }*/
 
-        ApiUtils.getAndSetAccessToken("admin");
-        String accessToken = ConfigurationReader.getProperty("admin_access_token");
-        System.out.println("accessToken = " + accessToken);
-        ApiUtils.getAndSetAccessToken("employee");
-        ApiUtils.getAndSetAccessToken("customer");
-        ApiUtils.getAndSetAccessToken("dynamic_customer");
+    @Test
+    public void test1(){
+        String accessToken = AccessToken.getAccessTokenWithBearer("admin");
+
+        Response response = RestAssured.given().log().all()
+                            .accept(ContentType.JSON)
+                            .and()
+                            .header("Authorization", accessToken)
+                            .get("https://gmibank.com/api/account");
+
+        response.prettyPrint();
     }
+
 }

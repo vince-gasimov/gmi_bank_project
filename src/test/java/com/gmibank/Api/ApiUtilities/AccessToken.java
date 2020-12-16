@@ -1,5 +1,6 @@
-package com.gmibank.utilities;
+package com.gmibank.Api.ApiUtilities;
 
+import com.gmibank.utilities.ConfigurationReader;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.baseURI;
 import io.restassured.http.ContentType;
@@ -9,7 +10,28 @@ import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ApiUtils {
+public class AccessToken {
+
+    /*
+sadece bu methodu kullanmak yeterli olacak access token almak icin
+Diger methodlar buna yardimci olmak icin kullanildi.
+ */
+    public static String getAccessTokenWithBearer(String userType){
+        String userKeyInConfigFile = getKeyFromConfigFileBasedOnUserType(userType);
+        String accessTokenWithBearer = "Bearer ";
+        if(!isApiValid(userType)){
+            String newToken = getTokenFromAPI(userType);
+            if(!getAccessTokenFromConfigFile(userType).equals(newToken)){
+                System.out.println("accessToken is updated!");
+            }else{
+                System.out.println("access token is the same, there can be a problem");
+            }
+            updateTakenAccessTokenInConfigFile(userType, newToken);
+        }
+
+        accessTokenWithBearer += getAccessTokenFromConfigFile(userType);
+        return accessTokenWithBearer;
+    }
 
 
     public static String getTokenFromAPI(String userType){
@@ -69,6 +91,20 @@ public class ApiUtils {
     }
 
     public static void setAccessTokenInConfigFile(String userType, String accessToken){
+        String userKeyInConfigFile = getKeyFromConfigFileBasedOnUserType(userType);
+        ConfigurationReader.changePropertyValue(userKeyInConfigFile, accessToken);
+    }
+
+    public static void updateTakenAccessTokenInConfigFile(String userType, String accessToken){
+        setAccessTokenInConfigFile(userType,accessToken);
+    }
+
+    public static String getAccessTokenFromConfigFile(String userType){
+        String userKeyInConfigFile = getKeyFromConfigFileBasedOnUserType(userType);
+        return ConfigurationReader.getProperty(userKeyInConfigFile);
+    }
+
+    public static String getKeyFromConfigFileBasedOnUserType(String userType){
         String userKeyInConfigFile = null;
         switch (userType){
             case "admin":
@@ -79,7 +115,7 @@ public class ApiUtils {
                 break;
             case "dynamic_customer":
                 userKeyInConfigFile = "dynamic_customer_token";
-                 break;
+                break;
             case "customer":
                 userKeyInConfigFile = "customer_access_token";
                 break;
@@ -87,12 +123,35 @@ public class ApiUtils {
                 System.out.println("non-defined user type!");
                 break;
         }
-        ConfigurationReader.changePropertyValue(userKeyInConfigFile, accessToken);
+        return userKeyInConfigFile;
     }
 
-    public static void getAndSetAccessToken(String userType){
-        String accessToken = getTokenFromAPI(userType);
-        setAccessTokenInConfigFile(userType,accessToken);
+    public static boolean isApiValid(String userType){
+        String userKeyInConfigFile = getKeyFromConfigFileBasedOnUserType(userType);
+        if(testAccessTokenWith(userType)){
+            return true;
+        }
+         return false;
     }
 
+    public static boolean testAccessTokenWith(String userType){
+        String userKeyInConfigFile = getKeyFromConfigFileBasedOnUserType(userType);
+        String currentAccessToken = getAccessTokenFromConfigFile(userType);
+        return getRequestAccountInfoBasedOnGivenAccessToken(userType, currentAccessToken);
+    }
+
+    public static boolean getRequestAccountInfoBasedOnGivenAccessToken(String userType, String accessToken){
+        String accessTokenWithHeader = "Bearer" + " " + accessToken;
+
+        Response response = RestAssured.given()
+                                .accept(ContentType.JSON)
+                            .and()
+                                .header("Authorization", accessTokenWithHeader)
+                            .get("https://gmibank.com/api/account");
+
+        if (response.getStatusCode()==200){
+            return true;
+        }
+        return false;
+    }
 }
