@@ -44,7 +44,7 @@ public class UserInfoPage extends BasePage {
     public WebElement emailBox;
 
     @FindBy(name = "langKey")
-    public List<WebElement> languageDropDown;
+    public WebElement languageDropDown;
 
 
     @FindBy(xpath = "//button[@class='btn btn-primary']")
@@ -67,10 +67,8 @@ public class UserInfoPage extends BasePage {
 
     }
 
-    public void languageChooses() {
-        List<String> lanhuageText = BrowserUtils.getElementsText(languageDropDown);
-        System.out.println("language Chooses:" + lanhuageText);
 
-    }
+
+
 
 }
