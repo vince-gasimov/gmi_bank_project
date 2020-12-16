@@ -1,9 +1,6 @@
 package com.gmibank.stepDefinitions;
 
-import com.gmibank.utilities.ConfigurationReader;
-import com.gmibank.utilities.DummyDataGenerator;
-import com.gmibank.utilities.ExcelUtilities;
-import com.gmibank.utilities.RandomStringGenerator;
+import com.gmibank.utilities.*;
 
 public class TestClass {
     public static void main(String[] args) {
@@ -13,9 +10,11 @@ public class TestClass {
             System.out.println(generatedString);
         }*/
 
-        ExcelUtilities newUserExcel = new ExcelUtilities("src/test/resources/deneme.xlsx", "Sheet1");
-
-        System.out.println("newUserExcel.rowCount() = " + newUserExcel.rowCount());
-        System.out.println("newUserExcel.getColumnsNames() = " + newUserExcel.getColumnsNames());
+        ApiUtils.getAndSetAccessToken("admin");
+        String accessToken = ConfigurationReader.getProperty("admin_access_token");
+        System.out.println("accessToken = " + accessToken);
+        ApiUtils.getAndSetAccessToken("employee");
+        ApiUtils.getAndSetAccessToken("customer");
+        ApiUtils.getAndSetAccessToken("dynamic_customer");
     }
 }
