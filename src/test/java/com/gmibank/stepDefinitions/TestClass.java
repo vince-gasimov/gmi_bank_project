@@ -1,5 +1,6 @@
 package com.gmibank.stepDefinitions;
 
+import com.github.javafaker.Faker;
 import com.gmibank.utilities.ConfigurationReader;
 import com.gmibank.utilities.DummyDataGenerator;
 import com.gmibank.utilities.ExcelUtilities;
@@ -17,5 +18,9 @@ public class TestClass {
 
         System.out.println("newUserExcel.rowCount() = " + newUserExcel.rowCount());
         System.out.println("newUserExcel.getColumnsNames() = " + newUserExcel.getColumnsNames());
+
+
+
+
     }
 }

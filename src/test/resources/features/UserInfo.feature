@@ -1,4 +1,4 @@
-@All
+@Allin
 Feature:User info segment (User Settings) sho uld be editable on Homepage
 
   @UsTc01
@@ -43,20 +43,8 @@ Feature:User info segment (User Settings) sho uld be editable on Homepage
     Examples:user and invalid Email
       | user       |invalidEmail|
       | admin      |abc.com     |
-
-
-
-  @us0605negative02
-  Scenario Outline:US_06_TC05update mit invalid email
-    When user navigates to "Sign in" page under account menu icon
-    And user types and submit the valid "<user>" credentials
-    And user navigates user  account dropdown menu icon
-
-    Then if user should to be update  "<invalidEmail>"  then get alert
-
-    Examples:user and invalid Email
-      | user       |invalidEmail|
       | employee    |abc@gl     |
+
 
 
 
