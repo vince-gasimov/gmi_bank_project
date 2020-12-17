@@ -1,16 +1,14 @@
 package com.gmibank.stepDefinitions;
 
 import com.gmibank.pages.BasePage;
-import com.gmibank.pages.Customer;
 import com.gmibank.pages.LoginPage;
+import com.gmibank.pages.TablePage;
 import com.gmibank.utilities.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,13 +41,13 @@ public void tearDown(){
 
         basePage.clickAndSelectDropDownItemUnderMyOperationsNavItem("Manage Customers");
 
-        Customer customer = new Customer();
+        TablePage tablePage = new TablePage();
         BrowserUtils.waitFor(2);
         //System.out.println(customer.getWebElementWithGivenButtonType("07-12-20-13-54@US012.com", "view").getAttribute("outerHTML"));
         //System.out.println(Driver.getDriver().findElement(By.xpath("//td[text()='team-19@gmail.com']/following-sibling::td//a[@class='btn btn-info btn-sm']")).getAttribute("outerHTML"));
 
-        System.out.println("customer.getTotalNumberOfPages() = " + customer.getTotalNumberOfPages());
-        BrowserUtils.scrollToElement(customer.pageNumberInfo);
+        System.out.println("customer.getTotalNumberOfPages() = " + tablePage.getTotalNumberOfPages());
+        //BrowserUtils.scrollToElement(tablePage.pageNumberInfo);
 
 
 
@@ -58,7 +56,11 @@ public void tearDown(){
             BrowserUtils.waitFor(2);
         }*/
 
-        customer.clickGivenButtonForWantedEmail("jimmy.metz@example.com", "view");
+        System.out.println("tablePage.getIndexNumberOfGivenColumnName(\"email\") = " + tablePage.getIndexNumberOfGivenColumnName("email"));
+        System.out.println("tablePage.columnList = " + tablePage.columnList);
+        System.out.println("tablePage.createButton.getAttribute(\"outerHTML\") = " + tablePage.createButton.getAttribute("outerHTML"));
+        System.out.println("tablePage.getWebElementWithGivenButtonType(\"gezgin@gmail.com\", \"view\") = " + tablePage.getWebElementWithGivenButtonType("gezgin@gmail.com", "view"));
+        tablePage.clickGivenButtonForWantedEmail("gezgin@gmail.com", "view");
         BrowserUtils.waitFor(5);
 
     }
