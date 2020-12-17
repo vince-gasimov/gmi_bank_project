@@ -136,7 +136,7 @@ public class EmpNewAccountStepDefs {
     @When("user clicks save button")
     public void user_clicks_save_button()  {
 
-page.saveButton.click();
+    page.saveButton.click();
 
     }
 

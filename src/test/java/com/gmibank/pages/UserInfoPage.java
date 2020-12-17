@@ -48,22 +48,25 @@ public class UserInfoPage extends BasePage {
 
 
     @FindBy(xpath = "//button[@class='btn btn-primary']")
-    public WebElement saveButton;
+    public WebElement saveButtonUserinfo;
 
 
     @FindBy(xpath = "//div[@class='invalid-feedback']")
-    public List<WebElement> invalidEmailToAlert;
+    public List<WebElement> invalidDataToAlert;
+
+    @FindBy(xpath = "//div[@role='alert']")
+    public  WebElement toastAlert;
 
     public List<String> getAlert() {
 
 
-        List<String> invalidEmailToalertList = BrowserUtils.getElementsText(invalidEmailToAlert);
-        if (invalidEmailToalertList.size() != 0) {
-            System.out.println(invalidEmailToalertList.get(0));
+        List<String> invalidDataToalertList = BrowserUtils.getElementsText(invalidDataToAlert);
+        if (invalidDataToalertList.size() != 0) {
+            System.out.println(invalidDataToalertList.get(0));
         } else {
-            System.out.println("invalidEmailListSize:" + invalidEmailToalertList.size());
+            System.out.println("invalidEmailListSize:" + invalidDataToalertList.size());
         }
-        return invalidEmailToalertList;
+        return invalidDataToalertList;
 
     }
 
