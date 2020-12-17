@@ -56,12 +56,7 @@ public void tearDown(){
             BrowserUtils.waitFor(2);
         }*/
 
-        System.out.println("tablePage.getIndexNumberOfGivenColumnName(\"email\") = " + tablePage.getIndexNumberOfGivenColumnName("email"));
-        System.out.println("tablePage.columnList = " + tablePage.columnList);
-        System.out.println("tablePage.createButton.getAttribute(\"outerHTML\") = " + tablePage.createButton.getAttribute("outerHTML"));
-        System.out.println("tablePage.getWebElementWithGivenButtonType(\"gezgin@gmail.com\", \"view\") = " + tablePage.getWebElementWithGivenButtonType("gezgin@gmail.com", "view"));
-        tablePage.clickGivenButtonForWantedEmail("gezgin@gmail.com", "view");
-        BrowserUtils.waitFor(5);
+        tablePage.clickGivenButtonForWantedEmail("aline.hilpert@example.com", "view");
 
     }
 
