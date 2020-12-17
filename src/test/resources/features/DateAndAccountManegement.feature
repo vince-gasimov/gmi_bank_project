@@ -1,5 +1,5 @@
 
-Feature:User can create a new Account
+Feature:Date enter and Account Manage
 
   Background:An Employee sing in
     Given user navigates to "Sign in" page under account menu icon
