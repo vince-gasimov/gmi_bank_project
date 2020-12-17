@@ -2,7 +2,7 @@ package com.gmibank.pojos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) //bilinmeyen bir data geldiginde ignore et (Interview)
 public class Customer {
 
     private int id;
