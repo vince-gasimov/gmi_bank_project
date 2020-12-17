@@ -1,12 +1,21 @@
 package com.gmibank.stepDefinitions;
 
 import com.gmibank.pages.EmpNewAccountPage;
-
+import com.gmibank.pages.UserInfoPage;
+import com.gmibank.utilities.DummyDataGenerator;
+import com.sun.deploy.net.proxy.pac.PACFunctions;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.tr.Fakat;
+import org.apache.poi.ss.formula.functions.T;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
+import javax.xml.bind.SchemaOutputResolver;
 
 public class EmpNewAccountStepDefs {
 
@@ -31,7 +40,7 @@ public class EmpNewAccountStepDefs {
 
     @Then("If user leaves the description blank, he should receive an alert")
     public void if_user_leaves_the_description_blank_he_should_receive_an_alert() throws Exception {
-        page.descriptionBox.click();
+
         page.descriptionBox.clear();
         page.descriptionBox.click();
         page.balanceBox.sendKeys("10");
@@ -129,7 +138,7 @@ public class EmpNewAccountStepDefs {
     @When("user clicks save button")
     public void user_clicks_save_button()  {
 
-page.saveButton.click();
+    page.saveButton.click();
 
     }
 
