@@ -1,26 +1,25 @@
 package com.gmibank.stepDefinitions;
 
-import com.github.javafaker.Faker;
-import com.gmibank.utilities.ConfigurationReader;
-import com.gmibank.utilities.DummyDataGenerator;
-import com.gmibank.utilities.ExcelUtilities;
-import com.gmibank.utilities.RandomStringGenerator;
+import com.gmibank.Api.ApiUtilities.AccessToken;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.testng.annotations.Test;
+
 
 public class TestClass {
-    public static void main(String[] args) {
-/*        String generatedString;
-        for (int i = 0; i < 10; i++) {
-            generatedString = RandomStringGenerator.generateStrongPassword(7, 2, 1, 1, 1);
-            System.out.println(generatedString);
-        }*/
 
-        ExcelUtilities newUserExcel = new ExcelUtilities("src/test/resources/deneme.xlsx", "Sheet1");
+    @Test
+    public void test1(){
+        String accessToken = AccessToken.getAccessTokenWithBearer("admin");
 
-        System.out.println("newUserExcel.rowCount() = " + newUserExcel.rowCount());
-        System.out.println("newUserExcel.getColumnsNames() = " + newUserExcel.getColumnsNames());
+        Response response = RestAssured.given().log().all()
+                            .accept(ContentType.JSON)
+                            .and()
+                            .header("Authorization", accessToken)
+                            .get("https://gmibank.com/api/account");
 
-
-
-
+        response.prettyPrint();
     }
+
 }
