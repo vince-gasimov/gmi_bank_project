@@ -99,8 +99,9 @@ public class UseInfoStepDesf {
 
     }
 
-    @When("user should click on e-mail button and can update than clicks save button on user info page")
-    public void user_should_click_on_e_mail_button_and_can_update_than_clicks_save_button_on_user_info_page() throws InterruptedException {
+    @Then("user should updates  e-mail  and checks to update all user information")
+    public void user_should_updates_e_mail_and_checks_to_update_all_user_information() throws InterruptedException {
+
 
         String s = DummyDataGenerator.generateEmail();
         page.emailBox.clear();
@@ -113,19 +114,9 @@ public class UseInfoStepDesf {
         page.saveButtonUserinfo.click();
         Thread.sleep(5000);
         Assert.assertTrue(page.invalidDataToAlert.size() == 0);
-    }
-//>>>>calisilacak
-    @Then("user checks to update information")
-    public void user_checks_to_update_information() {
-
-
-
-
 
 
     }
-
-
 
 
     //US_06_TC_02nEGATIVE
@@ -133,7 +124,9 @@ public class UseInfoStepDesf {
     public void if_user_should_to_be_update_then_get_alert(String string) {
         page.emailBox.clear();
         page.emailBox.sendKeys(string);
-       List<String> s=page.getAlert();
+        List<String> list = page.getAlert();
+
+        Assert.assertTrue(list.size() > 0);
 
 
     }

@@ -25,8 +25,8 @@ Feature:User info segment (User Settings) sho uld be editable on Homepage
 
     And user should click on firstname button and can update
     And user should click on lastname button and can update
-    And  user should click on e-mail button and can update than clicks save button on user info page
-    Then user checks to update information
+    Then  user should updates  e-mail  and checks to update all user information
+
 
     Examples:user
       | user     |
