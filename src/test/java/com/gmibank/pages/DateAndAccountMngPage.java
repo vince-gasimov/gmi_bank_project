@@ -4,6 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import javax.xml.bind.annotation.W3CDomHandler;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class DateAndAccountMngPage extends BasePage {
@@ -25,6 +27,23 @@ public class DateAndAccountMngPage extends BasePage {
 
 @FindBy(id="save-entity")
     public  WebElement saveButton;
+
+    //üzerine calis
+public String localDate(String date){
+
+    LocalDate ld= LocalDate.now();
+
+    DateTimeFormatter dtf1=DateTimeFormatter.ofPattern("MM.d.yy");
+    dtf1.format(ld);
+
+
+    if(ld.equals(LocalDate.now())) {
+        ld.minusDays(2);
+
+
+    }
+    return date;
+}
 
 
 
