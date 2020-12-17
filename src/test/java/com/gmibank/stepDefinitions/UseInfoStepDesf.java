@@ -15,10 +15,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import sun.security.krb5.internal.PAData;
-
-import javax.xml.bind.SchemaOutputResolver;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

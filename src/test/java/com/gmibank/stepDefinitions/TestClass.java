@@ -1,20 +1,17 @@
 package com.gmibank.stepDefinitions;
 
-import com.gmibank.pages.BasePage;
-import com.gmibank.pages.LoginPage;
-import com.gmibank.pages.TablePage;
+import com.gmibank.pages.*;
 import com.gmibank.utilities.*;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 
 import java.util.concurrent.TimeUnit;
 
 public class TestClass {
 
-@BeforeTest
+@BeforeMethod
 public void setup(){
     WebDriver driver = Driver.getDriver();
     driver.get(ConfigurationReader.getProperty("url"));
@@ -24,7 +21,7 @@ public void setup(){
 }
 
 
-@AfterTest
+@AfterMethod
 public void tearDown(){
     BrowserUtils.waitFor(1);
     Driver.closeDriver();
@@ -37,27 +34,46 @@ public void tearDown(){
         BasePage basePage = new BasePage();
         basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
         LoginPage loginPage= new LoginPage();
-        loginPage.loginWithValidInfo("employee");
-
-        basePage.clickAndSelectDropDownItemUnderMyOperationsNavItem("Manage Customers");
-
-        TablePage tablePage = new TablePage();
+        loginPage.loginWithValidInfo("admin");
         BrowserUtils.waitFor(2);
-        //System.out.println(customer.getWebElementWithGivenButtonType("07-12-20-13-54@US012.com", "view").getAttribute("outerHTML"));
-        //System.out.println(Driver.getDriver().findElement(By.xpath("//td[text()='team-19@gmail.com']/following-sibling::td//a[@class='btn btn-info btn-sm']")).getAttribute("outerHTML"));
+        basePage.clickGivenNavItemAndSelectGivenDropDownItem("Administration", "User management");
+        UsersPageWithTable usersPageWithTable = new UsersPageWithTable();
+        usersPageWithTable.clickGivenButtonForWantedColumnAndValue("Email", "jenny@gmail.com", "edit");
+        System.out.println("basePage.getPageHeader() = " + basePage.getPageHeader());
+        Assert.assertTrue(basePage.getPageHeader().contains("User ["));
+        BrowserUtils.waitFor(3);
 
-        System.out.println("customer.getTotalNumberOfPages() = " + tablePage.getTotalNumberOfPages());
-        //BrowserUtils.scrollToElement(tablePage.pageNumberInfo);
+    }
+
+    @Test
+    public void test2() throws Exception {
+        BasePage basePage = new BasePage();
+        basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
+        LoginPage loginPage= new LoginPage();
+        loginPage.loginWithValidInfo("employee");
+        BrowserUtils.waitFor(2);
+        basePage.clickGivenNavItemAndSelectGivenDropDownItem("My Operations", "Manage Customers");
+        CustomersPageWithTable customersPageWithTable = new CustomersPageWithTable();
+        customersPageWithTable.clickGivenButtonForWantedColumnAndValue("Email", "07-12-20-14-38@US013.com", "view");
+        System.out.println("basePage.getPageHeader() = " + basePage.getPageHeader());
+        Assert.assertTrue(basePage.getPageHeader().equals("Customer [35132]"));
+        BrowserUtils.waitFor(3);
+    }
 
 
-
-/*        for (int i = 0; i < 10; i++) {
-            customer.moveToNextPage();
-            BrowserUtils.waitFor(2);
-        }*/
-
-        tablePage.clickGivenButtonForWantedEmail("aline.hilpert@example.com", "view");
-
+    @Test
+    public void test3() throws Exception {
+        BasePage basePage = new BasePage();
+        basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
+        LoginPage loginPage= new LoginPage();
+        loginPage.loginWithValidInfo("employee");
+        BrowserUtils.waitFor(2);
+        basePage.clickGivenNavItemAndSelectGivenDropDownItem("My Operations", "Manage Accounts");
+        AccountsPageWithTable accountsPageWithTable = new AccountsPageWithTable();
+        accountsPageWithTable.clickGivenButtonForWantedColumnAndValue("Description", "team13 customer account2", "view");
+        System.out.println("basePage.getPageHeader() = " + basePage.getPageHeader());
+        Assert.assertTrue(basePage.getPageHeader().equals("Account [30239]"));
+        BrowserUtils.waitFor(3);
     }
 
 }

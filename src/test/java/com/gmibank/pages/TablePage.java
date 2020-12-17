@@ -9,32 +9,34 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class TablePage extends BasePage{
+/***
+ * Bu class; icinde user bilgileri giib tablo iceren sayfalarin hepsi icin kullanilabilir. Eger kendi sayfanda
+ * burada olmayan bir method veya element varsa ve de butun tablolu sayfalarda ayni sey varsa buraya ekleyebilirsin
+ * Fakat butun tablolu sayfalar icinde olmayan bir seyi buraya ekleme.
+ *
+ * Tablo iceren sayfalarda
+ */
 
-    /******************************************************************* DUZENLENDI'
-        bu sayfaya ozel olabilir, fakat locator ayni. Eger genel yapilirsa createButton gibi
-    genel bir isim verilebilir.
+
+    /******************************************************************* '
+    Asagidaki webeleemntleri tablo olan sayfalar icin ortak. Ayni locator ile bulunuyor.
+     Eger burada olmayan bir webelement varsa onu kendi olustrudugun class icinde ayrica tanimlayabilirsin.
+     Buraya; butun tablo iceren sayfalarda ortak olmayan bir sey ekleme. Sadece ortak olanlar olmali
 
      */
-    @FindBy(id = "jh-create-entity")
+    @FindBy(css = ".jh-create-entity")
     public WebElement createButton;
 
     @FindBy(xpath = "//table//th")
     public List<WebElement> columnList;
 
-    @FindBy(css = ".info.jhi-item-count")
-    public WebElement pageNumberInfo;
-
-    @FindBy(xpath = "//ul[@class='pagination']//li")
-    public List<WebElement> pageLinkButtons;
-
     /*******************************************************************'
      email demek yerine kolon ismi denilip genelleme yapilabilir. Dinamik bir yapi kazandirilmali
 
      */
-
-    public void clickGivenButtonForWantedEmail(String email, String buttonName){
-        WebElement emailElement = locateWantedElementWithEmail(email);
-        WebElement button = getWebElementWithGivenButtonType(email, buttonName);
+    public void clickGivenButtonForWantedColumnAndValue(String column, String value, String buttonType){
+        WebElement element = locateWantedCellWithGivenColumnAndValue(column, value);
+        WebElement button = getOneOfTheTripleButtonWithGivenType(value, buttonType);
         BrowserUtils.executeJScommand("window.scrollBy(0,-document.body.scrollHeight)");
         BrowserUtils.waitForVisibility(button,5);
         BrowserUtils.hover(button);
@@ -84,69 +86,18 @@ public class TablePage extends BasePage{
      email demek yerine kolon ismi denilip genelleme yapilabilir. Dinamik bir yapi kazandirilmali
 
      */
-    public WebElement locateWantedElementWithEmail(String email){
-        boolean devam = true;
-        while (devam){
-            List<WebElement> columnElementsOnCurrentPage = getAllItemsInTheGivenColumn("Email");
-            System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
-            for (WebElement emailElement : columnElementsOnCurrentPage) {
-                if (emailElement.getText().equals(email)){
-                    return emailElement;
+    public WebElement locateWantedCellWithGivenColumnAndValue(String column, String value){
+            List<WebElement> columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
+            //System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
+            for (WebElement element : columnElementsOnCurrentPage) {
+                if (element.getText().equals(value)){
+                    System.out.println("element.getText() = " + element.getText());
+                    return element;
                 }
             }
-            devam = moveToNextPage();
-            BrowserUtils.waitFor(2);
-        }
         return null;
     }
 
-
-
-    //sonraki sayfaya gecmek icin kullanilacak buton
-    public WebElement getNextPageButton(){
-        int totalNumberOfButtons = pageLinkButtons.size();
-        return pageLinkButtons.get(totalNumberOfButtons - 2);
-    }
-
-
-    //sonraki sayfaya gecmek icin kullanilacak olan method
-    public boolean moveToNextPage(){
-        WebElement nextPageButton = getNextPageButton();
-        if (!nextPageButton.getAttribute("class").equals("page-item disabled")){
-            nextPageButton.click();
-            return true;
-        }
-        return false; //gidecek yer kalmadi
-    }
-
-    /****************************************************************** DUZENLENDI'
-    burada customer yerine item kullanilabilir genel olarak tanimlayabilmek icin, sonucta
-    sayfa saysi bulmak icin kullanilacak
-     */
-    //cok gerek kalmadi
-    public int getTotalNumberOfItems(){
-        String pageInfoText = getElementText(pageNumberInfo);
-        String totalNumberOfItems = StringUtilities.getInnerStringBetweenTwoText(pageInfoText, "of", "items.");
-        return Integer.parseInt(totalNumberOfItems);
-    }
-
-    /******************************************************************* DUZENLENDI'
-     icindeki degisken isimleri ile oynanabilir
-
-     */
-    //cok gerek kalmadi, baska bir yerden daha kolay aliniyor
-    public int getTotalNumberOfPages(){
-        int totalItems = getTotalNumberOfItems();
-        int result = totalItems / 20;
-        if(totalItems % 20 != 0){
-            result++;
-        }
-        return result;
-    }
-
-    public String getElementText(WebElement element){
-        return pageNumberInfo.getText();
-    }
 
     public List<String> getColumnNameList() {
         return BrowserUtils.getElementsText(columnList);
@@ -169,11 +120,15 @@ public class TablePage extends BasePage{
         return true;
     }
 
+    public String getElementText(WebElement element){
+        return element.getText();
+    }
+
     /******************************************************************* DUZENLENDI'
      yukaridaki create butonu locator in ismi degistirildiginde burasi da degismeli
      o zaman hata kalmaz
      */
-    public void clickCreateNewCustomerButton() {
+    public void clickCreateButton() {
         BrowserUtils.waitForClickablility(createButton, 5);
         createButton.click();
     }
@@ -182,9 +137,9 @@ public class TablePage extends BasePage{
     /******************************************************************* DUZENLENDI KULLNAIRKEN LOCATOR DUZENLEMESI GEREKIYOR'
      burada dikkatli olmak lazim. Birlestirilmesi gereken locator parcalari degisiyor. Sayfaya has locator
      degiskeni olusuturup method icine pass edebilrisin genelleme yapmak icin. Boylece implementation ayni kalir
-     parametre olarak email yerine direkt  locator koyabilirsin.
+     parametre olarak email yerine direkt  locator koyabilirsin. EDIT-VIEW-DELETE
      */
-    public WebElement getWebElementWithGivenButtonType(String email, String buttonName) {
+    public WebElement getOneOfTheTripleButtonWithGivenType(String searchValue, String buttonName) {
         String buttonClassAttribute = null;
         switch (buttonName.toLowerCase()) {
             case "view":
@@ -200,7 +155,7 @@ public class TablePage extends BasePage{
         /*
         locator based on email and button type //td[text()='07-12-20-13-54@US012.com']/following-sibling::td//a[@class='btn btn-info btn-sm']
          */
-        String locator = "//td[text()='" + email + "']/following-sibling::td//a[@class='" + buttonClassAttribute + "']";
+        String locator = "//td[text()='" + searchValue + "']/following-sibling::td//a[@class='" + buttonClassAttribute + "']";
         return Driver.getDriver().findElement(By.xpath(locator));
     }
 

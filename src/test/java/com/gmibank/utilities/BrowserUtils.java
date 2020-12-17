@@ -397,7 +397,11 @@ public class BrowserUtils {
         wait.until(ExpectedConditions.textToBePresentInElement(webElement,text));
     }
 
-
+    //verilen web elementin icindeki verilen attribute degeri verilen deger olana kdar bekler
+    public static void waitForAttributeToBe(WebElement webElement, String attribute, String value, int timeInSec ){
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(),timeInSec);
+        wait.until(ExpectedConditions.attributeToBe(webElement,attribute,value));
+    }
 
 
 }
