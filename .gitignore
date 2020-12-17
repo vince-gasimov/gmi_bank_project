@@ -3,3 +3,4 @@
 /target/
 /MyTesClass.class
 .DS_store
+.log
