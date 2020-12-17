@@ -53,15 +53,24 @@ public class CustomerApiStepDef {
         // System.out.println(customers[0].getFirstName());
 
         for (int i=0; i< customers.length;i++) {
-            System.out.println(customers[i].getFirstName());
+            System.out.println("FirstName: " + customers[i].getFirstName());
         }
 
         System.out.println("************************");
 
         for (int i=0;i<customers.length;i++) {
             if (customers[i].getUser()!=null) {
-                System.out.println(customers[i].getUser().getLastName());
+                System.out.println("LastName: " + customers[i].getUser().getLastName());
             }
+        }
+
+        System.out.println("************************");
+
+        for(int i=0; i< customers.length; i++){
+            System.out.println("Customer SSN: " + customers[i].getSsn());
+            System.out.println("Customer mobilePhoneNumber: " + customers[i].getMobilePhoneNumber());
+            if (customers[i].getCountry()!=null)
+            System.out.println("Country Name: " + customers[i].getCountry().getName());
         }
 
     }
