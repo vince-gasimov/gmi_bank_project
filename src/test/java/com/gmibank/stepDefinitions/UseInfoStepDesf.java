@@ -114,7 +114,7 @@ public class UseInfoStepDesf {
         Thread.sleep(5000);
         Assert.assertTrue(page.invalidDataToAlert.size() == 0);
     }
-
+//>>>>calisilacak
     @Then("user checks to update information")
     public void user_checks_to_update_information() {
 
@@ -135,7 +135,6 @@ public class UseInfoStepDesf {
         page.emailBox.sendKeys(string);
        List<String> s=page.getAlert();
 
-        Assert.assertEquals(s.get(0),"This field is invalid");
 
     }
 
