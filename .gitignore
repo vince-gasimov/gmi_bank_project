@@ -2,3 +2,5 @@
 /GmiBankApplicationGroup16.iml
 /target/
 /MyTesClass.class
+.DS_store
+.log

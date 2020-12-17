@@ -1,19 +1,12 @@
 package com.gmibank.stepDefinitions;
 
 import com.gmibank.pages.EmpNewAccountPage;
-import com.gmibank.pages.UserInfoPage;
-import com.sun.deploy.net.proxy.pac.PACFunctions;
-import io.cucumber.java.en.And;
+
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.apache.poi.ss.formula.functions.T;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
-import javax.xml.bind.SchemaOutputResolver;
 
 public class EmpNewAccountStepDefs {
 
