@@ -58,6 +58,7 @@ public class CustomerApiStepDef {
         deserialization icin;
         1.Yöntem ==> JsonPath - List<Map<String, Object>>
         2.Yöntem ==> Pojo
+        3.Yöntem ==> google Gson
          */
         /*1.Yöntem ==> JsonPath
         List<Map<String, Object>> allCustomerData = json.getList("$");
