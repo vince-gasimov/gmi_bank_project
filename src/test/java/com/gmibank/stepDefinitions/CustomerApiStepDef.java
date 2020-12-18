@@ -19,7 +19,7 @@ public class CustomerApiStepDef {
     Customer[] customers;
 
     @Given("user read all customer and sets response using to api end point {string}")
-    public void user_read_all_customer_and_sets_response_using_to_api_end_point(String api_endpoint) {
+    public void user_read_all_customer_and_sets_response_using_to_api_end_point(String customer_Api_endpoint) {
          response=given().headers(
                 "Authorization",
                 "Bearer " + ConfigurationReader.getProperty("token"),
@@ -30,7 +30,7 @@ public class CustomerApiStepDef {
                     and().
                     queryParam("size", 1500) //Customer'i alirken size'i belirtir
                 .when()
-                                    .get(api_endpoint)
+                                    .get(customer_Api_endpoint)
                 .then()
                                     .assertThat()   //assertThat() kullanmasak da olur
                                     .contentType(ContentType.JSON)
