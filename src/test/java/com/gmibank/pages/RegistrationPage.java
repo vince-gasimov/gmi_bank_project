@@ -354,7 +354,7 @@ public class RegistrationPage extends BasePage {
 
                 User user = new User(keyValuePairs);
                 String path = "src/test/resources/CreatedUserInformation.xlsx";
-                ExcelUtilities excelUtilities = new ExcelUtilities(path, "Deactive");
+                ExcelUtilities excelUtilities = new ExcelUtilities(path, "registered");
                 excelUtilities.writeUserIntoExcel(user);
                 break;
             }else{

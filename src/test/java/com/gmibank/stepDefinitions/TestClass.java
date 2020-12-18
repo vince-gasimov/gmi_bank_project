@@ -7,25 +7,27 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class TestClass {
 
-@BeforeMethod
-public void setup(){
-    WebDriver driver = Driver.getDriver();
+    @BeforeMethod
+    public void setup() {
+/*    WebDriver driver = Driver.getDriver();
     driver.get(ConfigurationReader.getProperty("url"));
     driver.manage().window().maximize();
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-}
+    driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);*/
+    }
 
 
-@AfterMethod
-public void tearDown(){
-    BrowserUtils.waitFor(1);
-    Driver.closeDriver();
-}
+    @AfterMethod
+    public void tearDown() {
+/*    BrowserUtils.waitFor(1);
+    Driver.closeDriver();*/
+    }
 
     @Test
     public void test1() throws Exception {
@@ -33,7 +35,7 @@ public void tearDown(){
 
         BasePage basePage = new BasePage();
         basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
-        LoginPage loginPage= new LoginPage();
+        LoginPage loginPage = new LoginPage();
         loginPage.loginWithValidInfo("admin");
         BrowserUtils.waitFor(2);
         basePage.clickGivenNavItemAndSelectGivenDropDownItem("Administration", "User management");
@@ -49,7 +51,7 @@ public void tearDown(){
     public void test2() throws Exception {
         BasePage basePage = new BasePage();
         basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
-        LoginPage loginPage= new LoginPage();
+        LoginPage loginPage = new LoginPage();
         loginPage.loginWithValidInfo("employee");
         BrowserUtils.waitFor(2);
         basePage.clickGivenNavItemAndSelectGivenDropDownItem("My Operations", "Manage Customers");
@@ -65,7 +67,7 @@ public void tearDown(){
     public void test3() throws Exception {
         BasePage basePage = new BasePage();
         basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
-        LoginPage loginPage= new LoginPage();
+        LoginPage loginPage = new LoginPage();
         loginPage.loginWithValidInfo("employee");
         BrowserUtils.waitFor(2);
         basePage.clickGivenNavItemAndSelectGivenDropDownItem("My Operations", "Manage Accounts");
@@ -76,4 +78,14 @@ public void tearDown(){
         BrowserUtils.waitFor(3);
     }
 
+
+    @Test
+    public void test4() {
+        System.out.println("DummyDataGenerator.generateAddress() = " + DummyDataGenerator.generateAddress());
+        Map<String, String> map = new HashMap<>();
+        map = DummyDataGenerator.generateAllNeededInformationExceptPassword();
+        for (String s : map.keySet()) {
+            System.out.println(s + " " + map.get(s));
+        }
+    }
 }
