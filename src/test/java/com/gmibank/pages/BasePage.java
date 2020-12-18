@@ -2,6 +2,7 @@ package com.gmibank.pages;
 
 import com.gmibank.utilities.BrowserUtils;
 import com.gmibank.utilities.Driver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -42,6 +43,53 @@ public class BasePage {
 
     @FindBy(css = "[id='entity-menu'] a[class='dropdown-item']")
     public List<WebElement> myOperationsDropDownItems;
+
+    @FindBy(css = ".dropdown.nav-item")
+    public List<WebElement> navigateItemListWithDropDownMenu;
+
+    @FindBy(css = ".dropdown-item")
+    public List<WebElement> dropDownItems;
+
+
+    /******
+    eger admin olarak giris yapiyorsan ilgili menuye gitmek icin bunu kullanabilirsin.
+    Bunun yaninda gidecegin menu accountIcon altinda ya da My operations altinda ise onlari da
+    kullanabilirsin direkt olarak
+     */
+    public void clickGivenNavItemAndSelectGivenDropDownItem(String navigateItemName, String dropDownItem){
+        WebElement givenNavigateItem = getNavigateItemWithGivenName(navigateItemName);
+        givenNavigateItem.click();
+        BrowserUtils.waitForPresenceOfElement(By.cssSelector(".dropdown.show.nav-item"), 5);
+        WebElement element = getDropDownItemFromOpenMenu(dropDownItem, givenNavigateItem);
+        element.click();
+        System.out.println("element.getAttribute(\"outerHTML\") = " + element.getAttribute("outerHTML"));
+    }
+
+    /****
+     * Bunu direkt kullanmana gerek yok. Baska bir methoda yardimci olmak uzere olusturuldu
+     * @param navigateItem
+     * @return
+     */
+    public WebElement getNavigateItemWithGivenName(String navigateItem){
+        List<String> itemNameList = BrowserUtils.getElementsText(navigateItemListWithDropDownMenu);
+        for (int i = 0; i < itemNameList.size(); i++) {
+             if(itemNameList.get(i).equals(navigateItem)){
+                 return navigateItemListWithDropDownMenu.get(i);
+             }
+        }
+        return null;
+    }
+
+    public WebElement getDropDownItemFromOpenMenu(String dropDownItemName, WebElement navigateItem){
+        BrowserUtils.waitForAttributeToBe(navigateItem,"class","dropdown show nav-item",5);
+        for (WebElement item : dropDownItems) {
+            if (item.getText().equals(dropDownItemName)){
+                return item;
+            }
+        }
+        return null;
+    }
+
 
 
     /*
