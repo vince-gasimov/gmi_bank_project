@@ -28,17 +28,23 @@ public class CustomerApiStepDef {
                 "Content-Type",
                 ContentType.JSON,
                 "Accept",
-                ContentType.JSON)
+                ContentType.JSON).
+                    and().
+                    queryParam("size", 1500) //Customer'i alirken size'i belirtir
                 .when()
                                     .get(api_endpoint)
                 .then()
+                                    .assertThat()   //assertThat() kullanmasak da olur
                                     .contentType(ContentType.JSON)
                                     .statusCode(200)
                                     .extract()
                                     .response();
         //response.prettyPrint();
 
+        //Eger post, put, patch request yapiyorsak accept type yerine yerine ==> contentType(ContentType.JSON) kullanilmali
+        //get ve delete de ==> accept type kullanabiliriz
         /*
+                                        accept(ContentType.JSON).
                                         auth().
                                 oauth2(ConfigurationReader.getProperty("token")).
                                 contentType(ContentType.JSON)
@@ -47,37 +53,53 @@ public class CustomerApiStepDef {
 
     @Given("user deserialization customer data json to java pojo")
     public void user_deserialization_customer_data_json_to_java_pojo() throws IOException {
+
+        /*
+        deserialization icin;
+        1.Yöntem ==> JsonPath - List<Map<String, Object>>
+        2.Yöntem ==> Pojo
+         */
+        /*1.Yöntem ==> JsonPath
+        List<Map<String, Object>> allCustomerData = json.getList("$");
+        System.out.println("Java List Map response: " + allCustomerData);
+        System.out.println("First customer info: " + allCustomerData.get(0));
+        System.out.println("First customer firstname: " + allCustomerData.get(0).get("firstName"));
+         */
+
+
         ObjectMapper objectMapper = new ObjectMapper();
         customers=objectMapper.readValue(response.asString(),Customer[].class);
 
-        // System.out.println(customers[0].getFirstName());
+       //  System.out.println("FirstName: " + customers[0].getFirstName());
 
-        for (int i=0; i< customers.length;i++) {
-            System.out.println("FirstName: " + customers[i].getFirstName());
+      for (int i=0; i< customers.length;i++) {
+            System.out.println("ID: " + customers[i].getId());
         }
 
         System.out.println("************************");
 
-        for (int i=0;i<customers.length;i++) {
+ /*       for (int i=0;i<customers.length;i++) {
             if (customers[i].getUser()!=null) {
                 System.out.println("LastName: " + customers[i].getUser().getLastName());
             }
         }
 
         System.out.println("************************");
-
-        for(int i=0; i< customers.length; i++){
+*/
+/*        for(int i=0; i< customers.length; i++){
             System.out.println("Customer SSN: " + customers[i].getSsn());
             System.out.println("Customer mobilePhoneNumber: " + customers[i].getMobilePhoneNumber());
             if (customers[i].getCountry()!=null)
             System.out.println("Country Name: " + customers[i].getCountry().getName());
         }
-
+*/
     }
 
     @Then("user validates all data")
     public void user_validates_all_data() {
 
     }
+
+
 
 }

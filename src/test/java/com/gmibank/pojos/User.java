@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true) //bilinmeyen bir data geldiginde ignore et (Interview)
 public class User {
+
     private int id;
     private String login;
     private String firstName;
