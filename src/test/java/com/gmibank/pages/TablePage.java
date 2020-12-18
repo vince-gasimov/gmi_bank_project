@@ -10,11 +10,12 @@ import java.util.List;
 
 public class TablePage extends BasePage{
 /***
- * Bu class; icinde user bilgileri giib tablo iceren sayfalarin hepsi icin kullanilabilir. Eger kendi sayfanda
- * burada olmayan bir method veya element varsa ve de butun tablolu sayfalarda ayni sey varsa buraya ekleyebilirsin
- * Fakat butun tablolu sayfalar icinde olmayan bir seyi buraya ekleme.
- *
- * Tablo iceren sayfalarda
+ * Bu class; tablo iceren sayfalarda ortak olan locator ve methodlari iceriyor. Eger tablo iceren bir sayfada calisiyorsan
+ * bu class i extend ederek burada olan her seyi kullanabilirsin. Bu class ayni zmanda BAsPage'den extend
+ * edildiginden dolayi BasePage elemanlarina da bu syfa uzerinden erisebilirisn. Iki tane extend etme hakkin
+ * yok zaten class icin. Bu class'a tablo iceren sayfalarda ortak olmayan bir sye ekleme.
+ * Halihazrida customers, users ve accounts sayfalari bundan extend edilerek olusturuldu zaten. eger isin onlarla
+ * ise direkt onlar uzerinde calisabilirsn.
  */
 
 
@@ -22,7 +23,6 @@ public class TablePage extends BasePage{
     Asagidaki webeleemntleri tablo olan sayfalar icin ortak. Ayni locator ile bulunuyor.
      Eger burada olmayan bir webelement varsa onu kendi olustrudugun class icinde ayrica tanimlayabilirsin.
      Buraya; butun tablo iceren sayfalarda ortak olmayan bir sey ekleme. Sadece ortak olanlar olmali
-
      */
     @FindBy(css = ".jh-create-entity")
     public WebElement createButton;
@@ -31,7 +31,12 @@ public class TablePage extends BasePage{
     public List<WebElement> columnList;
 
     /*******************************************************************'
-     email demek yerine kolon ismi denilip genelleme yapilabilir. Dinamik bir yapi kazandirilmali
+     Tablo icinde eger bir degere gore bir satirdaki bilgiyi bulmak istiyorsan asagidaki method icine
+     bilgiyi aradigin kolon ismini, aradigin degeri ve de satiri buldugunda view- edit-delete butonlarindan
+     hangisine tiklamak istedigini vermen gerekiyor.
+     buton ismini kucuk harflerle "view" orneginde oldugu gibi verebilirisn.
+     Kolon ismini sitedeki sayfadaki yazildigi sekilde vermelisin
+     Degeri de sayfada gorundugu sekilde vermelisin.
 
      */
     public void clickGivenButtonForWantedColumnAndValue(String column, String value, String buttonType){
@@ -44,8 +49,8 @@ public class TablePage extends BasePage{
         BrowserUtils.executeJScommand("window.scrollBy(0,-document.body.scrollHeight)");
     }
 
-    /******************************************************************* DUZENLENDI'
-     email demek yerine kolon ismi denilip genelleme yapilabilir. Dinamik bir yapi kazandirilmali
+    /******************************************************************* '
+     Methoda verdigin kolondaki butun degerleri alir.
 
      */
     public List<WebElement> getAllItemsInTheGivenColumn(String column){
@@ -55,8 +60,8 @@ public class TablePage extends BasePage{
 
 
     /*****
-    kolon ismini dinamik yapmak icin verilen kolon index numarasini bulacak bir method yazacaim DUZENLENDI
-
+    Sayfalardaki kolon siralamalari farkli. Bu method ile verilen kolon isminin tablo icindeki index numar-
+     rasi alinir. Kolon ismi sayfadaki gorundugu gibi olmali
      */
     public int getIndexNumberOfGivenColumnName(String columnName){
         if (columnName.equals("activation_button")){
@@ -74,6 +79,12 @@ public class TablePage extends BasePage{
         return 0;
     }
 
+    /****
+     * Yukaridaki methoda yaridmci method
+     * @param wantedColumnName
+     * @param columnNameList
+     * @return
+     */
     public int calculateColumnIndex(String wantedColumnName, List<String> columnNameList){
         for (int i = 0; i < columnNameList.size(); i++) {
              if (columnNameList.get(i).equals(wantedColumnName)){
@@ -83,8 +94,8 @@ public class TablePage extends BasePage{
         return -1;
     }
     /*******************************************************************DUZENLENDI'
-     email demek yerine kolon ismi denilip genelleme yapilabilir. Dinamik bir yapi kazandirilmali
-
+     Verilen kolondaki verilen degerin locate edilmesi icin kullanilabilir.
+     Mesela "Email" kolonundaki "mrecihanbey@gmail.com" degerini bul diyebilirsin.
      */
     public WebElement locateWantedCellWithGivenColumnAndValue(String column, String value){
             List<WebElement> columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
@@ -98,11 +109,20 @@ public class TablePage extends BasePage{
         return null;
     }
 
-
+    /**
+     * Tablodaki kolon isimlerini alir.
+     * @return
+     */
     public List<String> getColumnNameList() {
         return BrowserUtils.getElementsText(columnList);
     }
 
+    /**
+     * Verilen kolon isimleri listesinde verilen kolon isminin olup olmadigini doner.
+     * @param columnName
+     * @param columnNameList
+     * @return
+     */
     public boolean doesGivenColumnExist(String columnName, List<String> columnNameList) {
         if (columnNameList.contains(columnName)) {
             return true;
@@ -110,6 +130,11 @@ public class TablePage extends BasePage{
         return false;
     }
 
+    /***
+     * Verilen kolon ismi listesinin tabloda olup olmaidigini doner
+     * @param givenColumnNameList
+     * @return
+     */
     public boolean doesGivenColumnListExist(List<String> givenColumnNameList) {
         List<String> locatedColumnNameList = getColumnNameList();
         for (String columnName : givenColumnNameList) {
@@ -120,13 +145,19 @@ public class TablePage extends BasePage{
         return true;
     }
 
+    /**
+     * VErilen web elementin textini doner.
+     * @param element
+     * @return
+     */
     public String getElementText(WebElement element){
         return element.getText();
     }
 
     /******************************************************************* DUZENLENDI'
-     yukaridaki create butonu locator in ismi degistirildiginde burasi da degismeli
-     o zaman hata kalmaz
+
+     sayfalardaki create butonuna tiklar.
+
      */
     public void clickCreateButton() {
         BrowserUtils.waitForClickablility(createButton, 5);
@@ -134,10 +165,14 @@ public class TablePage extends BasePage{
     }
 
 
-    /******************************************************************* DUZENLENDI KULLNAIRKEN LOCATOR DUZENLEMESI GEREKIYOR'
-     burada dikkatli olmak lazim. Birlestirilmesi gereken locator parcalari degisiyor. Sayfaya has locator
-     degiskeni olusuturup method icine pass edebilrisin genelleme yapmak icin. Boylece implementation ayni kalir
-     parametre olarak email yerine direkt  locator koyabilirsin. EDIT-VIEW-DELETE
+    /*******************************************************************
+     Bu method her bir satridaki view-edit-delete butonlarini locate etmek icin dinamik
+     bir locator ureterek butonu bulur. Ilgili butona gitmek icin o satirdaki bir hcure degerini
+     ve de locate etmek istedigin buton ismini asagidaki gibi kucuk harf olacak sekilde ver.
+     Bu method sana webelement doner. Yukarida direkt olarak buradan aldigi webelemente
+     tiklama methodu var. Eger isine yararsa ona bakabilriisn.
+
+     edit-view-delete
      */
     public WebElement getOneOfTheTripleButtonWithGivenType(String searchValue, String buttonName) {
         String buttonClassAttribute = null;
