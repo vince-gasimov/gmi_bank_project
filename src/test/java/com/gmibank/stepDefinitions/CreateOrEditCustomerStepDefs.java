@@ -1,21 +1,16 @@
 package com.gmibank.stepDefinitions;
 
-import com.gmibank.pages.BasePage;
 import com.gmibank.pages.CreateOrEditCustomer;
-import com.gmibank.pages.Customer;
-import com.gmibank.pages.LoginPage;
-import com.gmibank.utilities.BrowserUtils;
-import io.cucumber.java.en.Given;
+import com.gmibank.pages.CustomersPageWithTable;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.openqa.selenium.Keys;
 
 public class CreateOrEditCustomerStepDefs {
 
     @When("user click Create_New_Customer button under customer_page")
     public void user_click_Create_New_Customer_button_under_customer_page() {
-        new Customer().clickCreateNewCustomerButton();
+        new CustomersPageWithTable().clickCreateButton();
     }
 
     @When("user types ssn number and click search_button")

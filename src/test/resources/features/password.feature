@@ -90,7 +90,7 @@ Feature: Password rules
     And click to register in the registration page
     Then verify that new user is not registered
 
-  @wip
+
   Scenario: a new user should be able to register to the system with a new valid SSN and a valid password with length of 7 chars
     When user types following information and click to register button
       | ssnNumber         |
