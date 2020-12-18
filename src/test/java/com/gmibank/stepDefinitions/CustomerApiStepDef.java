@@ -1,15 +1,13 @@
 package com.gmibank.stepDefinitions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmibank.pojos.Customer;
+import com.gmibank.Api.pojos.Customer;
 import com.gmibank.utilities.ConfigurationReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
-import io.restassured.response.Response.*;
 import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
-import org.junit.Assert;
+
 
 import java.io.IOException;
 
