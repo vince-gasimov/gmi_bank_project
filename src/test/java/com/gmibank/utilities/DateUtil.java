@@ -14,9 +14,9 @@ public class DateUtil {
         String today = new SimpleDateFormat("MM-dd-yy").format(new Date());
         return today;
     }
-    // dd-MM-yy    --> 17-02-19
+    // dd-MM-yyyy    --> 17-02-1990
     public static String todaysDate3(){
-        String today = new SimpleDateFormat("dd-MM-yy").format(new Date());
+        String today = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         return today;
     }
     // yyyy-MM-dd hh:mm:ss   --> 2019-02-17 03:45:11
