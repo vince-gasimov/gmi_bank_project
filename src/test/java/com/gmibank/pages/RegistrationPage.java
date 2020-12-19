@@ -180,7 +180,7 @@ public class RegistrationPage extends BasePage {
             case "email":
                 typeEmail(value);
                 break;
-            case "newpassword":
+            case "password":
                 typeNewPassword(value);
                 break;
             case "newpasswordconfirmation":
@@ -201,7 +201,7 @@ public class RegistrationPage extends BasePage {
         typeMobilePhoneNumber(fieldsValuesMap.get("mobilePhoneNumber"));
         typeUserName(fieldsValuesMap.get("userName"));
         typeEmail(fieldsValuesMap.get("email"));
-        typeNewPassword(fieldsValuesMap.get("newPassword"));
+        typeNewPassword(fieldsValuesMap.get("password"));
         typeNewPasswordConfirmation(fieldsValuesMap.get("passwordConfirmation"));
     }
 
@@ -268,7 +268,7 @@ public class RegistrationPage extends BasePage {
                 return getMessage(userNameErrorMessage);
             case "email":
                 return getMessage(emailErrorMessage);
-            case "newpassword":
+            case "password":
                 return getMessage(newPasswordErrorMessage);
             case "newpasswordconfirmation":
                 return getMessage(passwordConfirmationErrorMessage);
@@ -320,11 +320,12 @@ public class RegistrationPage extends BasePage {
     }
 
     public void registerNewUserWithRandomGeneratedValue(List<String> textBoxList){
-        Map<String, String> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword(textBoxList);
+        String path = "src/test/resources/CreatedUserInformation.xlsx";
+        Map<String, String> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword();
 
-        //password liste icinde yok ekle.   newPassword
+        //password liste icinde yok ekle.   password
         String password = RandomStringGenerator.generateStrongPassword(7,1,1,1,1);
-        keyValuePairs.put("newPassword", password);
+        keyValuePairs.put("password", password);
         keyValuePairs.put("passwordConfirmation", password);
 
         //textboxlari doldur
@@ -351,11 +352,8 @@ public class RegistrationPage extends BasePage {
             } else if(resultMessage.contains("Registration saved!")) {
                 System.out.println("no problem it should be passed");
                 System.out.println(keyValuePairs);
-
-                User user = new User(keyValuePairs);
-                String path = "src/test/resources/CreatedUserInformation.xlsx";
                 ExcelUtilities excelUtilities = new ExcelUtilities(path, "registered");
-                excelUtilities.writeUserIntoExcel(user);
+                excelUtilities.writeUserIntoExcel(keyValuePairs);
                 break;
             }else{
                 System.out.println("unknown error");

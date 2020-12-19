@@ -2,14 +2,10 @@ package com.gmibank.stepDefinitions;
 
 import com.gmibank.pages.*;
 import com.gmibank.utilities.*;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class TestClass {
 
@@ -87,5 +83,24 @@ public class TestClass {
         for (String s : map.keySet()) {
             System.out.println(s + " " + map.get(s));
         }
+        ExcelUtilities excelUtilities = new ExcelUtilities("src/test/resources/CreatedUserInformation.xlsx", "registered");
+        System.out.println("excelUtilities.getColumnsNames() = " + excelUtilities.getColumnsNames());
+        System.out.println(excelUtilities.getColumnsNames().indexOf("ssnNumber"));
+        excelUtilities.writeUserIntoExcel(map);
+
+    }
+
+    @Test
+    public void test5() {
+        String path = "src/test/resources/CreatedUserInformation.xlsx";
+        ExcelUtilities excel = new ExcelUtilities(path, "registered");
+        int rowNum = excel.rowCount();
+        System.out.println("rowNum = " + rowNum);
+        System.out.println("excel.getDataList() = " + excel.getDataList());
+        excel.removeLastRow();
+        System.out.println("excel.getDataList() = " + excel.getDataList());
+        rowNum = excel.rowCount();
+        excel.saveWorkBook();
+
     }
 }

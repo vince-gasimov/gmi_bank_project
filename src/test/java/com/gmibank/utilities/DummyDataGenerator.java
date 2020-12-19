@@ -149,4 +149,17 @@ public class DummyDataGenerator {
         }
         return null;
     }
+
+    /**
+     * fake data uretir (password dahil) register yapmadan direkt excl dosyasina yazar.
+     */
+
+    public void generateRandomlyUserInfoAndWriteIntoExcelWithoutRegistering(){
+        Map<String, String> map = new HashMap<>();
+        map = DummyDataGenerator.generateAllNeededInformationExceptPassword();
+        ExcelUtilities excelUtilities = new ExcelUtilities("src/test/resources/CreatedUserInformation.xlsx", "registered");
+        String password = RandomStringGenerator.generateStrongPassword(7,1,1,1,1);
+        map.put("password", password);
+        excelUtilities.writeUserIntoExcel(map);
+    }
 }

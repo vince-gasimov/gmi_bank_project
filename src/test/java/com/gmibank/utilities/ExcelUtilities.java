@@ -1,10 +1,6 @@
 package com.gmibank.utilities;
 
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,10 +11,27 @@ import java.util.Map;
 // These are the reusable custom methods we can use in our test classes
 public class ExcelUtilities {
 
-    private Workbook workBook;
-    private Sheet workSheet;
+    public Workbook workBook;
+    public Sheet workSheet;
     private String path;
 
+    /**
+     *
+     * eger workbook icinde birden fazla sheet uzerinde calisilacaksa diye bu methdu ekledim.
+     * ayni zamanda getter ve setter'lar ile ugrasmmamak icin public yaptim.
+     * eger const icinde verdiginden farkli sheet uzerinde calisacaksan bu method ile once
+     * calisacagin sheet'i set etmelisin.
+     * @param sheetName
+     */
+    public void setWorkSheet(String sheetName) {
+        this.workSheet = workBook.getSheet(sheetName);
+    }
+
+    /**
+     * const cagrildiginda dosya acilip erisime sunuluyor, tekrardan  acmaya gerek yok
+     * @param path
+     * @param sheetName
+     */
     public ExcelUtilities(String path, String sheetName) {//This Constructor is to open and access the excel file
         this.path = path;
         try {
@@ -33,6 +46,11 @@ public class ExcelUtilities {
         }
     }
 
+    /**
+     * o anda aktif olan (set edilmis olan) sheet kolon sayisini doner. Ilk satirdan hesaplama
+     * yapar.
+     * @return
+     */
     //===============Getting the number of columns in a specific single row=================
     public int columnCount() {
         //getting how many numbers in row 1
@@ -127,51 +145,42 @@ public class ExcelUtilities {
     }
 
 
-    public void writeUserIntoExcel(User user) {
-        //**String excelFilePath = "src/test/resources/CreatedUserInformation.xlsx";
-
-        // Using XSSF for xlsx format, for xls use HSSF
-        //workBook = new XSSFWorkbook();
+    public void writeUserIntoExcel(Map<String, String> userInfoMap) {
 
         int rowIndex = rowCount();;
+        Row row = workSheet.createRow(rowIndex);
+        for (String key : userInfoMap.keySet()) {
+            setCellData(userInfoMap.get(key),key,rowIndex);
+        }
+        saveWorkBook();
+    }
 
-        Row row = workSheet.createRow(rowIndex++);
-        int cellIndex = 0;
-        //first place in row is ssn
-        row.createCell(cellIndex++).setCellValue(user.getSsn());
+    public void removeLastRow() {
+        int lastRowNumIndex = rowCount() - 1;
+        if (lastRowNumIndex != 0){
+            Row row = workSheet.getRow(lastRowNumIndex);
+            workSheet.removeRow(row);
+        }else{
+            System.out.println("just headers exist!!");
+        }
 
-        //second place in row is firstName
-        row.createCell(cellIndex++).setCellValue(user.getFirstName());
+    }
 
-        //third place in row is lastName
-        row.createCell(cellIndex++).setCellValue(user.getLastName());
-
-        //fourth place in row is address
-        row.createCell(cellIndex++).setCellValue(user.getAddress());
-
-        //fourth place in row is mobilePhoneNumber
-        row.createCell(cellIndex++).setCellValue(user.getMobilePhoneNumber());
-
-        //fourth place in row is username
-        row.createCell(cellIndex++).setCellValue(user.getUsername());
-
-        //fourth place in row is email
-        row.createCell(cellIndex++).setCellValue(user.getEmail());
-
-        //fourth place in row is password
-        row.createCell(cellIndex++).setCellValue(user.getPassword());
-
-        //write this workbook into excel file.
+    /**
+     * dosya uzerinde okuma manipulasyn yaptiktan sonra kaydetmen lazim. Aksi halde degisiklik
+     * geri alinir.
+     */
+    public void saveWorkBook(){
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(path);
             workBook.write(fileOutputStream);
             fileOutputStream.close();
 
             System.out.println(path + " i[enter link description here][1]s successfully written");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 }

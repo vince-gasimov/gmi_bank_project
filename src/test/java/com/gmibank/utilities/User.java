@@ -163,28 +163,7 @@ public class User {
         this.email = userInfoMap.get("email");
         this.password = userInfoMap.get("newPassword");
         this.zipCode = userInfoMap.get("zipCode");
-        this
-        private  String zipCode;
 
-        private String city;
-
-        private String state;
-
-        private String phoneNumber;
-
-        private boolean activation;
-
-        private String profiles;
-
-        private int id;
-
-        private String createdDate;
-
-        private String account1;
-
-        private String account2;
-
-        private boolean zelloEnrolled;
     }
 
     public String getSsn() {
