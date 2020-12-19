@@ -28,7 +28,7 @@ public class CustomerApiStepDef {
                 "Accept",
                 ContentType.JSON).
                     and().
-                    queryParam("size", 1500) //Customer'i alirken size'i belirtir
+                    queryParam("size", 20) //Customer'i alirken size'i belirtir
                 .when()
                                     .get(customer_Api_endpoint)
                 .then()
@@ -37,7 +37,7 @@ public class CustomerApiStepDef {
                                     .statusCode(200)
                                     .extract()
                                     .response();
-        //response.prettyPrint();
+        response.prettyPrint();
 
         //Eger post, put, patch request yapiyorsak accept type yerine yerine ==> contentType(ContentType.JSON) kullanilmali
         //get ve delete de ==> accept type kullanabiliriz
@@ -71,7 +71,7 @@ public class CustomerApiStepDef {
 
        //  System.out.println("FirstName: " + customers[0].getFirstName());
 
-      for (int i=0; i< customers.length;i++) {
+/*      for (int i=0; i< customers.length;i++) {
             System.out.println("ID: " + customers[i].getId());
         }
 
