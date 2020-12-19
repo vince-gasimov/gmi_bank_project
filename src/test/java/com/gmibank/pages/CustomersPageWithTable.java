@@ -2,11 +2,13 @@ package com.gmibank.pages;
 
 
 import com.gmibank.utilities.BrowserUtils;
+import com.gmibank.utilities.RandomStringGenerator;
 import com.gmibank.utilities.StringUtilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.Random;
 
 public class CustomersPageWithTable extends TablePage{
     /***
@@ -96,6 +98,13 @@ public class CustomersPageWithTable extends TablePage{
             result++;
         }
         return result;
+    }
+
+    public String getOneRandomEmailFromCurrentPage(){
+        Random random = new Random();
+        int maxNumber = getAllItemsInTheGivenColumn(columnList.get(1).getText()).size() - 1;
+        int randomNumber = random.nextInt(maxNumber);
+        return getAllItemsInTheGivenColumn("Email").get(randomNumber).getText();
     }
 
 }

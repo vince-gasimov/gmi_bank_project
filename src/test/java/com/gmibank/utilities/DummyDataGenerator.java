@@ -23,6 +23,7 @@ public class DummyDataGenerator {
     }
 
 
+
     public static String generateFirstName() {
         return faker.name().firstName();
     }
