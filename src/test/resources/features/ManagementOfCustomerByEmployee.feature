@@ -1,5 +1,5 @@
 Feature: Employee can manage customer
-  @wip
+
   Scenario: Employee can see user information in a table with specified columns
     Given user sign in to the system as "employee"
     When user navigates to "Manage Customers" page under My Operations menu
