@@ -25,7 +25,7 @@ public class DateAndAccountMngPage extends UsersPageWithTable {
     @FindBy(xpath = "//a[@class='btn btn-primary']")
     public WebElement editButton;
 
-    @FindBy(xpath = "//input[@id='tp-customer-zelleEnrolled']")
+    @FindBy(xpath = "//input[@name='zelleEnrolled']")
     public WebElement zelleEnrolledRadioButton;
 
 
@@ -39,6 +39,8 @@ public class DateAndAccountMngPage extends UsersPageWithTable {
     public WebElement employeeDropDownitem;
 
 
+@FindBy(xpath = "//tbody/tr")
+public List<WebElement> tableRow;
 
 
     //üzerine calis
