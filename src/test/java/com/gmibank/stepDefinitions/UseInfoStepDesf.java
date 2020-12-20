@@ -56,7 +56,7 @@ public class UseInfoStepDesf {
     @Then("user  clicks on language  drop-down and chooses one of the English and Turkish language")
     public void user_clicks_on_language_drop_down_and_chooses_one_of_the_English_and_Turkish_language() throws InterruptedException {
         Select select = new Select(page.languageDropDown);
-        select.selectByIndex(1);
+        select.selectByIndex(0);
         String s = page.languageDropDown.getText();
 
         Assert.assertTrue(s.contains("Türkçe"));
