@@ -2,11 +2,13 @@ package com.gmibank.pages;
 
 
 import com.gmibank.utilities.BrowserUtils;
+import com.gmibank.utilities.RandomStringGenerator;
 import com.gmibank.utilities.StringUtilities;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.Random;
 
 public class CustomersPageWithTable extends TablePage{
     /***
@@ -29,7 +31,20 @@ public class CustomersPageWithTable extends TablePage{
      */
     @FindBy(xpath = "//ul[@class='pagination']//li")
     public List<WebElement> pageLinkButtons;
+    /**
+     * bir user silinmek istediginde onay isteniyor. Bu onay kutucugunu temsil eder.
+     */
+    @FindBy(id = "gmibankfrontendApp.tPCustomer.delete.question")
+    public WebElement deleteConfirmationBox;
 
+    @FindBy(id = "jhi-confirm-delete-tPCustomer")
+    public WebElement deleteButtonOnConfirmationBox;
+
+    /**
+     * sayfada yapilan islmein basarili olup olmaidigni donen toasty alert mesaji
+     */
+    @FindBy(xpath = "//div[@role='alert']")
+    public  WebElement toastAlert;
 
     /**
      * TablePage icinde tanimlanmis olan ayni isimli method override edilmistir. Bu sayfada arama yapmak istiyorsan
@@ -55,6 +70,29 @@ public class CustomersPageWithTable extends TablePage{
             BrowserUtils.waitFor(2);
         }
         return null;
+    }
+
+    public String getTextOfWarning(){
+        BrowserUtils.waitForVisibility(deleteConfirmationBox,5);
+        System.out.println(deleteConfirmationBox.getText());
+        return deleteConfirmationBox.getText();
+    }
+
+    public void clickDeleteOnConfirmationBox(){
+        BrowserUtils.waitForVisibility(deleteButtonOnConfirmationBox,5);
+        System.out.println(deleteButtonOnConfirmationBox.getText());
+        deleteButtonOnConfirmationBox.click();
+    }
+
+    /**
+     * bir islem sonrasinda islemin basarili olup olmaidigni donen toasty mesaji, belirtilen content
+     * iceriyor mu.
+     * @param message
+     * @return
+     */
+    public boolean doesContainSuchAMessageInsideAlert(String message){
+        BrowserUtils.waitForVisibility(toastAlert,5);
+        return toastAlert.getText().contains(message);
     }
 
     //sonraki sayfaya gecmek icin kullanilacak butonu doner. Asagida direk sayfa degistirme methodu var.
@@ -97,5 +135,15 @@ public class CustomersPageWithTable extends TablePage{
         }
         return result;
     }
+
+    public String getOneRandomEmailFromCurrentPage(){
+        Random random = new Random();
+        int maxNumber = getAllItemsInTheGivenColumn(columnList.get(1).getText()).size() - 2;
+        int randomNumber = random.nextInt(maxNumber);
+        return getAllItemsInTheGivenColumn("Email").get(randomNumber).getText();
+    }
+
+
+
 
 }
