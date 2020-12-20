@@ -1,6 +1,6 @@
 Feature:System should allow Admin to create a new Account
 
-  @us19
+  @us19 @bug
   Scenario:US_19_TC01User should create a description for the new account and it cannot be blank
 
     When user navigates to "Sign in" page under account menu icon
