@@ -1,6 +1,8 @@
 package com.gmibank.utilities;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
@@ -24,4 +26,16 @@ public class DateUtil {
         String today = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
         return today;
     }
+
+    public static String todaysDate5(){
+        String today = new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date());
+        return today;
+    }
+
+    public static String todaysDate6(){
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        return today;
+    }
+
+
 }

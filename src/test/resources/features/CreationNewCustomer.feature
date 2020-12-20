@@ -1,4 +1,4 @@
-@All
+@wip
 Feature: Employee creates a new customer
 
   Background:
@@ -13,9 +13,10 @@ Feature: Employee creates a new customer
 
 
     #user story Kadir abi ve Erdal Abi
+
   Scenario: US_011 TC_001 The date cannot be typed earlier, in the past, at the time of creation a customer
     And user click date&time box
-    And user types invalid date "12-11-20 03:45" and press tab key
+    And user types invalid date "12-11-2020 03:45" and press tab key
     Then verify that invalid date is not accepted
 
   Scenario: US_011 TC_002 Date should be written at the time of customer creation
@@ -29,9 +30,9 @@ Feature: Employee creates a new customer
     Then verify that valid date form is accepted
 
   Scenario: US_011 TC_004 The date should not be created as day. month, year, hour and minute
-    And user click Date&Time box
+    And user click date&time box
     And user types invalid date form "dd-MM-yy hh:mm" and press tab key
-    Then verify that valid date form is not accepted
+    Then verify that invalid date form is not accepted
 
   Scenario: US_011 TC_005 User can choose a user from the registration and it cannot be blank
     And user click User box
@@ -48,9 +49,9 @@ Feature: Employee creates a new customer
     And user select an account
     Then verify that selected an account
 
-  Scenario: US_011 TC_008 User can select Zelle Enrolled optionally and save it
-    And user click Zelle Enrolled check box and click Save button
-    Then verify that clicked Zelle Enrolled check box and clicked Save button
+  Scenario: US_011 TC_008 User can select Zelle Enrolled optionally
+    And user click Zelle Enrolled check box
+    Then verify that clicked Zelle Enrolled check box
 
 
 
