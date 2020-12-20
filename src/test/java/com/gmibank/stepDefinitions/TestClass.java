@@ -2,27 +2,31 @@ package com.gmibank.stepDefinitions;
 
 import com.gmibank.pages.*;
 import com.gmibank.utilities.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class TestClass {
 
     @BeforeMethod
     public void setup() {
-/*    WebDriver driver = Driver.getDriver();
+    WebDriver driver = Driver.getDriver();
     driver.get(ConfigurationReader.getProperty("url"));
     driver.manage().window().maximize();
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);*/
+    driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
     }
 
 
     @AfterMethod
     public void tearDown() {
-/*    BrowserUtils.waitFor(1);
-    Driver.closeDriver();*/
+    BrowserUtils.waitFor(1);
+    Driver.closeDriver();
     }
 
     @Test
@@ -105,5 +109,33 @@ public class TestClass {
         rowNum = excel.rowCount();
         excel.saveWorkBook();
 
+    }
+
+    @Test
+    public void test6() throws Exception {
+        BasePage basePage = new BasePage();
+        basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
+        LoginPage loginPage = new LoginPage();
+        loginPage.loginWithValidInfo("admin");
+        BrowserUtils.waitFor(2);
+        basePage.clickGivenNavItemAndSelectGivenDropDownItem("Administration", "User management");
+        UsersPageWithTable usersPageWithTable = new UsersPageWithTable();
+        BrowserUtils.waitForClickablility(usersPageWithTable.createButton,5);
+        String randomEmail = usersPageWithTable.getOneRandomEmailFromCurrentPage();
+        System.out.println("randomEmail = " + randomEmail);
+        String firstActivationStatus = usersPageWithTable.getActivationStatus(randomEmail);
+        System.out.println("firstActivationStatus = " + firstActivationStatus);
+        usersPageWithTable.clickAndChangeActivationStatus(randomEmail);
+        String expectedResultMessage = "A user is updated with";
+        Assert.assertTrue(usersPageWithTable.doesContainSuchAMessageInsideAlert(expectedResultMessage));
+        BrowserUtils.waitForInvisibility(By.xpath("//div[@role='alert']"),10);
+        Driver.getDriver().navigate().refresh();
+        //BrowserUtils.waitFor(10);
+        WebElement element = usersPageWithTable.locateWantedCellWithGivenColumnAndValue("Email", randomEmail);
+        BrowserUtils.hover(element);
+        String secondActivationStatus = usersPageWithTable.getActivationStatus(randomEmail);
+
+        System.out.println("secondActivationStatus = " + secondActivationStatus);
+        Assert.assertFalse(firstActivationStatus.equals(secondActivationStatus));
     }
 }

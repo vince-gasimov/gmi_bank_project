@@ -1,11 +1,14 @@
 package com.gmibank.pages;
 
 import com.gmibank.utilities.BrowserUtils;
+import com.gmibank.utilities.Driver;
 import com.gmibank.utilities.StringUtilities;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.Random;
 
 public class UsersPageWithTable extends TablePage {
     /***
@@ -28,6 +31,12 @@ public class UsersPageWithTable extends TablePage {
      */
     @FindBy(xpath = "//ul[@class='pagination']//li")
     public List<WebElement> pageLinkButtons;
+
+    /**
+     * activation button list, both activated and deactivated
+     */
+    @FindBy(xpath = "//span[contains(text(),'ctivated')]/..")
+    public List<WebElement> activationButtonList;
 
 
     /**
@@ -96,4 +105,43 @@ public class UsersPageWithTable extends TablePage {
         }
         return result;
     }
+
+    /**
+     * Activation-Deactivation butonunu locate eder verilen email'e gore.
+     * @param email
+     * @return
+     */
+    public WebElement getActivationButton(String email){
+        //     //td[text()='globalcostumer1@gmail.com']/following-sibling::td/button
+        String locator = "//td[text()='" + email + "']/following-sibling::td/button";
+        return Driver.getDriver().findElement(By.xpath(locator));
+    }
+
+    /**
+     * verilen email degerine gore locate edilen activation-deactivation butonunun status'unu doner.
+     * @param email
+     * @return
+     */
+    public String getActivationStatus(String email){
+        WebElement activationButton = getActivationButton(email);
+        return activationButton.getText();
+    }
+
+    /**
+     * activation deactivation butonuna tiklar.
+     * @param email
+     */
+    public void clickAndChangeActivationStatus(String email){
+        WebElement activationButton = getActivationButton(email);
+        BrowserUtils.waitForClickablility(activationButton,5);
+        activationButton.click();
+    }
+
+    public String getOneRandomEmailFromCurrentPage(){
+        Random random = new Random();
+        int maxNumber = getAllItemsInTheGivenColumn(columnList.get(2).getText()).size() - 2;
+        int randomNumber = random.nextInt(maxNumber);
+        return getAllItemsInTheGivenColumn("Email").get(randomNumber).getText();
+    }
+
 }

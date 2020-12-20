@@ -43,6 +43,13 @@ public class TablePage extends BasePage{
     @FindBy(css = ".btn.btn-danger.btn-sm")
     public List<WebElement> deleteButtonList;
 
+
+    /**
+     * sayfada yapilan islmein basarili olup olmaidigni donen toasty alert mesaji
+     */
+    @FindBy(xpath = "//div[@role='alert']")
+    public  WebElement toastAlert;
+
     public int getButtonCountInTheCurrentPage(String buttonType){
         switch (buttonType){
             case "view":
@@ -58,6 +65,16 @@ public class TablePage extends BasePage{
         return -1;
     }
 
+    /**
+     * bir islem sonrasinda islemin basarili olup olmaidigni donen toasty mesaji, belirtilen content
+     * iceriyor mu.
+     * @param message
+     * @return
+     */
+    public boolean doesContainSuchAMessageInsideAlert(String message){
+        BrowserUtils.waitForVisibility(toastAlert,5);
+        return toastAlert.getText().contains(message);
+    }
 
 
     /*******************************************************************'

@@ -40,11 +40,7 @@ public class CustomersPageWithTable extends TablePage{
     @FindBy(id = "jhi-confirm-delete-tPCustomer")
     public WebElement deleteButtonOnConfirmationBox;
 
-    /**
-     * sayfada yapilan islmein basarili olup olmaidigni donen toasty alert mesaji
-     */
-    @FindBy(xpath = "//div[@role='alert']")
-    public  WebElement toastAlert;
+
 
     /**
      * TablePage icinde tanimlanmis olan ayni isimli method override edilmistir. Bu sayfada arama yapmak istiyorsan
@@ -84,16 +80,7 @@ public class CustomersPageWithTable extends TablePage{
         deleteButtonOnConfirmationBox.click();
     }
 
-    /**
-     * bir islem sonrasinda islemin basarili olup olmaidigni donen toasty mesaji, belirtilen content
-     * iceriyor mu.
-     * @param message
-     * @return
-     */
-    public boolean doesContainSuchAMessageInsideAlert(String message){
-        BrowserUtils.waitForVisibility(toastAlert,5);
-        return toastAlert.getText().contains(message);
-    }
+
 
     //sonraki sayfaya gecmek icin kullanilacak butonu doner. Asagida direk sayfa degistirme methodu var.
     public WebElement getNextPageButton(){
