@@ -7,7 +7,7 @@ import java.util.*;
 
 public class DummyDataGenerator {
 
-    private static Faker faker = new Faker();
+    public static Faker faker = new Faker();
 
     private static List<String> phoneNumberPool = Arrays.asList("432-131-5405", "206-381-6032", "189-843-0512", "511-434-3547", "588-697-5116", "319-959-3517", "118-675-2045", "715-457-6770", "107-834-0930", "967-954-5421");
 
@@ -25,6 +25,7 @@ public class DummyDataGenerator {
     public static String ssnPatternManipulation(String numbersWithoutPattern) {
         return numbersWithoutPattern.substring(0, 3) + "-" + numbersWithoutPattern.substring(3, 5) + "-" + numbersWithoutPattern.substring(5);
     }
+
 
 
     public static String generateFirstName() {

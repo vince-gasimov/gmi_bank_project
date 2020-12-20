@@ -52,10 +52,13 @@ public class TestClass {
         BrowserUtils.waitFor(2);
         basePage.clickGivenNavItemAndSelectGivenDropDownItem("My Operations", "Manage Customers");
         CustomersPageWithTable customersPageWithTable = new CustomersPageWithTable();
-        customersPageWithTable.clickGivenButtonForWantedColumnAndValue("Email", "07-12-20-14-38@US013.com", "view");
+        customersPageWithTable.clickGivenButtonForWantedColumnAndValue("Email", "gmiprojesi@gmail.com", "view");
         System.out.println("basePage.getPageHeader() = " + basePage.getPageHeader());
-        Assert.assertTrue(basePage.getPageHeader().equals("Customer [35132]"));
-        BrowserUtils.waitFor(3);
+        BrowserUtils.waitFor(2);
+        CustomerInfoPageForOneUser customerInfoPageForOneUser = new CustomerInfoPageForOneUser();
+        System.out.println(customerInfoPageForOneUser.emailHeader.getText());
+        System.out.println(customerInfoPageForOneUser.getGivenTextValue("email"));
+        //System.out.println(customerInfoPageForOneUser.getGivenTextValue("country"));
     }
 
 

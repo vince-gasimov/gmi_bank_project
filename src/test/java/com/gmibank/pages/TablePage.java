@@ -3,10 +3,14 @@ package com.gmibank.pages;
 import com.gmibank.utilities.BrowserUtils;
 import com.gmibank.utilities.Driver;
 import com.gmibank.utilities.StringUtilities;
+import io.cucumber.java.it.Ma;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TablePage extends BasePage{
 /***
@@ -29,6 +33,32 @@ public class TablePage extends BasePage{
 
     @FindBy(xpath = "//table//th")
     public List<WebElement> columnList;
+
+    @FindBy(css = ".btn.btn-info.btn-sm")
+    public List<WebElement> viewButtonList;
+
+    @FindBy(css = ".btn.btn-primary.btn-sm")
+    public List<WebElement> editButtonList;
+
+    @FindBy(css = ".btn.btn-danger.btn-sm")
+    public List<WebElement> deleteButtonList;
+
+    public int getButtonCountInTheCurrentPage(String buttonType){
+        switch (buttonType){
+            case "view":
+                return viewButtonList.size();
+            case "edit":
+                return editButtonList.size();
+            case "delete":
+                return deleteButtonList.size();
+            default:
+                System.out.println("there is no such a button with this name!!!");
+                break;
+        }
+        return -1;
+    }
+
+
 
     /*******************************************************************'
      Tablo icinde eger bir degere gore bir satirdaki bilgiyi bulmak istiyorsan asagidaki method icine
@@ -192,6 +222,31 @@ public class TablePage extends BasePage{
          */
         String locator = "//td[text()='" + searchValue + "']/following-sibling::td//a[@class='" + buttonClassAttribute + "']";
         return Driver.getDriver().findElement(By.xpath(locator));
+    }
+
+    /**
+     * bu methodu; bir satirdaki herhangi bir huceredeki degeri bilip (degerin sayfada unique olmasi gerekiyor)
+     * satiraki butun bilgileri cekmek istediginde kullanabilirsin. Daha sonra bu satirdaki bilgilerle
+     * kolon isimlerini kullanrak map uretebilirsin baska bir method ile.
+     * @param cellValue
+     * @return
+     */
+    public List<String> getAllInformationFromOneLineUsingGivenCellValue(String cellValue){
+        //    //*[contains(text(),'Tako')]/ancestor::tr  >>>> one lcoator sample
+
+        String locator = "//*[contains(text(),'" + cellValue + "')]/ancestor::tr/td";
+        List<WebElement>  cellElementList = Driver.getDriver().findElements(By.xpath(locator));
+        return BrowserUtils.getElementsText(cellElementList);
+    }
+
+    public Map<String, String> generateMapForOneLineKeyValuePairsUsingGivenCellValue(String cellValue){
+        Map<String, String> columnInfoMap = new HashMap<>();
+        List<String> values = getAllInformationFromOneLineUsingGivenCellValue(cellValue);
+        List<String> columns = getColumnNameList();
+        for (int i = 0; i < columns.size(); i++) {
+             columnInfoMap.put(columns.get(i), values.get(i));
+        }
+        return columnInfoMap;
     }
 
 }
