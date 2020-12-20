@@ -1,4 +1,4 @@
-@wip
+
 Feature: Employee creates a new customer
 
   Background:
