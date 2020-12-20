@@ -3,13 +3,18 @@ package com.gmibank.stepDefinitions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmibank.Api.pojos.Customer;
 import com.gmibank.utilities.ConfigurationReader;
+import com.gmibank.utilities.ReadTxt;
+import com.gmibank.utilities.WriteToTxt;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.response.Response;
 import io.restassured.http.ContentType;
+import org.junit.Assert;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
@@ -37,7 +42,7 @@ public class CustomerApiStepDef {
                                     .statusCode(200)
                                     .extract()
                                     .response();
-        response.prettyPrint();
+        //response.prettyPrint();
 
         //Eger post, put, patch request yapiyorsak accept type yerine yerine ==> contentType(ContentType.JSON) kullanilmali
         //get ve delete de ==> accept type kullanabiliriz
@@ -49,6 +54,7 @@ public class CustomerApiStepDef {
          */
     }
 
+    List<String> allSsn = new ArrayList<>();
     @Given("user deserialization customer data json to java pojo")
     public void user_deserialization_customer_data_json_to_java_pojo() throws IOException {
 
@@ -68,6 +74,19 @@ public class CustomerApiStepDef {
 
         ObjectMapper objectMapper = new ObjectMapper();
         customers=objectMapper.readValue(response.asString(),Customer[].class);
+
+        for (int i =0; i<customers.length; i++){
+            allSsn.add(customers[i].getSsn());
+        }
+        System.out.println(allSsn);
+
+        WriteToTxt.saveDataInFile("allCustomerSsn1.txt", customers);
+        List<String > customerSsnList = ReadTxt.returnCustomerSNNList("allCustomerSsn1.txt");
+        Assert.assertEquals("not verify", allSsn, customerSsnList);
+
+/*        WriteToTxt.saveDataInFile("SsnFile.txt", customers);
+        List<String > allCustomer = ReadTxt.returnCustomerSNNList("SsnFile.txt");
+        Assert.assertEquals("not verified", allSsn, allCustomer);
 
        //  System.out.println("FirstName: " + customers[0].getFirstName());
 
