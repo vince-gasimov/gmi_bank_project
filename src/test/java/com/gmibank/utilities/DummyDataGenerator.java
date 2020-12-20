@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class DummyDataGenerator {
 
-    private static Faker faker = new Faker();
+    public static Faker faker = new Faker();
 
     public static String generateSsnNumber() {
         return faker.idNumber().ssnValid();
