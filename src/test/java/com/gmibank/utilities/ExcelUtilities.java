@@ -1,6 +1,8 @@
 package com.gmibank.utilities;
 
+import com.gmibank.pages.RegistrationPage;
 import org.apache.poi.ss.usermodel.*;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +18,11 @@ public class ExcelUtilities {
     private String path;
 
     /**
-     *
      * eger workbook icinde birden fazla sheet uzerinde calisilacaksa diye bu methdu ekledim.
      * ayni zamanda getter ve setter'lar ile ugrasmmamak icin public yaptim.
      * eger const icinde verdiginden farkli sheet uzerinde calisacaksan bu method ile once
      * calisacagin sheet'i set etmelisin.
+     *
      * @param sheetName
      */
     public void setWorkSheet(String sheetName) {
@@ -29,6 +31,7 @@ public class ExcelUtilities {
 
     /**
      * const cagrildiginda dosya acilip erisime sunuluyor, tekrardan  acmaya gerek yok
+     *
      * @param path
      * @param sheetName
      */
@@ -49,6 +52,7 @@ public class ExcelUtilities {
     /**
      * o anda aktif olan (set edilmis olan) sheet kolon sayisini doner. Ilk satirdan hesaplama
      * yapar.
+     *
      * @return
      */
     //===============Getting the number of columns in a specific single row=================
@@ -61,6 +65,21 @@ public class ExcelUtilities {
     public int rowCount() {
         return workSheet.getLastRowNum() + 1;
     }//adding 1 to get the actual count
+
+
+    public Map<String, String> getLastRow(){
+        List<String> columns = getColumnsNames();
+        int lastRow = rowCount();
+        Row row = workSheet.getRow(lastRow - 1);
+        // creating map of the row using the column and value
+        // key=column, value=cell
+        Map<String, String> rowMap = new HashMap<String, String>();
+        for (Cell cell : row) {
+            int columnIndex = cell.getColumnIndex();
+            rowMap.put(columns.get(columnIndex), cell.toString());
+        }
+        return rowMap;
+    }
 
     //==============When you enter row and column number, then you get the data==========
     public String getCellData(int rowNum, int colNum) {
@@ -109,6 +128,21 @@ public class ExcelUtilities {
         return data;
     }
 
+    /**
+     * check whether there exist any row except for header
+     * @return
+     */
+    public boolean doesExistAnyRowExceptForHeader(){
+        if (rowCount() == 1){
+            System.out.println(rowCount());
+            return false;
+        }
+        System.out.println(rowCount());
+        return true;
+    }
+
+
+
     //==============going to the first row and reading each row one by one==================//
     public List<String> getColumnsNames() {
         List<String> columns = new ArrayList<>();
@@ -147,20 +181,21 @@ public class ExcelUtilities {
 
     public void writeUserIntoExcel(Map<String, String> userInfoMap) {
 
-        int rowIndex = rowCount();;
+        int rowIndex = rowCount();
+        ;
         Row row = workSheet.createRow(rowIndex);
         for (String key : userInfoMap.keySet()) {
-            setCellData(userInfoMap.get(key),key,rowIndex);
+            setCellData(userInfoMap.get(key), key, rowIndex);
         }
         saveWorkBook();
     }
 
     public void removeLastRow() {
         int lastRowNumIndex = rowCount() - 1;
-        if (lastRowNumIndex != 0){
+        if (lastRowNumIndex != 0) {
             Row row = workSheet.getRow(lastRowNumIndex);
             workSheet.removeRow(row);
-        }else{
+        } else {
             System.out.println("just headers exist!!");
         }
 
@@ -170,7 +205,7 @@ public class ExcelUtilities {
      * dosya uzerinde okuma manipulasyn yaptiktan sonra kaydetmen lazim. Aksi halde degisiklik
      * geri alinir.
      */
-    public void saveWorkBook(){
+    public void saveWorkBook() {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(path);
             workBook.write(fileOutputStream);

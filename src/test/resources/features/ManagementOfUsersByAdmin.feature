@@ -1,5 +1,5 @@
 Feature: System should allow the Admin to manage users
-  @wip
+
   Scenario: Verify that admin can activate a user role
     Given user sign in to the system as "admin"
     And user navigates to "User management" page under "Administration" menu

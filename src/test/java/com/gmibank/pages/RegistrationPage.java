@@ -3,12 +3,15 @@ package com.gmibank.pages;
 
 import com.gmibank.utilities.*;
 import net.bytebuddy.implementation.bytecode.Throw;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -205,6 +208,23 @@ public class RegistrationPage extends BasePage {
         typeNewPasswordConfirmation(fieldsValuesMap.get("passwordConfirmation"));
     }
 
+    public Map<String, String> getLastRegistrant() throws Exception {
+
+        //if there does not exist any row except for headers
+        String path = ConfigurationReader.getProperty("registration_excel_path");
+        String sheetName = ConfigurationReader.getProperty("sheet_name");
+        ExcelUtilities excel = new ExcelUtilities(path, sheetName);
+        if (!excel.doesExistAnyRowExceptForHeader()) {
+            RegistrationPage registrationPage = new RegistrationPage();
+            registrationPage.navigateAndRegisterNewUserWithRandomGeneratedValue();
+            System.out.println("kosul icine girdi");
+        }
+        //System.out.println("yeni olusturma ve son satiri alma methodu icindeyim" + excel.getLastRow());
+        ExcelUtilities excelWithRwgistrant = new ExcelUtilities(path, sheetName);
+        return excelWithRwgistrant.getLastRow();
+    }
+
+
     public void registerNewUser(Map<String, String> fieldsValuesMap){
         typeAllFieldInformation(fieldsValuesMap);
         if (!isThereAnyError()){
@@ -218,11 +238,7 @@ public class RegistrationPage extends BasePage {
     public boolean isThereAnyError(){
         List<WebElement> errorWebElements = getAllErrors();
         int size = getAllErrors().size();
-        if (size == 0){
-            return false;
-        }else{
-            return true;
-        }
+        return size != 0;
     }
 
     public List<WebElement> getAllErrors(){
@@ -303,11 +319,7 @@ public class RegistrationPage extends BasePage {
             return true;
         }else if(numberOfLightingLed == 4 && countRgbValue(rgbValues,noLightingColor) == 1){
             return true;
-        }else if(numberOfLightingLed == 5 && countRgbValue(rgbValues,noLightingColor) == 0){
-            return true;
-        }else{
-            return false;
-        }
+        }else return numberOfLightingLed == 5 && countRgbValue(rgbValues, noLightingColor) == 0;
     }
 
     //ilgili pattern ile ayni pattern'a sahip olan isik sayisi doner
@@ -319,8 +331,21 @@ public class RegistrationPage extends BasePage {
         return count;
     }
 
-    public void registerNewUserWithRandomGeneratedValue(List<String> textBoxList){
-        String path = "src/test/resources/CreatedUserInformation.xlsx";
+
+    public void navigateAndRegisterNewUserWithRandomGeneratedValue() throws Exception {
+        BasePage basePage = new BasePage();
+        basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Register");
+        BrowserUtils.waitForVisibility(ssnTextBox,5);
+        registerNewUserWithRandomGeneratedValue();
+    }
+
+    /**
+     * gerekli nilgiler uretilerek yeni bir kayit olusuturulr, sonrainda excel dosyaina yazdirilir.
+     * kayit olsutururken ssn veya username tekrari ortaya cikarsa yenilerii olustrr ve dener.
+     *
+     */
+    public void registerNewUserWithRandomGeneratedValue(){
+        String path = ConfigurationReader.getProperty("registration_excel_path");
         Map<String, String> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword();
 
         //password liste icinde yok ekle.   password

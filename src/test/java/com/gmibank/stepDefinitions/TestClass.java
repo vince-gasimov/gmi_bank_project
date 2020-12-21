@@ -98,16 +98,22 @@ public class TestClass {
     }
 
     @Test
-    public void test5() {
+    public void test5() throws Exception {
         String path = "src/test/resources/CreatedUserInformation.xlsx";
         ExcelUtilities excel = new ExcelUtilities(path, "registered");
-        int rowNum = excel.rowCount();
+/*        int rowNum = excel.rowCount();
         System.out.println("rowNum = " + rowNum);
         System.out.println("excel.getDataList() = " + excel.getDataList());
         excel.removeLastRow();
         System.out.println("excel.getDataList() = " + excel.getDataList());
         rowNum = excel.rowCount();
-        excel.saveWorkBook();
+        excel.saveWorkBook();*/
+
+        Map<String, String> lastRegistrantInfoMap = new HashMap<>();
+        RegistrationPage registrationPage = new RegistrationPage();
+        lastRegistrantInfoMap = registrationPage.getLastRegistrant();
+        System.out.println("lastRegistrantInfoMap = " + lastRegistrantInfoMap);
+
 
     }
 
@@ -138,4 +144,12 @@ public class TestClass {
         System.out.println("secondActivationStatus = " + secondActivationStatus);
         Assert.assertFalse(firstActivationStatus.equals(secondActivationStatus));
     }
+
+    @Test
+    public void test7(){
+        String path = "src/test/resources/CreatedUserInformation.xlsx";
+        ExcelUtilities excel = new ExcelUtilities(path, "registered");
+        System.out.println("excel.getLastRow() = " + excel.getLastRow());
+    }
+
 }

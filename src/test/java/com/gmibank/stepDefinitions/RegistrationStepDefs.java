@@ -38,9 +38,9 @@ public class RegistrationStepDefs {
     }
 
 
-    @When("user types following information and click to register button")
-    public void user_types_following_information_and_click_to_register_button(List<String> textBoxList) {
-        new RegistrationPage().registerNewUserWithRandomGeneratedValue(textBoxList);
+    @When("user types required information and click to register button")
+    public void user_types_required_information_and_click_to_register_button() {
+        new RegistrationPage().registerNewUserWithRandomGeneratedValue();
     }
 
     @Then("verify that new user is registered by getting such a message {string}")
