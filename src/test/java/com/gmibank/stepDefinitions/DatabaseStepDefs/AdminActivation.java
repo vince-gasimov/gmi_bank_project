@@ -1,5 +1,7 @@
 package com.gmibank.stepDefinitions.DatabaseStepDefs;
 
+import com.gmibank.pages.CreateOrEditCustomerPageByClickEdit;
+import com.gmibank.pages.CreateOrEditUserPageByClickEdit;
 import com.gmibank.pages.UsersPageWithTable;
 import com.gmibank.utilities.*;
 import io.cucumber.java.en.Given;
@@ -19,7 +21,7 @@ public class AdminActivation {
     String jhiUserSheet = ConfigurationReader.getProperty("jhi_user_sheet_name");
 
     @Given("find the user taken from excel and activate it as {string}")
-    public void find_the_user_taken_from_excel_and_activate_it_as(String string) {
+    public void find_the_user_taken_from_excel_and_activate_it_as(String userType) {
         ExcelUtilities excel = new ExcelUtilities(path, registrationSheet);
         userFromExcel = excel.getLastRegistrantAsUser();
         String emailFromExcel = userFromExcel.getEmail();
@@ -35,7 +37,13 @@ public class AdminActivation {
         String firstActivationStatus = usersPageWithTable.getActivationStatus(emailFromExcel);
         System.out.println("firstActivationStatus = " + firstActivationStatus);
 
-        usersPageWithTable.clickAndChangeActivationStatus(emailFromExcel);
+        usersPageWithTable.clickGivenButtonForWantedColumnAndValue("Email",emailFromExcel, "edit");
+
+        //usersPageWithTable.clickAndChangeActivationStatus(emailFromExcel);
+
+        new CreateOrEditUserPageByClickEdit().selectProfileActivateAndSave(userType);
+
+        BrowserUtils.waitForVisibility(usersPageWithTable.createButton,5);
 
         //islem basarili sonucunu kontrol et
         String expectedResultMessage = "A user is updated with";
