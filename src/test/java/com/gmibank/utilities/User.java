@@ -52,11 +52,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean isActivation() {
+    public String isActivation() {
         return activation;
     }
 
-    public void setActivation(boolean activation) {
+    public void setActivation(String activation) {
         this.activation = activation;
     }
 
@@ -68,11 +68,11 @@ public class User {
         this.profiles = profiles;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -100,16 +100,16 @@ public class User {
         this.account2 = account2;
     }
 
-    public boolean isZelloEnrolled() {
+    public String isZelloEnrolled() {
         return zelloEnrolled;
     }
 
-    public void setZelloEnrolled(boolean zelloEnrolled) {
+    public void setZelloEnrolled(String zelloEnrolled) {
         this.zelloEnrolled = zelloEnrolled;
     }
 
     ////
-    private  String zipCode;
+    private String zipCode;
 
     private String city;
 
@@ -117,11 +117,11 @@ public class User {
 
     private String phoneNumber;
 
-    private boolean activation;
+    private String activation;
 
     private String profiles;
 
-    private int id;
+    private String id;
 
     private String createdDate;
 
@@ -129,9 +129,9 @@ public class User {
 
     private String account2;
 
-    private boolean zelloEnrolled;
+    private String zelloEnrolled;
 
-    public User(String ssn, String firstName, String lastName, String address, String mobilePhoneNumber, String username, String email, String password, String zipCode, String city, String state, String phoneNumber, boolean activation, String profiles, int id, String createdDate, String account1, String account2, boolean zelloEnrolled) {
+    public User(String ssn, String firstName, String lastName, String address, String mobilePhoneNumber, String username, String email, String password, String zipCode, String city, String state, String phoneNumber, String activation, String profiles, String id, String createdDate, String account1, String account2, String zelloEnrolled) {
         this.ssn = ssn;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -153,6 +153,10 @@ public class User {
         this.zelloEnrolled = zelloEnrolled;
     }
 
+    public User(){
+
+    }
+
     public User(Map<String, String> userInfoMap) {
         this.ssn = userInfoMap.get("ssnNumber");
         this.firstName = userInfoMap.get("firstName");
@@ -161,9 +165,10 @@ public class User {
         this.mobilePhoneNumber = userInfoMap.get("mobilePhoneNumber");
         this.username = userInfoMap.get("userName");
         this.email = userInfoMap.get("email");
-        this.password = userInfoMap.get("newPassword");
-        this.zipCode = userInfoMap.get("zipCode");
-
+        this.password = userInfoMap.get("password");
+/*        this.zipCode = userInfoMap.get("zipCode");
+        this.city = userInfoMap.get("city");
+        this.state = userInfoMap.get("state");*/
     }
 
     public String getSsn() {

@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
         glue = "com/gmibank/stepDefinitions",
         strict = true,
         tags = "@wip",
-        dryRun =true
+        dryRun =false
 )
 public class CukesRunner {
 }

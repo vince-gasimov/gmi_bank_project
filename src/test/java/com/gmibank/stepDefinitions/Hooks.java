@@ -1,5 +1,6 @@
 package com.gmibank.stepDefinitions;
 
+import com.gmibank.pages.RegistrationPage;
 import com.gmibank.utilities.BrowserUtils;
 import com.gmibank.utilities.ConfigurationReader;
 import com.gmibank.utilities.Driver;
@@ -33,6 +34,10 @@ public class Hooks {
 
         BrowserUtils.waitFor(1);
         Driver.closeDriver();
+    }
+    @Before ("@activation")
+    public void setupActivation(){
+        new RegistrationPage().makeSureThereExistRegistrantInExcel();
     }
 
 }

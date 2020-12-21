@@ -1,5 +1,6 @@
 package com.gmibank.utilities;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmibank.pages.RegistrationPage;
 import org.apache.poi.ss.usermodel.*;
 
@@ -80,6 +81,22 @@ public class ExcelUtilities {
         }
         return rowMap;
     }
+
+    public User getLastRegistrantAsUser(){
+        List<String> columns = getColumnsNames();
+        int lastRow = rowCount();
+        Row row = workSheet.getRow(lastRow - 1);
+        // creating map of the row using the column and value
+        // key=column, value=cell
+        Map<String, String> rowMap = new HashMap<String, String>();
+        for (Cell cell : row) {
+            int columnIndex = cell.getColumnIndex();
+            rowMap.put(columns.get(columnIndex), cell.toString());
+        }
+        User user = new User(rowMap);
+        return user;
+    }
+
 
     //==============When you enter row and column number, then you get the data==========
     public String getCellData(int rowNum, int colNum) {
@@ -179,13 +196,12 @@ public class ExcelUtilities {
     }
 
 
-    public void writeUserIntoExcel(Map<String, String> userInfoMap) {
+    public void writeUserIntoExcel(Map<String, Object> userInfoMap) {
 
         int rowIndex = rowCount();
-        ;
         Row row = workSheet.createRow(rowIndex);
         for (String key : userInfoMap.keySet()) {
-            setCellData(userInfoMap.get(key), key, rowIndex);
+            setCellData((String) userInfoMap.get(key), key, rowIndex);
         }
         saveWorkBook();
     }
@@ -217,5 +233,9 @@ public class ExcelUtilities {
         }
     }
 
+    public static Map<String, Object> convertUserToMap(User user){
+        ObjectMapper oMapper = new ObjectMapper();
+        return oMapper.convertValue(user, Map.class);
+    }
 
 }

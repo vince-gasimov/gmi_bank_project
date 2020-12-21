@@ -39,6 +39,8 @@ public class UsersPageWithTable extends TablePage {
     public List<WebElement> activationButtonList;
 
 
+
+
     /**
      * TablePage icinde tanimlanmis olan ayni isimli method override edilmistir. Bu sayfada arama yapmak istiyorsan
      * En iyi cozum email adresi gorunuor. Gitmet istedigin satirdaki email adresini asagidaki methoda ver.
@@ -56,6 +58,7 @@ public class UsersPageWithTable extends TablePage {
             System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
             for (WebElement emailElement : columnElementsOnCurrentPage) {
                 if (emailElement.getText().equals(value)){
+
                     return emailElement;
                 }
             }
@@ -65,10 +68,35 @@ public class UsersPageWithTable extends TablePage {
         return null;
     }
 
+    public WebElement checkWantedElementOnTheLastPage(String column, String value){
+        getGoToLastPageButton().click();
+        BrowserUtils.waitFor(1);
+        List<WebElement> columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
+        System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
+        for (WebElement emailElement : columnElementsOnCurrentPage) {
+            if (emailElement.getText().equals(value)){
+                return emailElement;
+            }
+        }
+        moveToFirstPage();
+        return null;
+    }
+
     //sonraki sayfaya gecmek icin kullanilacak butonu doner. Asagida direk sayfa degistirme methodu var.
     public WebElement getNextPageButton(){
         int totalNumberOfButtons = pageLinkButtons.size();
         return pageLinkButtons.get(totalNumberOfButtons - 2);
+    }
+
+    //en son sayfaya gecmek icin kullanilacak butonu doner. Asagida direk sayfa degistirme methodu var.
+    public WebElement getGoToLastPageButton(){
+        int totalNumberOfButtons = pageLinkButtons.size();
+        return pageLinkButtons.get(totalNumberOfButtons - 1);
+    }
+
+    //ilk sayfaya gecmek icin kullanilacak butonu doner. Asagida direk sayfa degistirme methodu var.
+    public WebElement getGoToFirstPageButton(){
+        return pageLinkButtons.get(0);
     }
 
 
@@ -84,6 +112,35 @@ public class UsersPageWithTable extends TablePage {
             return true;
         }
         return false; //gidecek yer kalmadi
+    }
+
+    /**
+     ilk sayfaya gecmek icin kullanilacak olan method
+     Bu method ayni zamanda son sayfaya gelip gelmedigini de kontrol eder.
+     Eger ilk sayfaya gelmissen artik calismaz.
+     */
+
+    public boolean moveToFirstPage(){
+        WebElement firstPageButton = getGoToFirstPageButton();
+        if (!firstPageButton.getAttribute("class").equals("page-item disabled")){
+            firstPageButton.click();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     Son sayfaya gecmek icin kullanilacak olan method
+     Bu method ayni zamanda son sayfaya gelip gelmedigini de kontrol eder.
+     Eger son sayfaya gelmissen artik calismaz.
+     */
+    public boolean moveToLastPage(){
+        WebElement lastPageButton = getGoToLastPageButton();
+        if (!lastPageButton.getAttribute("class").equals("page-item disabled")){
+            lastPageButton.click();
+            return true;
+        }
+        return false;
     }
 
     /****************************************************************** DUZENLENDI'
@@ -134,7 +191,8 @@ public class UsersPageWithTable extends TablePage {
     public void clickAndChangeActivationStatus(String email){
         WebElement activationButton = getActivationButton(email);
         BrowserUtils.waitForClickablility(activationButton,5);
-        activationButton.click();
+        BrowserUtils.waitFor(1);
+        BrowserUtils.clickWithJS(activationButton);
     }
 
     public String getOneRandomEmailFromCurrentPage(){

@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
+
+import java.net.UnknownServiceException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -85,7 +87,7 @@ public class TestClass {
     @Test
     public void test4() {
         System.out.println("DummyDataGenerator.generateAddress() = " + DummyDataGenerator.generateAddress());
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map = DummyDataGenerator.generateAllNeededInformationExceptPassword();
         for (String s : map.keySet()) {
             System.out.println(s + " " + map.get(s));
@@ -109,12 +111,13 @@ public class TestClass {
         System.out.println("excel.getDataList() = " + excel.getDataList());
         rowNum = excel.rowCount();
         excel.saveWorkBook();*/
+        User user;
 
-        Map<String, String> lastRegistrantInfoMap = new HashMap<>();
         RegistrationPage registrationPage = new RegistrationPage();
         if (registrationPage.makeSureThereExistRegistrantInExcel()){
-            lastRegistrantInfoMap = excel.getLastRow();
-            System.out.println("lastRegistrantInfoMap = " + lastRegistrantInfoMap);
+            user = excel.getLastRegistrantAsUser();
+            System.out.println("lastRegistrantInfoMap = " + user.getFirstName());
+            System.out.println("lastRegistrantInfoMap = " + user.getLastName());
         }
 
     }

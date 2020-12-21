@@ -196,16 +196,16 @@ public class RegistrationPage extends BasePage {
 
     }
 
-    public void typeAllFieldInformation(Map<String, String> fieldsValuesMap) {
-        typeSsnNumber(fieldsValuesMap.get("ssnNumber"));
-        typeFirstName(fieldsValuesMap.get("firstName"));
-        typeLastName(fieldsValuesMap.get("lastName"));
-        typeAddress(fieldsValuesMap.get("address"));
-        typeMobilePhoneNumber(fieldsValuesMap.get("mobilePhoneNumber"));
-        typeUserName(fieldsValuesMap.get("userName"));
-        typeEmail(fieldsValuesMap.get("email"));
-        typeNewPassword(fieldsValuesMap.get("password"));
-        typeNewPasswordConfirmation(fieldsValuesMap.get("passwordConfirmation"));
+    public void typeAllFieldInformation(Map<String, Object> fieldsValuesMap) {
+        typeSsnNumber((String) fieldsValuesMap.get("ssnNumber"));
+        typeFirstName((String) fieldsValuesMap.get("firstName"));
+        typeLastName((String) fieldsValuesMap.get("lastName"));
+        typeAddress((String) fieldsValuesMap.get("address"));
+        typeMobilePhoneNumber((String) fieldsValuesMap.get("mobilePhoneNumber"));
+        typeUserName((String) fieldsValuesMap.get("userName"));
+        typeEmail((String) fieldsValuesMap.get("email"));
+        typeNewPassword((String) fieldsValuesMap.get("password"));
+        typeNewPasswordConfirmation((String) fieldsValuesMap.get("passwordConfirmation"));
     }
 
     public boolean makeSureThereExistRegistrantInExcel() {
@@ -229,7 +229,7 @@ public class RegistrationPage extends BasePage {
     }
 
 
-    public void registerNewUser(Map<String, String> fieldsValuesMap){
+    public void registerNewUser(Map<String, Object> fieldsValuesMap){
         typeAllFieldInformation(fieldsValuesMap);
         if (!isThereAnyError()){
             clickRegisterButton();
@@ -341,6 +341,8 @@ public class RegistrationPage extends BasePage {
         basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Register");
         BrowserUtils.waitForVisibility(ssnTextBox,5);
         registerNewUserWithRandomGeneratedValue();
+        BrowserUtils.waitFor(1);
+        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
     }
 
     /**
@@ -350,7 +352,7 @@ public class RegistrationPage extends BasePage {
      */
     public void registerNewUserWithRandomGeneratedValue(){
         String path = ConfigurationReader.getProperty("registration_excel_path");
-        Map<String, String> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword();
+        Map<String, Object> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword();
 
         //password liste icinde yok ekle.   password
         String password = RandomStringGenerator.generateStrongPassword(7,1,1,1,1);
