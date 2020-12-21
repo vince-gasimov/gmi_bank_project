@@ -17,7 +17,7 @@ public class CountryApiStepDef {
 
     @Given("user sets the response using api end point {string} and creates country using {string} and {string}")
     public void user_sets_the_response_using_api_end_point_and_creates_country_using_and(String endpoint, String type, String country) {
-             response = given().headers(
+            response = given().headers(
                                             "Authorization",
                                             "Bearer " + ConfigurationReader.getProperty("token"),
                                             "Content-Type",
@@ -33,6 +33,7 @@ public class CountryApiStepDef {
                             .response();
 
                 response.prettyPrint();
+
     }
 
     @Given("user sets the countries to response using {string}")
@@ -51,8 +52,8 @@ public class CountryApiStepDef {
                                         extract().
                                         response();
 
-        /*         responseAll.prettyPrint();
-        */
+                 responseAll.prettyPrint();
+
     }
 
     @Given("user saves the countries to correspondent files")
@@ -61,9 +62,9 @@ public class CountryApiStepDef {
 
         String id = jsonPath.getString("id");
 
-        Assert.assertTrue("not verify", id.contains("57091"));
+        Assert.assertTrue("not verify", id.contains("59637"));
 
-        /* */
+
     }
 
     @Then("user validates the countries")
@@ -105,6 +106,7 @@ public class CountryApiStepDef {
         String idAll = jsonPath.getString("id");
 
         Assert.assertFalse("not verify", idAll.contains(id));
+
     }
 
 }
