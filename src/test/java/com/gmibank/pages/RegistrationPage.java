@@ -208,20 +208,24 @@ public class RegistrationPage extends BasePage {
         typeNewPasswordConfirmation(fieldsValuesMap.get("passwordConfirmation"));
     }
 
-    public Map<String, String> getLastRegistrant() throws Exception {
+    public boolean makeSureThereExistRegistrantInExcel() {
 
         //if there does not exist any row except for headers
         String path = ConfigurationReader.getProperty("registration_excel_path");
-        String sheetName = ConfigurationReader.getProperty("sheet_name");
+        String sheetName = ConfigurationReader.getProperty("registration_sheet_name");
         ExcelUtilities excel = new ExcelUtilities(path, sheetName);
         if (!excel.doesExistAnyRowExceptForHeader()) {
             RegistrationPage registrationPage = new RegistrationPage();
-            registrationPage.navigateAndRegisterNewUserWithRandomGeneratedValue();
+            try {
+                registrationPage.navigateAndRegisterNewUserWithRandomGeneratedValue();
+            } catch (Exception e) {
+                return false;
+            }
             System.out.println("kosul icine girdi");
         }
         //System.out.println("yeni olusturma ve son satiri alma methodu icindeyim" + excel.getLastRow());
-        ExcelUtilities excelWithRwgistrant = new ExcelUtilities(path, sheetName);
-        return excelWithRwgistrant.getLastRow();
+        ExcelUtilities excelWithRegistrant = new ExcelUtilities(path, sheetName);
+        return true;
     }
 
 

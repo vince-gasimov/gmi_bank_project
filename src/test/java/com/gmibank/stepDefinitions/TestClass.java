@@ -90,7 +90,7 @@ public class TestClass {
         for (String s : map.keySet()) {
             System.out.println(s + " " + map.get(s));
         }
-        ExcelUtilities excelUtilities = new ExcelUtilities("src/test/resources/CreatedUserInformation.xlsx", "registered");
+        ExcelUtilities excelUtilities = new ExcelUtilities("src/test/resources/CreatedUserInformation.xlsx", "registration_sheet_name");
         System.out.println("excelUtilities.getColumnsNames() = " + excelUtilities.getColumnsNames());
         System.out.println(excelUtilities.getColumnsNames().indexOf("ssnNumber"));
         excelUtilities.writeUserIntoExcel(map);
@@ -100,6 +100,7 @@ public class TestClass {
     @Test
     public void test5() throws Exception {
         String path = "src/test/resources/CreatedUserInformation.xlsx";
+
         ExcelUtilities excel = new ExcelUtilities(path, "registered");
 /*        int rowNum = excel.rowCount();
         System.out.println("rowNum = " + rowNum);
@@ -111,9 +112,10 @@ public class TestClass {
 
         Map<String, String> lastRegistrantInfoMap = new HashMap<>();
         RegistrationPage registrationPage = new RegistrationPage();
-        lastRegistrantInfoMap = registrationPage.getLastRegistrant();
-        System.out.println("lastRegistrantInfoMap = " + lastRegistrantInfoMap);
-
+        if (registrationPage.makeSureThereExistRegistrantInExcel()){
+            lastRegistrantInfoMap = excel.getLastRow();
+            System.out.println("lastRegistrantInfoMap = " + lastRegistrantInfoMap);
+        }
 
     }
 
@@ -148,7 +150,7 @@ public class TestClass {
     @Test
     public void test7(){
         String path = "src/test/resources/CreatedUserInformation.xlsx";
-        ExcelUtilities excel = new ExcelUtilities(path, "registered");
+        ExcelUtilities excel = new ExcelUtilities(path, "registration_sheet_name");
         System.out.println("excel.getLastRow() = " + excel.getLastRow());
     }
 
