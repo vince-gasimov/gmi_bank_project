@@ -196,7 +196,7 @@ public class ExcelUtilities {
     }
 
 
-    public void writeUserIntoExcel(Map<String, Object> userInfoMap) {
+    public void writeUserIntoExcel(Map<String, String> userInfoMap) {
 
         int rowIndex = rowCount();
         Row row = workSheet.createRow(rowIndex);
@@ -233,7 +233,7 @@ public class ExcelUtilities {
         }
     }
 
-    public static Map<String, Object> convertUserToMap(User user){
+    public static Map<String, String> convertUserToMap(User user){
         ObjectMapper oMapper = new ObjectMapper();
         return oMapper.convertValue(user, Map.class);
     }

@@ -87,7 +87,7 @@ public class TestClass {
     @Test
     public void test4() {
         System.out.println("DummyDataGenerator.generateAddress() = " + DummyDataGenerator.generateAddress());
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map = DummyDataGenerator.generateAllNeededInformationExceptPassword();
         for (String s : map.keySet()) {
             System.out.println(s + " " + map.get(s));

@@ -196,7 +196,7 @@ public class RegistrationPage extends BasePage {
 
     }
 
-    public void typeAllFieldInformation(Map<String, Object> fieldsValuesMap) {
+    public void typeAllFieldInformation(Map<String, String> fieldsValuesMap) {
         typeSsnNumber((String) fieldsValuesMap.get("ssnNumber"));
         typeFirstName((String) fieldsValuesMap.get("firstName"));
         typeLastName((String) fieldsValuesMap.get("lastName"));
@@ -229,7 +229,7 @@ public class RegistrationPage extends BasePage {
     }
 
 
-    public void registerNewUser(Map<String, Object> fieldsValuesMap){
+    public void registerNewUser(Map<String, String> fieldsValuesMap){
         typeAllFieldInformation(fieldsValuesMap);
         if (!isThereAnyError()){
             clickRegisterButton();
@@ -352,7 +352,7 @@ public class RegistrationPage extends BasePage {
      */
     public void registerNewUserWithRandomGeneratedValue(){
         String path = ConfigurationReader.getProperty("registration_excel_path");
-        Map<String, Object> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword();
+        Map<String, String> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword();
 
         //password liste icinde yok ekle.   password
         String password = RandomStringGenerator.generateStrongPassword(7,1,1,1,1);

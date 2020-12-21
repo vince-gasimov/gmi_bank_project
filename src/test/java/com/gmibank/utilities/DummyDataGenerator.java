@@ -93,7 +93,7 @@ public class DummyDataGenerator {
      * uretilmesini istiyorum. Olusturulacak data setini icerde kendim veriyorum.
      * @return
      */
-    public static Map<String, Object> generateAllNeededInformationExceptPassword() {
+    public static Map<String, String> generateAllNeededInformationExceptPassword() {
         List<String> keyList = new ArrayList<>();
         keyList.add("ssnNumber");
         keyList.add("firstName");
@@ -106,7 +106,7 @@ public class DummyDataGenerator {
         keyList.add("city");
         keyList.add("state");
         keyList.add("phoneNumber");
-        Map<String, Object> keyValuePairMap = new HashMap<>();
+        Map<String, String> keyValuePairMap = new HashMap<>();
 
         for (String textBox : keyList) {
             keyValuePairMap.put(textBox, generateAStringForSpecifiedTextBox(textBox));
@@ -156,7 +156,7 @@ public class DummyDataGenerator {
      */
 
     public void generateRandomlyUserInfoAndWriteIntoExcelWithoutRegistering(){
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map = DummyDataGenerator.generateAllNeededInformationExceptPassword();
         ExcelUtilities excelUtilities = new ExcelUtilities("src/test/resources/CreatedUserInformation.xlsx", "registered");
         String password = RandomStringGenerator.generateStrongPassword(7,1,1,1,1);

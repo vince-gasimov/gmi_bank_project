@@ -53,7 +53,7 @@ public class AdminActivation {
 
         //
         ExcelUtilities excel2 = new ExcelUtilities(path,jhiUserSheet);
-        Map<String, Object> map = ExcelUtilities.convertUserToMap(userFromExcel);
+        Map<String, String> map = ExcelUtilities.convertUserToMap(userFromExcel);
         System.out.println("map = " + map);
         excel2.writeUserIntoExcel(map);
         excel.removeLastRow();
