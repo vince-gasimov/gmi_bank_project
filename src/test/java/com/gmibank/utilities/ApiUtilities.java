@@ -36,7 +36,7 @@ public class ApiUtilities {
                 "Accept",
                 ContentType.JSON)
                 .when()
-                .body("{\"" + type + "\":\"" + country + "\"}")
+               // .body("{\"" + type + "\":\"" + country + "\"}")
                 .post(ConfigurationReader.getProperty("countries_Api_endpoint"))
                 .then()
                 .contentType(ContentType.JSON)

@@ -10,7 +10,7 @@ import org.junit.Assert;
 
 import static io.restassured.RestAssured.given;
 
-public class CountryApiStepDef {
+public class ApiCountryStepDef {
 
     Response response;
     Response responseAll;

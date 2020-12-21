@@ -18,7 +18,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
-public class CustomerApiStepDef {
+public class ApiCustomerStepDef {
 
     Response response;
     Customer[] customers;

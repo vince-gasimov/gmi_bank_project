@@ -1,4 +1,4 @@
-@wip
+
 Feature: Employee can manage customer
 
   Scenario: Employee can see user information in a table with specified columns
