@@ -9,6 +9,12 @@ public class Country {
     private String name;
     private String states;
 
+    public Country(String name) {
+        //this.id = id;
+        this.name = name;
+        //this.states = states;
+    }
+
     public int getId() {
         return id;
     }
