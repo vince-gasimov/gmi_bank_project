@@ -202,4 +202,10 @@ public class UsersPageWithTable extends TablePage {
         return getAllItemsInTheGivenColumn("Email").get(randomNumber).getText();
     }
 
+    public WebElement getIDElementUsingLoginName(String loginName){
+        //    //tr[@id='example2ek']//a[@class='btn btn-link btn-sm']
+        String locator = "//tr[@id='" + loginName  + "']//a[@class='btn btn-link btn-sm']";
+        return Driver.getDriver().findElement(By.xpath(locator));
+    }
+
 }

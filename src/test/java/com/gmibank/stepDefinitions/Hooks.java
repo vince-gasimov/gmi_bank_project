@@ -38,6 +38,7 @@ public class Hooks {
     @Before ("@activation")
     public void setupActivation(){
         new RegistrationPage().makeSureThereExistRegistrantInExcel();
+        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
     }
 
 }

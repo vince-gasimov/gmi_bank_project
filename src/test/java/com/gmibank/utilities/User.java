@@ -2,9 +2,12 @@ package com.gmibank.utilities;
 
 import java.util.Map;
 
+/**
+ * Bu class icindeki degisken isimlerinin excel'deki ile ayni olmasi gerekir.!!
+ */
 public class User {
 
-    private String ssn;
+    private String ssnNumber;
 
     private String firstName;
 
@@ -14,11 +17,97 @@ public class User {
 
     private String mobilePhoneNumber;
 
-    private String username;
+    private String userName;
 
     private String email;
 
     private String password;
+
+    private String zipCode;
+
+    private String city;
+
+    private String state;
+
+    private String phoneNumber;
+
+    private String activation;
+
+    private String profiles;
+
+    private String id;
+
+    private String createdDate;
+
+    private String account1;
+
+    private String account2;
+
+    private String zelloEnrolled;
+
+    public String getSsnNumber() {
+        return ssnNumber;
+    }
+
+    public void setSsnNumber(String ssnNumber) {
+        this.ssnNumber = ssnNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMobilePhoneNumber() {
+        return mobilePhoneNumber;
+    }
+
+    public void setMobilePhoneNumber(String mobilePhoneNumber) {
+        this.mobilePhoneNumber = mobilePhoneNumber;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getZipCode() {
         return zipCode;
@@ -52,7 +141,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String isActivation() {
+    public String getActivation() {
         return activation;
     }
 
@@ -100,7 +189,7 @@ public class User {
         this.account2 = account2;
     }
 
-    public String isZelloEnrolled() {
+    public String getZelloEnrolled() {
         return zelloEnrolled;
     }
 
@@ -108,36 +197,13 @@ public class User {
         this.zelloEnrolled = zelloEnrolled;
     }
 
-    ////
-    private String zipCode;
-
-    private String city;
-
-    private String state;
-
-    private String phoneNumber;
-
-    private String activation;
-
-    private String profiles;
-
-    private String id;
-
-    private String createdDate;
-
-    private String account1;
-
-    private String account2;
-
-    private String zelloEnrolled;
-
     public User(String ssn, String firstName, String lastName, String address, String mobilePhoneNumber, String username, String email, String password, String zipCode, String city, String state, String phoneNumber, String activation, String profiles, String id, String createdDate, String account1, String account2, String zelloEnrolled) {
-        this.ssn = ssn;
+        this.ssnNumber = ssn;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.mobilePhoneNumber = mobilePhoneNumber;
-        this.username = username;
+        this.userName = username;
         this.email = email;
         this.password = password;
         this.zipCode = zipCode;
@@ -153,17 +219,17 @@ public class User {
         this.zelloEnrolled = zelloEnrolled;
     }
 
-    public User(){
+    public User() {
 
     }
 
     public User(Map<String, String> userInfoMap) {
-        this.ssn = userInfoMap.get("ssnNumber");
+        this.ssnNumber = userInfoMap.get("ssnNumber");
         this.firstName = userInfoMap.get("firstName");
         this.lastName = userInfoMap.get("lastName");
         this.address = userInfoMap.get("address");
         this.mobilePhoneNumber = userInfoMap.get("mobilePhoneNumber");
-        this.username = userInfoMap.get("userName");
+        this.userName = userInfoMap.get("userName");
         this.email = userInfoMap.get("email");
         this.password = userInfoMap.get("password");
 /*        this.zipCode = userInfoMap.get("zipCode");
@@ -171,68 +237,7 @@ public class User {
         this.state = userInfoMap.get("state");*/
     }
 
-    public String getSsn() {
-        return ssn;
-    }
 
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
-    }
 
-    public String getFirstName() {
-        return firstName;
-    }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getMobilePhoneNumber() {
-        return mobilePhoneNumber;
-    }
-
-    public void setMobilePhoneNumber(String mobilePhoneNumber) {
-        this.mobilePhoneNumber = mobilePhoneNumber;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
-

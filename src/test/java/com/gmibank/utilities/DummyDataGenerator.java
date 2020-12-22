@@ -9,7 +9,7 @@ public class DummyDataGenerator {
 
     public static Faker faker = new Faker();
 
-    private static List<String> phoneNumberPool = Arrays.asList("432-131-5405", "206-381-6032", "189-843-0512", "511-434-3547", "588-697-5116", "319-959-3517", "118-675-2045", "715-457-6770", "107-834-0930", "967-954-5421");
+    private static List<String> phoneNumberPool = Arrays.asList("432-131-5405", "206-381-6032", "189-843-0512", "511-434-3547", "588-697-5116", "319-959-3517", "118-675-2045", "715-457-6770", "107-834-0930", "967-954-5421", "967-954-5421", "967-954-5421");
 
     public static int generateRandomNumberFromZeroToTen() {
         Random random = new Random();
@@ -54,11 +54,11 @@ public class DummyDataGenerator {
     }
 
     public static String generatePhoneNumber() {
-        return phoneNumberPool.get(generateRandomNumberFromZeroToTen() - 1);
+        return phoneNumberPool.get(generateRandomNumberFromZeroToTen());
     }
 
     public static String generateMobilePhoneNumber() {
-        return phoneNumberPool.get(generateRandomNumberFromZeroToTen() - 1);
+        return phoneNumberPool.get(generateRandomNumberFromZeroToTen());
     }
 
     public static String generateUserName() {

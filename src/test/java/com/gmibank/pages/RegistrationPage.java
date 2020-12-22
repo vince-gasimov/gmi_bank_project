@@ -215,16 +215,15 @@ public class RegistrationPage extends BasePage {
         String sheetName = ConfigurationReader.getProperty("registration_sheet_name");
         ExcelUtilities excel = new ExcelUtilities(path, sheetName);
         if (!excel.doesExistAnyRowExceptForHeader()) {
-            RegistrationPage registrationPage = new RegistrationPage();
             try {
-                registrationPage.navigateAndRegisterNewUserWithRandomGeneratedValue();
+                navigateAndRegisterNewUserWithRandomGeneratedValue();
             } catch (Exception e) {
                 return false;
             }
             System.out.println("kosul icine girdi");
         }
         //System.out.println("yeni olusturma ve son satiri alma methodu icindeyim" + excel.getLastRow());
-        ExcelUtilities excelWithRegistrant = new ExcelUtilities(path, sheetName);
+        //ExcelUtilities excelWithRegistrant = new ExcelUtilities(path, sheetName);
         return true;
     }
 

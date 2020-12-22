@@ -1,7 +1,6 @@
 package com.gmibank.utilities;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmibank.pages.RegistrationPage;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.*;
@@ -201,7 +200,7 @@ public class ExcelUtilities {
         int rowIndex = rowCount();
         Row row = workSheet.createRow(rowIndex);
         for (String key : userInfoMap.keySet()) {
-            setCellData((String) userInfoMap.get(key), key, rowIndex);
+            setCellData(userInfoMap.get(key), key, rowIndex);
         }
         saveWorkBook();
     }
@@ -215,6 +214,11 @@ public class ExcelUtilities {
             System.out.println("just headers exist!!");
         }
 
+    }
+
+    public void removeLastRowAndSave(){
+        removeLastRow();
+        saveWorkBook();
     }
 
     /**
@@ -233,9 +237,15 @@ public class ExcelUtilities {
         }
     }
 
-    public static Map<String, String> convertUserToMap(User user){
+    public static Map convertUserToMap(User user){
         ObjectMapper oMapper = new ObjectMapper();
         return oMapper.convertValue(user, Map.class);
+    }
+
+    public static void putAdditionalInformationForUser(String activation, String profiles, String id, Map<String, String> map){
+        map.put("activation", activation);
+        map.put("profiles", profiles);
+        map.put("id", id);
     }
 
 }

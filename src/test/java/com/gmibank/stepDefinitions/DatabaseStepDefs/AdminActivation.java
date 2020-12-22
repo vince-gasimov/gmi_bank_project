@@ -39,8 +39,6 @@ public class AdminActivation {
 
         usersPageWithTable.clickGivenButtonForWantedColumnAndValue("Email",emailFromExcel, "edit");
 
-        //usersPageWithTable.clickAndChangeActivationStatus(emailFromExcel);
-
         new CreateOrEditUserPageByClickEdit().selectProfileActivateAndSave(userType);
 
         BrowserUtils.waitForVisibility(usersPageWithTable.createButton,5);
@@ -57,14 +55,18 @@ public class AdminActivation {
         String secondActivationStatus = usersPageWithTable.getActivationStatus(emailFromExcel);
 
         System.out.println("secondActivationStatus = " + secondActivationStatus);
-        Assert.assertFalse(firstActivationStatus.equals(secondActivationStatus));
+        Assert.assertNotEquals(secondActivationStatus, firstActivationStatus);
 
-        //
-        ExcelUtilities excel2 = new ExcelUtilities(path,jhiUserSheet);
+        String id = usersPageWithTable.getIDElementUsingLoginName(userFromExcel.getUserName()).getText();
+        System.out.println("id = " + id);
+        excel.removeLastRowAndSave();
+
+        excel.setWorkSheet(jhiUserSheet);
         Map<String, String> map = ExcelUtilities.convertUserToMap(userFromExcel);
+        ExcelUtilities.putAdditionalInformationForUser("activated", userType, id, map);
         System.out.println("map = " + map);
-        excel2.writeUserIntoExcel(map);
-        excel.removeLastRow();
+        excel.writeUserIntoExcel(map);
+
     }
 
     @Then("verify that UI information matches database response")

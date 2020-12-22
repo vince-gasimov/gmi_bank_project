@@ -1,5 +1,5 @@
 Feature: Validate all data performing database testing
-  @wip
+  @wip @activation
   Scenario: verify that user type users' information which are retrieved from UI match the users' information which are retrieved from database
 
     Given user sign in to the system as "admin"
