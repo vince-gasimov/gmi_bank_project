@@ -194,6 +194,65 @@ public class ExcelUtilities {
         setCellData(value, row, column);
     }
 
+    public void writeUserIntoExcel(User user, String sheetName){
+        setWorkSheet(sheetName);
+        int rowIndex = rowCount();
+        Row row = workSheet.createRow(rowIndex);
+        List<String> columnNames = getColumnsNames();
+        for (String columnName : columnNames) {
+            switch (columnName){
+                case "firstName":
+                    setCellData(user.getFirstName(),columnName,rowIndex);
+                    break;
+                case "lastName":
+                    setCellData(user.getLastName(),columnName,rowIndex);
+                    break;
+                case "ssnNumber":
+                    setCellData(user.getSsnNumber(),columnName,rowIndex);
+                    break;
+                case "address":
+                    setCellData(user.getAddress(),columnName,rowIndex);
+                    break;
+                case "zipCode":
+                    setCellData(user.getZipCode(),columnName,rowIndex);
+                    break;
+                case "state":
+                    setCellData(user.getState(),columnName,rowIndex);
+                    break;
+                case "mobilePhoneNumber":
+                    setCellData(user.getMobilePhoneNumber(),columnName,rowIndex);
+                    break;
+                case "phoneNumber":
+                    setCellData(user.getPhoneNumber(),columnName,rowIndex);
+                    break;
+                case "city":
+                    setCellData(user.getCity(),columnName,rowIndex);
+                    break;
+                case "userName":
+                    setCellData(user.getUserName(),columnName,rowIndex);
+                    break;
+                case "email":
+                    setCellData(user.getEmail(),columnName,rowIndex);
+                    break;
+                case "password":
+                    setCellData(user.getPassword(),columnName,rowIndex);
+                    break;
+                case "activation":
+                    setCellData(user.getActivation(),columnName,rowIndex);
+                    break;
+                case "profiles":
+                    setCellData(user.getProfiles(),columnName,rowIndex);
+                    break;
+                case "id":
+                    setCellData(user.getId(),columnName,rowIndex);
+                    break;
+                default:
+                    System.out.println("there does not exist such a column name!!!");
+                    break;
+            }
+        }
+        saveWorkBook();
+    }
 
     public void writeUserIntoExcel(Map<String, String> userInfoMap) {
 
@@ -246,6 +305,24 @@ public class ExcelUtilities {
         map.put("activation", activation);
         map.put("profiles", profiles);
         map.put("id", id);
+    }
+
+    public static void putAdditionalInformationForUser(boolean activated, String userType, String id, User user){
+        user.setActivation(String.valueOf(activated));
+        user.setId(id);
+        String authority = null;
+        switch (userType){
+            case "admin":
+                authority = "ROLE_ADMIN";
+                break;
+            case "employee":
+                authority = "ROLE_EMPLOYEE";
+                break;
+            case "user":
+                authority = "ROLE_USER";
+                break;
+        }
+        user.setProfiles(authority);
     }
 
 }

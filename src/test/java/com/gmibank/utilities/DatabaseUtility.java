@@ -12,9 +12,9 @@ public class DatabaseUtility {
     private static ResultSet resultSet;
 
     public static void createConnection() {
-        String url = "jdbc:postgresql://157.230.48.97:5432/gmibank_db";
-        String user = "techprodb_user";
-        String password = "Techpro_@126";
+        String url = ConfigurationReader.getProperty("dbUrl");
+        String user = ConfigurationReader.getProperty("dbUser");
+        String password = ConfigurationReader.getProperty("dbPassword");
         try {
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
@@ -22,6 +22,7 @@ public class DatabaseUtility {
             e.printStackTrace();
         }
     }
+
     public static void createConnection(String url, String user, String password) {
         try {
             connection = DriverManager.getConnection(url, user, password);
@@ -30,6 +31,7 @@ public class DatabaseUtility {
             e.printStackTrace();
         }
     }
+
     public static void closeConnection() {
         try {
             if (resultSet != null) {
@@ -45,41 +47,41 @@ public class DatabaseUtility {
             e.printStackTrace();
         }
     }
+
     /**
-     *
      * @param query
      * @return returns a single cell value. If the results in multiple rows and/or
-     *         columns of data, only first column of the first row will be returned.
-     *         The rest of the data will be ignored
+     * columns of data, only first column of the first row will be returned.
+     * The rest of the data will be ignored
      */
     public static Object getCellValue(String query) {
         return getQueryResultList(query).get(0).get(0);
     }
+
     /**
-     *
      * @param query
      * @return returns a list of Strings which represent a row of data. If the query
-     *         results in multiple rows and/or columns of data, only first row will
-     *         be returned. The rest of the data will be ignored
+     * results in multiple rows and/or columns of data, only first row will
+     * be returned. The rest of the data will be ignored
      */
     public static List<Object> getRowList(String query) {
         return getQueryResultList(query).get(0);
     }
+
     /**
-     *
      * @param query
      * @return returns a map which represent a row of data where key is the column
-     *         name. If the query results in multiple rows and/or columns of data,
-     *         only first row will be returned. The rest of the data will be ignored
+     * name. If the query results in multiple rows and/or columns of data,
+     * only first row will be returned. The rest of the data will be ignored
      */
     public static Map<String, Object> getRowMap(String query) {
         return getQueryResultMap(query).get(0);
     }
+
     /**
-     *
      * @param query
      * @return returns query result in a list of lists where outer list represents
-     *         collection of rows and inner lists represent a single row
+     * collection of rows and inner lists represent a single row
      */
     public static List<List<Object>> getQueryResultList(String query) {
         executeQuery(query);
@@ -100,8 +102,8 @@ public class DatabaseUtility {
         }
         return rowList;
     }
+
     /**
-     *
      * @param query
      * @param column
      * @return list of values of a single column from the result set
@@ -121,12 +123,12 @@ public class DatabaseUtility {
         }
         return rowList;
     }
+
     /**
-     *
      * @param query
      * @return returns query result in a list of maps where the list represents
-     *         collection of rows and a map represents represent a single row with
-     *         key being the column name
+     * collection of rows and a map represents represent a single row with
+     * key being the column name
      */
     public static List<Map<String, Object>> getQueryResultMap(String query) {
         executeQuery(query);
@@ -147,8 +149,8 @@ public class DatabaseUtility {
         }
         return rowList;
     }
+
     /**
-     *
      * @param query
      * @return List of columns returned in result set
      */
@@ -168,6 +170,7 @@ public class DatabaseUtility {
         }
         return columns;
     }
+
     private static void executeQuery(String query) {
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -182,9 +185,86 @@ public class DatabaseUtility {
             e.printStackTrace();
         }
     }
+
     public static int getRowCount() throws Exception {
         resultSet.last();
         int rowCount = resultSet.getRow();
         return rowCount;
     }
+
+    //database'e has custom methodlar *************************************************************
+
+
+    public static Map<String, Object> selectAndGetUserInformation(String tableName, String queryParameter, Object value) {
+        String query = "select * from " + tableName + " where " + queryParameter + "='" + value + "';";
+        if (doesExistAnyRow(query)) {
+            Map<String, Object> rowMap = getRowMap(query);
+            return rowMap;
+        }
+        return null;
+    }
+
+    /**
+     * @param email
+     * @return verilen email'e sahip user'in id'sini doner. Eger boyle bir user yoksa -1 doner.
+     */
+    public static long getUserIdOfUser(String email) {
+        //    select * from tpaccount_registration where email = 'donnell.marvin@yahoo.com';
+        String query = "select * from tpaccount_registration where email = '" + email + "';";
+        if (doesExistAnyRow(query)) {
+            Map<String, Object> rowMap = getRowMap(query);
+            return (long) rowMap.get("user_id");
+        }
+        return -1;
+    }
+
+    /**
+     * @param query
+     * @return database'e gonderilen query sonucunda gelen tablonun bos olup olmaidingi doner
+     */
+    public static boolean doesExistAnyRow(String query) {
+        executeQuery(query);
+        int rowCount = 0;
+        try {
+            rowCount = getRowCount();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rowCount > 0;
+    }
+
+
+    public static Map<String, Object> getUserInformationIncludingAuthorityAndActivation(String email) {
+        /*
+        select * from jhi_user ju join jhi_user_authority jua on (ju.id = jua.user_id) where ju.email = 'email';
+         */
+
+        String query = "select * from jhi_user ju join jhi_user_authority jua on (ju.id = jua.user_id) where ju.email = '" + email + "';";
+        if (!doesExistAnyRow(query)){
+            System.out.println("satir yok");
+            return null;
+        }
+        System.out.println("satir var");
+        return getRowMap(query);
+    }
+
+    public static boolean compareMapFromDbAndUserObject(Map<String, Object> map, User user){
+        Map<String, Boolean> compareResultMap = new HashMap<>();
+        compareResultMap.put("equalFirstName", ((String) map.get("first_name")).equals(user.getFirstName()));
+        compareResultMap.put("equalUserName", ((String) map.get("login")).equals(user.getUserName()));
+        compareResultMap.put("equalActivationStatus", (String.valueOf(map.get("activated"))).equals(user.getActivation()));
+        compareResultMap.put("equalAuthority", ((String) map.get("authority_name")).equals(user.getProfiles()));
+        compareResultMap.put("equalLastName", ((String) map.get("last_name")).equals(user.getLastName()));
+        compareResultMap.put("equalId", String.valueOf(map.get("user_id")).equals(user.getId()));
+
+        for (String key : compareResultMap.keySet()) {
+            if (!compareResultMap.get(key)){
+                System.out.println(key + " information does not match!!!");
+                return false;
+            }
+        }
+        return true;
+
+    }
+
 }

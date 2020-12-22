@@ -1,10 +1,7 @@
 package com.gmibank.stepDefinitions;
 
 import com.gmibank.pages.RegistrationPage;
-import com.gmibank.utilities.BrowserUtils;
-import com.gmibank.utilities.ConfigurationReader;
-import com.gmibank.utilities.Driver;
-import com.gmibank.utilities.ExcelUtilities;
+import com.gmibank.utilities.*;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -39,6 +36,16 @@ public class Hooks {
     public void setupActivation(){
         new RegistrationPage().makeSureThereExistRegistrantInExcel();
         Driver.getDriver().get(ConfigurationReader.getProperty("url"));
+    }
+
+    @Before ("@db")
+    public void setupDatabase(){
+        DatabaseUtility.createConnection();
+    }
+
+    @After ("@db")
+    public void closeDatabase(){
+        DatabaseUtility.closeConnection();
     }
 
 }

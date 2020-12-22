@@ -17,18 +17,20 @@ public class TestClass {
 
     @BeforeMethod
     public void setup() {
-    WebDriver driver = Driver.getDriver();
+/*    WebDriver driver = Driver.getDriver();
     driver.get(ConfigurationReader.getProperty("url"));
     driver.manage().window().maximize();
     driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+    driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);*/
+        DatabaseUtility.createConnection();
     }
 
 
     @AfterMethod
     public void tearDown() {
-    BrowserUtils.waitFor(1);
-    Driver.closeDriver();
+/*    BrowserUtils.waitFor(1);
+    Driver.closeDriver();*/
+        DatabaseUtility.closeConnection();
     }
 
     @Test
@@ -155,6 +157,16 @@ public class TestClass {
         String path = "src/test/resources/CreatedUserInformation.xlsx";
         ExcelUtilities excel = new ExcelUtilities(path, "registration_sheet_name");
         System.out.println("excel.getLastRow() = " + excel.getLastRow());
+    }
+
+    @Test
+    public void test8() throws Exception {
+    String email = "horacio.kutch@gmail.com";
+        String query = "select * from jhi_user ju join jhi_user_authority jua on (ju.id = jua.user_id) where ju.email = '" + email + "';";
+        if (!DatabaseUtility.doesExistAnyRow(query)){
+            System.out.println("row yok!!!");
+        }
+        System.out.println("row var");
     }
 
 }

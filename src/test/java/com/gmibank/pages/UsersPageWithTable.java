@@ -52,14 +52,30 @@ public class UsersPageWithTable extends TablePage {
      */
     @Override
     public WebElement locateWantedCellWithGivenColumnAndValue(String column, String value){
+        List<WebElement> columnElementsOnCurrentPage = null;
+        if (isWantedElementOnTheLastPage(column, value)){
+            columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
+            System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
+            for (WebElement element : columnElementsOnCurrentPage) {
+                if (element.getText().equals(value)){
+                    BrowserUtils.executeJScommand(element,"arguments[0].scrollIntoView(true);");
+                    BrowserUtils.highlight(element);
+                    BrowserUtils.waitFor(2);
+                    return element;
+                }
+            }
+        }
+        moveToFirstPage();
         boolean devam = true;
         while (devam){
-            List<WebElement> columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
+            columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
             System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
-            for (WebElement emailElement : columnElementsOnCurrentPage) {
-                if (emailElement.getText().equals(value)){
-
-                    return emailElement;
+            for (WebElement element : columnElementsOnCurrentPage) {
+                if (element.getText().equals(value)){
+                    BrowserUtils.executeJScommand(element,"arguments[0].scrollIntoView(true);");
+                    BrowserUtils.highlight(element);
+                    BrowserUtils.waitFor(2);
+                    return element;
                 }
             }
             devam = moveToNextPage();
@@ -68,19 +84,19 @@ public class UsersPageWithTable extends TablePage {
         return null;
     }
 
-    public WebElement checkWantedElementOnTheLastPage(String column, String value){
-        getGoToLastPageButton().click();
+    public boolean isWantedElementOnTheLastPage(String column, String value){
+        moveToLastPage();
         BrowserUtils.waitFor(1);
         List<WebElement> columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
-        System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
+        //System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
         for (WebElement emailElement : columnElementsOnCurrentPage) {
             if (emailElement.getText().equals(value)){
-                return emailElement;
+                return true;
             }
         }
-        moveToFirstPage();
-        return null;
+        return false;
     }
+
 
     //sonraki sayfaya gecmek icin kullanilacak butonu doner. Asagida direk sayfa degistirme methodu var.
     public WebElement getNextPageButton(){

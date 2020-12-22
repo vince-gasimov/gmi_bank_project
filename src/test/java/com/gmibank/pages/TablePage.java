@@ -95,7 +95,6 @@ public class TablePage extends BasePage{
         button.click();
         BrowserUtils.executeJScommand("window.scrollBy(0,-document.body.scrollHeight)");
     }
-
     /******************************************************************* '
      Methoda verdigin kolondaki butun degerleri alir.
 
