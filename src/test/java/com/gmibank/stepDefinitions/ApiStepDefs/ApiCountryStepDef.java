@@ -1,4 +1,4 @@
-package com.gmibank.stepDefinitions;
+package com.gmibank.stepDefinitions.ApiStepDefs;
 
 import com.gmibank.utilities.ConfigurationReader;
 import io.cucumber.java.en.Given;

@@ -1,4 +1,4 @@
-package com.gmibank.stepDefinitions;
+package com.gmibank.stepDefinitions.ApiStepDefs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmibank.Api.pojos.Customer;
