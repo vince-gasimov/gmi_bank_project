@@ -6,11 +6,14 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class CustomerApiUtilities {
+public class ApiCustomerUtilities {
 
+    public static String token;
+    static{
+        token = AccessToken.getAccessTokenWithBearer("admin");
+    }
 
     public static Response getAllCustomers(){
-        String token = AccessToken.getAccessTokenWithBearer("admin");
         Response response=given().log().all().headers(
                     "Authorization",
                     token,
@@ -28,6 +31,28 @@ public class CustomerApiUtilities {
                     .statusCode(200)
                     .extract()
                     .response();
+        return response;
+    }
+
+    //id'si verilen customer'in bilgilerini return eder, verify etmek icin kullanilabilir
+    public static Response getSpecifiedCustomerInfo(int id){
+        Response response = given().log().all()
+                .headers(
+                        "Authorization",
+                        token,
+                        "Content-Type",
+                        ContentType.JSON,
+                        "Accept",
+                        ContentType.JSON)
+                .and()
+                .pathParam("id", id)
+                .when()
+                .get(ConfigurationReader.getProperty("customer_Api_endpoint") + "/{id}")
+                .then().log().all()
+                .contentType(ContentType.JSON)
+                .extract()
+                .response();
+
         return response;
     }
 
