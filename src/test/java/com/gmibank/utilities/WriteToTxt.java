@@ -1,5 +1,6 @@
 package com.gmibank.utilities;
 
+import com.gmibank.Api.pojos.Country;
 import com.gmibank.Api.pojos.Customer;
 import com.gmibank.Api.pojos.States;
 
@@ -92,6 +93,20 @@ public class WriteToTxt {
 
             for (int i=0; i<states.length; i++)
                 writer.append(states[i].getName() + " , " + states[i].getId() + "\n");
+
+            writer.close();
+        } catch(Exception e){
+
+        }
+    }
+
+    //saveAllCountries
+    public static void saveAllCountries(String fileName, Country[] countries)  {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
+
+            for (int i=0; i<countries.length; i++)
+                writer.append(countries[i].getName() + " , " + countries[i].getId() + "\n");
 
             writer.close();
         } catch(Exception e){
