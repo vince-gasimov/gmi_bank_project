@@ -25,15 +25,12 @@ public class ManagementOfUsersByAdminStepDefs {
         usersPageWithTable.clickAndChangeActivationStatus(randomEmail);
     }
     @Then("verify that such an information message {string} is appeared after change of status operation")
-    public void verify_that_such_an_information_message_is_appeared_after_change_of_status_operation(String string) {
-
-        String expectedResultMessage = "A user is updated with";
-        Assert.assertTrue(usersPageWithTable.doesContainSuchAMessageInsideAlert(expectedResultMessage));
-        BrowserUtils.waitForInvisibility(By.xpath("//div[@role='alert']"),10);
-        Driver.getDriver().navigate().refresh();
+    public void verify_that_such_an_information_message_is_appeared_after_change_of_status_operation(String message) {
+        Assert.assertTrue(usersPageWithTable.doesContainSuchAMessageInsideAlert(message));
     }
     @Then("verify that activation status has changed")
     public void verify_that_activation_status_has_changed() {
+        Driver.getDriver().navigate().refresh();
         WebElement element = usersPageWithTable.locateWantedCellWithGivenColumnAndValue("Email", randomEmail);
         BrowserUtils.hover(element);
         String secondActivationStatus = usersPageWithTable.getActivationStatus(randomEmail);

@@ -96,6 +96,21 @@ public class ExcelUtilities {
         return user;
     }
 
+    public User getLastUserFromGivenSheetInExcel(){
+        List<String> columns = getColumnsNames();
+        int lastRow = rowCount();
+        Row row = workSheet.getRow(lastRow - 1);
+        // creating map of the row using the column and value
+        // key=column, value=cell
+        Map<String, String> rowMap = new HashMap<String, String>();
+        for (Cell cell : row) {
+            int columnIndex = cell.getColumnIndex();
+            rowMap.put(columns.get(columnIndex), cell.toString());
+        }
+        User user = new User(rowMap);
+        return user;
+    }
+
 
     //==============When you enter row and column number, then you get the data==========
     public String getCellData(int rowNum, int colNum) {
@@ -324,5 +339,18 @@ public class ExcelUtilities {
         }
         user.setProfiles(authority);
     }
+
+    public void editInformationInRow(String referenceColumnName, String referenceValue, String editColumnName, String newValue){
+        int rowIndex = -1;
+        List <Map<String, String>> listOfRow = getDataList();
+        for (int i = 0; i < listOfRow.size(); i++) {
+             if(listOfRow.get(i).get(referenceColumnName).equals(referenceValue)){
+                 rowIndex = i + 1;
+                 break;
+             }
+        }
+        setCellData(newValue,editColumnName,rowIndex);
+    }
+
 
 }

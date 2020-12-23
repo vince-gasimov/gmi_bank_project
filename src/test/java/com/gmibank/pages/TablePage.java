@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TablePage extends BasePage{
+public class TablePage extends BasePage {
 /***
  * Bu class; tablo iceren sayfalarda ortak olan locator ve methodlari iceriyor. Eger tablo iceren bir sayfada calisiyorsan
  * bu class i extend ederek burada olan her seyi kullanabilirsin. Bu class ayni zmanda BAsPage'den extend
@@ -24,7 +24,7 @@ public class TablePage extends BasePage{
 
 
     /******************************************************************* '
-    Asagidaki webeleemntleri tablo olan sayfalar icin ortak. Ayni locator ile bulunuyor.
+     Asagidaki webeleemntleri tablo olan sayfalar icin ortak. Ayni locator ile bulunuyor.
      Eger burada olmayan bir webelement varsa onu kendi olustrudugun class icinde ayrica tanimlayabilirsin.
      Buraya; butun tablo iceren sayfalarda ortak olmayan bir sey ekleme. Sadece ortak olanlar olmali
      */
@@ -43,15 +43,42 @@ public class TablePage extends BasePage{
     @FindBy(css = ".btn.btn-danger.btn-sm")
     public List<WebElement> deleteButtonList;
 
+    @FindBy(css = ".modal-title")
+    public WebElement deleteConfirmationBox;
+
+    @FindBy(css = ".modal-body")
+    public WebElement textElementInDeleteConfirmationBox;
+
+    @FindBy(xpath = "//*[@class='modal-footer']/button[2]")
+    public WebElement deleteButtonInConfirmationBox;
+
+
+    public boolean isDeleteConfirmationBoxDisplayed() {
+        BrowserUtils.waitForVisibility(deleteConfirmationBox, 5);
+        if (textElementInDeleteConfirmationBox.getText().contains("Are you sure you want to delete")) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public void deleteUser() {
+        if (isDeleteConfirmationBoxDisplayed()) {
+            deleteButtonInConfirmationBox.click();
+        } else {
+            System.out.println("confirmation box is not appeared!!!");
+        }
+    }
+
 
     /**
      * sayfada yapilan islmein basarili olup olmaidigni donen toasty alert mesaji
      */
     @FindBy(xpath = "//div[@role='alert']")
-    public  WebElement toastAlert;
+    public WebElement toastAlert;
 
-    public int getButtonCountInTheCurrentPage(String buttonType){
-        switch (buttonType){
+    public int getButtonCountInTheCurrentPage(String buttonType) {
+        switch (buttonType) {
             case "view":
                 return viewButtonList.size();
             case "edit":
@@ -68,11 +95,12 @@ public class TablePage extends BasePage{
     /**
      * bir islem sonrasinda islemin basarili olup olmaidigni donen toasty mesaji, belirtilen content
      * iceriyor mu.
+     *
      * @param message
      * @return
      */
-    public boolean doesContainSuchAMessageInsideAlert(String message){
-        BrowserUtils.waitForVisibility(toastAlert,5);
+    public boolean doesContainSuchAMessageInsideAlert(String message) {
+        BrowserUtils.waitForVisibility(toastAlert, 5);
         return toastAlert.getText().contains(message);
     }
 
@@ -86,37 +114,38 @@ public class TablePage extends BasePage{
      Degeri de sayfada gorundugu sekilde vermelisin.
 
      */
-    public void clickGivenButtonForWantedColumnAndValue(String column, String value, String buttonType){
+    public void clickGivenButtonForWantedColumnAndValue(String column, String value, String buttonType) {
         WebElement element = locateWantedCellWithGivenColumnAndValue(column, value);
         WebElement button = getOneOfTheTripleButtonWithGivenType(value, buttonType);
         BrowserUtils.executeJScommand("window.scrollBy(0,-document.body.scrollHeight)");
-        BrowserUtils.waitForVisibility(button,5);
+        BrowserUtils.waitForVisibility(button, 5);
         BrowserUtils.hover(button);
         button.click();
         BrowserUtils.executeJScommand("window.scrollBy(0,-document.body.scrollHeight)");
     }
+
     /******************************************************************* '
      Methoda verdigin kolondaki butun degerleri alir.
 
      */
-    public List<WebElement> getAllItemsInTheGivenColumn(String column){
+    public List<WebElement> getAllItemsInTheGivenColumn(String column) {
         String locator = "//tr//td[" + getIndexNumberOfGivenColumnName(column) + "]";
         return Driver.getDriver().findElements(By.xpath(locator));
     }
 
 
     /*****
-    Sayfalardaki kolon siralamalari farkli. Bu method ile verilen kolon isminin tablo icindeki index numar-
+     Sayfalardaki kolon siralamalari farkli. Bu method ile verilen kolon isminin tablo icindeki index numar-
      rasi alinir. Kolon ismi sayfadaki gorundugu gibi olmali
      */
-    public int getIndexNumberOfGivenColumnName(String columnName){
-        if (columnName.equals("activation_button")){
+    public int getIndexNumberOfGivenColumnName(String columnName) {
+        if (columnName.equals("activation_button")) {
             return 4;
-        }else if(columnName.equals("view_edit_delete_button")){
+        } else if (columnName.equals("view_edit_delete_button")) {
             return columnList.size();
-        }else{
+        } else {
             int index = calculateColumnIndex(columnName, BrowserUtils.getElementsText(columnList));
-            if (index != -1){
+            if (index != -1) {
                 System.out.println("found index number in the columns = " + index);
                 return index;
             }
@@ -131,32 +160,34 @@ public class TablePage extends BasePage{
      * @param columnNameList
      * @return
      */
-    public int calculateColumnIndex(String wantedColumnName, List<String> columnNameList){
+    public int calculateColumnIndex(String wantedColumnName, List<String> columnNameList) {
         for (int i = 0; i < columnNameList.size(); i++) {
-             if (columnNameList.get(i).equals(wantedColumnName)){
-                 return i + 1;
-             }
+            if (columnNameList.get(i).equals(wantedColumnName)) {
+                return i + 1;
+            }
         }
         return -1;
     }
+
     /*******************************************************************DUZENLENDI'
      Verilen kolondaki verilen degerin locate edilmesi icin kullanilabilir.
      Mesela "Email" kolonundaki "mrecihanbey@gmail.com" degerini bul diyebilirsin.
      */
-    public WebElement locateWantedCellWithGivenColumnAndValue(String column, String value){
-            List<WebElement> columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
-            //System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
-            for (WebElement element : columnElementsOnCurrentPage) {
-                if (element.getText().equals(value)){
-                    System.out.println("element.getText() = " + element.getText());
-                    return element;
-                }
+    public WebElement locateWantedCellWithGivenColumnAndValue(String column, String value) {
+        List<WebElement> columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
+        //System.out.println(BrowserUtils.getElementsText(columnElementsOnCurrentPage));
+        for (WebElement element : columnElementsOnCurrentPage) {
+            if (element.getText().equals(value)) {
+                System.out.println("element.getText() = " + element.getText());
+                return element;
             }
+        }
         return null;
     }
 
     /**
      * Tablodaki kolon isimlerini alir.
+     *
      * @return
      */
     public List<String> getColumnNameList() {
@@ -165,6 +196,7 @@ public class TablePage extends BasePage{
 
     /**
      * Verilen kolon isimleri listesinde verilen kolon isminin olup olmadigini doner.
+     *
      * @param columnName
      * @param columnNameList
      * @return
@@ -193,10 +225,11 @@ public class TablePage extends BasePage{
 
     /**
      * VErilen web elementin textini doner.
+     *
      * @param element
      * @return
      */
-    public String getElementText(WebElement element){
+    public String getElementText(WebElement element) {
         return element.getText();
     }
 
@@ -244,25 +277,27 @@ public class TablePage extends BasePage{
      * bu methodu; bir satirdaki herhangi bir huceredeki degeri bilip (degerin sayfada unique olmasi gerekiyor)
      * satiraki butun bilgileri cekmek istediginde kullanabilirsin. Daha sonra bu satirdaki bilgilerle
      * kolon isimlerini kullanrak map uretebilirsin baska bir method ile.
+     *
      * @param cellValue
      * @return
      */
-    public List<String> getAllInformationFromOneLineUsingGivenCellValue(String cellValue){
+    public List<String> getAllInformationFromOneLineUsingGivenCellValue(String cellValue) {
         //    //*[contains(text(),'Tako')]/ancestor::tr  >>>> one lcoator sample
 
         String locator = "//*[contains(text(),'" + cellValue + "')]/ancestor::tr/td";
-        List<WebElement>  cellElementList = Driver.getDriver().findElements(By.xpath(locator));
+        List<WebElement> cellElementList = Driver.getDriver().findElements(By.xpath(locator));
         return BrowserUtils.getElementsText(cellElementList);
     }
 
-    public Map<String, String> generateMapForOneLineKeyValuePairsUsingGivenCellValue(String cellValue){
+    public Map<String, String> generateMapForOneLineKeyValuePairsUsingGivenCellValue(String cellValue) {
         Map<String, String> columnInfoMap = new HashMap<>();
         List<String> values = getAllInformationFromOneLineUsingGivenCellValue(cellValue);
         List<String> columns = getColumnNameList();
         for (int i = 0; i < columns.size(); i++) {
-             columnInfoMap.put(columns.get(i), values.get(i));
+            columnInfoMap.put(columns.get(i), values.get(i));
         }
         return columnInfoMap;
     }
+
 
 }
