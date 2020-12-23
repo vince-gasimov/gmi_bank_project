@@ -26,6 +26,8 @@ Feature: Read countries
     Then verify that data of country id 60778
 
   Scenario: US_025 creation of a new country
+
+  Scenario: creation of a new country
     Given send a new country with generated name
     Then verify that new country is created
 

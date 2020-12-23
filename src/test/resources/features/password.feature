@@ -91,14 +91,3 @@ Feature: Password rules
     Then verify that new user is not registered
 
 
-  Scenario: a new user should be able to register to the system with a new valid SSN and a valid password with length of 7 chars
-    When user types following information and click to register button
-      | ssnNumber         |
-      | firstName         |
-      | lastName          |
-      | address           |
-      | mobilePhoneNumber |
-      | userName          |
-      | email             |
-    Then verify that new user is registered by getting such a message "Registration saved!"
-

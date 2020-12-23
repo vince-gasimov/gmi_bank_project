@@ -18,7 +18,7 @@ import org.testng.Assert;
 import java.util.HashMap;
 import java.util.List;
 
-public class UseInfoStepDesf {
+public class UseInfoStepDefs {
     UserInfoPage page = new UserInfoPage();
 
 
