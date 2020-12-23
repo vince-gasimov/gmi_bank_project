@@ -16,15 +16,11 @@ public class ApiStatesDeleteStepDefs {
     public void user_deletes_the_state_of_a_given_id() {
 
         ApiStatesUtilities.deleteOneState("/31099");
-
-
     }
 
     @Then("verifies the state he deleted")
     public void verifies_the_state_he_deleted() {
         Assert.assertEquals(ApiStatesUtilities.getSpecifiedStateInfo(31099).getStatusCode(), 404 + "not verify");
-
-
     }
 
 }
