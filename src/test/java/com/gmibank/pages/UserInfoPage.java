@@ -72,6 +72,18 @@ public class UserInfoPage extends BasePage {
 
 
 
+    public void typeFirstname(String firstName){
+        firstNameBox.click();
+        firstNameBox.clear();
+        firstNameBox.click();
+        firstNameBox.sendKeys(firstName);
+    }
+
+    public void editAndSaveFirstName(String newName){
+        BrowserUtils.waitForVisibility(firstNameBox,5);
+        typeFirstname(newName);
+        saveButtonUserinfo.click();
+    }
 
 
 }

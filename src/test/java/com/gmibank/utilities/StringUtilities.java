@@ -16,4 +16,13 @@ public class StringUtilities {
         return getInnerStringBetweenIndexes(mainText, startIndex, endIndex).trim();
     }
 
+    public static String reverseWord(String word){
+        String[] strArray = word.split("");
+        String newString = "";
+        for (int i = strArray.length - 1; i >= 0 ; i--) {
+            newString += strArray[i];
+        }
+        return newString;
+    }
+
 }

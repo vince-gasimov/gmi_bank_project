@@ -1,9 +1,7 @@
 package com.gmibank.utilities;
 
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,10 +13,28 @@ import java.util.Map;
 // These are the reusable custom methods we can use in our test classes
 public class ExcelUtilities {
 
-    private Workbook workBook;
-    private Sheet workSheet;
+    public Workbook workBook;
+    public Sheet workSheet;
     private String path;
 
+    /**
+     * eger workbook icinde birden fazla sheet uzerinde calisilacaksa diye bu methdu ekledim.
+     * ayni zamanda getter ve setter'lar ile ugrasmmamak icin public yaptim.
+     * eger const icinde verdiginden farkli sheet uzerinde calisacaksan bu method ile once
+     * calisacagin sheet'i set etmelisin.
+     *
+     * @param sheetName
+     */
+    public void setWorkSheet(String sheetName) {
+        this.workSheet = workBook.getSheet(sheetName);
+    }
+
+    /**
+     * const cagrildiginda dosya acilip erisime sunuluyor, tekrardan  acmaya gerek yok
+     *
+     * @param path
+     * @param sheetName
+     */
     public ExcelUtilities(String path, String sheetName) {//This Constructor is to open and access the excel file
         this.path = path;
         try {
@@ -33,6 +49,12 @@ public class ExcelUtilities {
         }
     }
 
+    /**
+     * o anda aktif olan (set edilmis olan) sheet kolon sayisini doner. Ilk satirdan hesaplama
+     * yapar.
+     *
+     * @return
+     */
     //===============Getting the number of columns in a specific single row=================
     public int columnCount() {
         //getting how many numbers in row 1
@@ -43,6 +65,52 @@ public class ExcelUtilities {
     public int rowCount() {
         return workSheet.getLastRowNum() + 1;
     }//adding 1 to get the actual count
+
+
+    public Map<String, String> getLastRow(){
+        List<String> columns = getColumnsNames();
+        int lastRow = rowCount();
+        Row row = workSheet.getRow(lastRow - 1);
+        // creating map of the row using the column and value
+        // key=column, value=cell
+        Map<String, String> rowMap = new HashMap<String, String>();
+        for (Cell cell : row) {
+            int columnIndex = cell.getColumnIndex();
+            rowMap.put(columns.get(columnIndex), cell.toString());
+        }
+        return rowMap;
+    }
+
+    public User getLastRegistrantAsUser(){
+        List<String> columns = getColumnsNames();
+        int lastRow = rowCount();
+        Row row = workSheet.getRow(lastRow - 1);
+        // creating map of the row using the column and value
+        // key=column, value=cell
+        Map<String, String> rowMap = new HashMap<String, String>();
+        for (Cell cell : row) {
+            int columnIndex = cell.getColumnIndex();
+            rowMap.put(columns.get(columnIndex), cell.toString());
+        }
+        User user = new User(rowMap);
+        return user;
+    }
+
+    public User getLastUserFromGivenSheetInExcel(){
+        List<String> columns = getColumnsNames();
+        int lastRow = rowCount();
+        Row row = workSheet.getRow(lastRow - 1);
+        // creating map of the row using the column and value
+        // key=column, value=cell
+        Map<String, String> rowMap = new HashMap<String, String>();
+        for (Cell cell : row) {
+            int columnIndex = cell.getColumnIndex();
+            rowMap.put(columns.get(columnIndex), cell.toString());
+        }
+        User user = new User(rowMap);
+        return user;
+    }
+
 
     //==============When you enter row and column number, then you get the data==========
     public String getCellData(int rowNum, int colNum) {
@@ -91,6 +159,21 @@ public class ExcelUtilities {
         return data;
     }
 
+    /**
+     * check whether there exist any row except for header
+     * @return
+     */
+    public boolean doesExistAnyRowExceptForHeader(){
+        if (rowCount() == 1){
+            System.out.println(rowCount());
+            return false;
+        }
+        System.out.println(rowCount());
+        return true;
+    }
+
+
+
     //==============going to the first row and reading each row one by one==================//
     public List<String> getColumnsNames() {
         List<String> columns = new ArrayList<>();
@@ -126,52 +209,148 @@ public class ExcelUtilities {
         setCellData(value, row, column);
     }
 
+    public void writeUserIntoExcel(User user, String sheetName){
+        setWorkSheet(sheetName);
+        int rowIndex = rowCount();
+        Row row = workSheet.createRow(rowIndex);
+        List<String> columnNames = getColumnsNames();
+        for (String columnName : columnNames) {
+            switch (columnName){
+                case "firstName":
+                    setCellData(user.getFirstName(),columnName,rowIndex);
+                    break;
+                case "lastName":
+                    setCellData(user.getLastName(),columnName,rowIndex);
+                    break;
+                case "ssnNumber":
+                    setCellData(user.getSsnNumber(),columnName,rowIndex);
+                    break;
+                case "address":
+                    setCellData(user.getAddress(),columnName,rowIndex);
+                    break;
+                case "zipCode":
+                    setCellData(user.getZipCode(),columnName,rowIndex);
+                    break;
+                case "state":
+                    setCellData(user.getState(),columnName,rowIndex);
+                    break;
+                case "mobilePhoneNumber":
+                    setCellData(user.getMobilePhoneNumber(),columnName,rowIndex);
+                    break;
+                case "phoneNumber":
+                    setCellData(user.getPhoneNumber(),columnName,rowIndex);
+                    break;
+                case "city":
+                    setCellData(user.getCity(),columnName,rowIndex);
+                    break;
+                case "userName":
+                    setCellData(user.getUserName(),columnName,rowIndex);
+                    break;
+                case "email":
+                    setCellData(user.getEmail(),columnName,rowIndex);
+                    break;
+                case "password":
+                    setCellData(user.getPassword(),columnName,rowIndex);
+                    break;
+                case "activation":
+                    setCellData(user.getActivation(),columnName,rowIndex);
+                    break;
+                case "profiles":
+                    setCellData(user.getProfiles(),columnName,rowIndex);
+                    break;
+                case "id":
+                    setCellData(user.getId(),columnName,rowIndex);
+                    break;
+                default:
+                    System.out.println("there does not exist such a column name!!!");
+                    break;
+            }
+        }
+        saveWorkBook();
+    }
 
-    public void writeUserIntoExcel(User user) {
-        //**String excelFilePath = "src/test/resources/CreatedUserInformation.xlsx";
+    public void writeUserIntoExcel(Map<String, String> userInfoMap) {
 
-        // Using XSSF for xlsx format, for xls use HSSF
-        //workBook = new XSSFWorkbook();
+        int rowIndex = rowCount();
+        Row row = workSheet.createRow(rowIndex);
+        for (String key : userInfoMap.keySet()) {
+            setCellData(userInfoMap.get(key), key, rowIndex);
+        }
+        saveWorkBook();
+    }
 
-        int rowIndex = rowCount();;
+    public void removeLastRow() {
+        int lastRowNumIndex = rowCount() - 1;
+        if (lastRowNumIndex != 0) {
+            Row row = workSheet.getRow(lastRowNumIndex);
+            workSheet.removeRow(row);
+        } else {
+            System.out.println("just headers exist!!");
+        }
 
-        Row row = workSheet.createRow(rowIndex++);
-        int cellIndex = 0;
-        //first place in row is ssn
-        row.createCell(cellIndex++).setCellValue(user.getSsn());
+    }
 
-        //second place in row is firstName
-        row.createCell(cellIndex++).setCellValue(user.getFirstName());
+    public void removeLastRowAndSave(){
+        removeLastRow();
+        saveWorkBook();
+    }
 
-        //third place in row is lastName
-        row.createCell(cellIndex++).setCellValue(user.getLastName());
-
-        //fourth place in row is address
-        row.createCell(cellIndex++).setCellValue(user.getAddress());
-
-        //fourth place in row is mobilePhoneNumber
-        row.createCell(cellIndex++).setCellValue(user.getMobilePhoneNumber());
-
-        //fourth place in row is username
-        row.createCell(cellIndex++).setCellValue(user.getUsername());
-
-        //fourth place in row is email
-        row.createCell(cellIndex++).setCellValue(user.getEmail());
-
-        //fourth place in row is password
-        row.createCell(cellIndex++).setCellValue(user.getPassword());
-
-        //write this workbook into excel file.
+    /**
+     * dosya uzerinde okuma manipulasyn yaptiktan sonra kaydetmen lazim. Aksi halde degisiklik
+     * geri alinir.
+     */
+    public void saveWorkBook() {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(path);
             workBook.write(fileOutputStream);
             fileOutputStream.close();
 
             System.out.println(path + " i[enter link description here][1]s successfully written");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public static Map convertUserToMap(User user){
+        ObjectMapper oMapper = new ObjectMapper();
+        return oMapper.convertValue(user, Map.class);
+    }
+
+    public static void putAdditionalInformationForUser(String activation, String profiles, String id, Map<String, String> map){
+        map.put("activation", activation);
+        map.put("profiles", profiles);
+        map.put("id", id);
+    }
+
+    public static void putAdditionalInformationForUser(boolean activated, String userType, String id, User user){
+        user.setActivation(String.valueOf(activated));
+        user.setId(id);
+        String authority = null;
+        switch (userType){
+            case "admin":
+                authority = "ROLE_ADMIN";
+                break;
+            case "employee":
+                authority = "ROLE_EMPLOYEE";
+                break;
+            case "user":
+                authority = "ROLE_USER";
+                break;
+        }
+        user.setProfiles(authority);
+    }
+
+    public void editInformationInRow(String referenceColumnName, String referenceValue, String editColumnName, String newValue){
+        int rowIndex = -1;
+        List <Map<String, String>> listOfRow = getDataList();
+        for (int i = 0; i < listOfRow.size(); i++) {
+             if(listOfRow.get(i).get(referenceColumnName).equals(referenceValue)){
+                 rowIndex = i + 1;
+                 break;
+             }
+        }
+        setCellData(newValue,editColumnName,rowIndex);
+    }
+
+
 }
