@@ -1,3 +1,4 @@
+@All
 Feature: Password rules
 
   Background: user navigates to Register page
@@ -89,15 +90,4 @@ Feature: Password rules
     And click to register in the registration page
     Then verify that new user is not registered
 
-  @wip
-  Scenario: a new user should be able to register to the system with a new valid SSN and a valid password with length of 7 chars
-    When user type valid dummy information into following textBoxes
-      | ssnNumber         |
-      | firstName         |
-      | lastName          |
-      | address           |
-      | mobilePhoneNumber |
-      | userName          |
-      | email             |
-    Then verify that new user is registered by getting such a message "Registration saved!"
 

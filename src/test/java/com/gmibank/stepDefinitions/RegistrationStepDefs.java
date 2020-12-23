@@ -37,9 +37,10 @@ public class RegistrationStepDefs {
         new RegistrationPage().typeValueInsideASpecifiedTextBox(textBox, "");
     }
 
-    @When("user type valid dummy information into following textBoxes")
-    public void user_type_valid_dummy_information_into_following_textBoxes(List<String> textBoxList) {
-        new RegistrationPage().registerNewUserWithRandomGeneratedValue(textBoxList);
+
+    @When("user types required information and click to register button")
+    public void user_types_required_information_and_click_to_register_button() {
+        new RegistrationPage().registerNewUserWithRandomGeneratedValue();
     }
 
     @Then("verify that new user is registered by getting such a message {string}")

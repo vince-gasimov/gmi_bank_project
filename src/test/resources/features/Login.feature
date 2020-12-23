@@ -1,3 +1,4 @@
+@All
 Feature: Login Functionality
 
   Background:
@@ -43,3 +44,15 @@ Feature: Login Functionality
   Scenario: US_005 TC_006 User should be given the option to navigate to registration page if they did not register yet
       And user click on the register a new account link
       Then verify that user navigate to registration page
+
+  Scenario Outline: US_007 TC_001 System should not allow to make updates with invalid credentials.
+    Given user sign in to the system as "customer"
+    When user navigates to "User Info" page under account menu icon
+    And user types a valid "Firstname" and "Lastname" pres TAB
+    And Invalid "<input>" entered to "<credentials>" box user see "<Error Message>" displayed
+    Examples: TC_001 Email id cannot contain just digits or chars without "@" sign or ".com" extension
+      | credentials |  input                | Error Message         |
+      | email       | @                     | This field is invalid |
+      | email       | group.com             | This field is invalid |
+      | email       | @group.com            | This field is invalid |
+      | email       | employee@group16.com  | Settings saved!       |
