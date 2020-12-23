@@ -232,9 +232,9 @@ public class User {
         this.userName = userInfoMap.get("userName");
         this.email = userInfoMap.get("email");
         this.password = userInfoMap.get("password");
-/*        this.zipCode = userInfoMap.get("zipCode");
+        this.zipCode = userInfoMap.get("zipCode");
         this.city = userInfoMap.get("city");
-        this.state = userInfoMap.get("state");*/
+        this.state = userInfoMap.get("state");
     }
 
 

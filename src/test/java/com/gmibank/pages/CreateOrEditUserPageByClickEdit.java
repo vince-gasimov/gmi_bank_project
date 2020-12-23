@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-public class CreateOrEditUserPageByClickEdit extends BasePage{
+public class CreateOrEditUserPageByClickEdit extends BasePage {
 
     @FindBy(id = "login")
     public WebElement loginTextBox;
@@ -31,23 +31,28 @@ public class CreateOrEditUserPageByClickEdit extends BasePage{
     public WebElement saveButton;
 
 
-    public void selectProfileActivateAndSave(String profile){
-        BrowserUtils.waitForVisibility(loginTextBox,5);
+    public void selectProfileActivateAndSave(String profile) {
+        BrowserUtils.waitForVisibility(loginTextBox, 5);
+        deselectAllOptions();
         selectAuthorityProfileOption(profile);
         activate();
         clickSaveButton();
     }
 
+    public void deselectAllOptions() {
+        Select select = new Select(profilesBox);
+        select.deselectAll();
+    }
 
-    public void clickSaveButton(){
-        BrowserUtils.waitForClickablility(saveButton,5);
+    public void clickSaveButton() {
+        BrowserUtils.waitForClickablility(saveButton, 5);
         saveButton.click();
     }
 
-    public void selectAuthorityProfileOption(String profile){
+    public void selectAuthorityProfileOption(String profile) {
         Select select = new Select(profilesBox);
         String originalText = null;
-        switch (profile.toLowerCase()){
+        switch (profile.toLowerCase()) {
             case "user":
                 originalText = "ROLE_USER";
                 break;
@@ -72,19 +77,19 @@ public class CreateOrEditUserPageByClickEdit extends BasePage{
     }
 
 
-    public boolean isActivated(){
+    public boolean isActivated() {
         return activatedCheckBox.getAttribute("value").equals("true");
     }
 
 
-    public void activate(){
-        if (!isActivated()){
-            activatedCheckBox.click();
+    public void activate() {
+        if (!isActivated()) {
+            BrowserUtils.executeJScommand(activatedCheckBox, "arguments[0].click();");
         }
     }
 
-    public void deactivate(){
-        if (isActivated()){
+    public void deactivate() {
+        if (isActivated()) {
             activatedCheckBox.click();
         }
     }

@@ -25,4 +25,18 @@ public class StringUtilities {
         return newString;
     }
 
+    public static String userTypeRoleConversion(String userType){
+        switch (userType){
+            case "admin":
+                return "ROLE_ADMIN";
+            case "user":
+                return "ROLE_USER";
+            case "employee":
+                return "ROLE_EMPLOYEE";
+            case "customer":
+                return "ROLE_CUSTOMER";
+        }
+        return null;
+    }
+
 }
