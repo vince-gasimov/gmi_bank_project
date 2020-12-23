@@ -5,12 +5,15 @@ import com.gmibank.utilities.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.net.UnknownServiceException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class TestClass {
@@ -169,4 +172,71 @@ public class TestClass {
         System.out.println("row var");
     }
 
+    @Test
+    public void test9() throws Exception {
+        BasePage basePage = new BasePage();
+        basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
+        LoginPage loginPage = new LoginPage();
+        loginPage.loginWithValidInfo("admin");
+        BrowserUtils.waitFor(2);
+        basePage.clickGivenNavItemAndSelectGivenDropDownItem("Administration", "User management");
+        UsersPageWithTable usersPageWithTable = new UsersPageWithTable();
+        BrowserUtils.waitForClickablility(usersPageWithTable.createButton,5);
+        String randomEmail = usersPageWithTable.getOneRandomEmailFromCurrentPage();
+        System.out.println("randomEmail = " + randomEmail);
+        usersPageWithTable.clickGivenButtonForWantedColumnAndValue("Email", randomEmail,"edit");
+        CreateOrEditUserPageByClickEdit createOrEditUserPageByClickEdit = new CreateOrEditUserPageByClickEdit();
+        Select select = new Select(createOrEditUserPageByClickEdit.profilesBox);
+        System.out.println("butun secenkeleri al *****************''");
+        List<String> list = BrowserUtils.getElementsText(select.getOptions());
+        for (String s : list) {
+            System.out.println("select.getOptions() = " + s);
+        }
+
+        System.out.println("secili olanlari getir *************************");
+        list = BrowserUtils.getElementsText(select.getAllSelectedOptions());
+        for (String s : list) {
+            System.out.println("select.getOptions() = " + s);
+        }
+
+        System.out.println("yenilerini ekle*********************''");
+        select.selectByVisibleText("ROLE_ADMIN");
+        select.selectByVisibleText("ROLE_EMPLOYEE");
+        System.out.println("butun secili olanlari getir***********************'");
+
+        list = BrowserUtils.getElementsText(select.getAllSelectedOptions());
+        for (String s : list) {
+            System.out.println("select.getOptions() = " + s);
+        }
+        System.out.println("hepsini deseltc et************************'");
+        select.deselectAll();
+        System.out.println("secili olanlari getir**************************''");
+
+        list = BrowserUtils.getElementsText(select.getAllSelectedOptions());
+        for (String s : list) {
+            System.out.println("select.getOptions() = " + s);
+        }
+        System.out.println("select.getAllSelectedOptions() = " + select.getAllSelectedOptions());
+
+    }
+
+    @Test
+    public void test10(){
+        ExcelUtilities excelUtilities = new ExcelUtilities(ConfigurationReader.getProperty("registration_excel_path"), "jhi_user");
+        List<String> email = excelUtilities.getGivenColumnValues("email");
+        for (String s : email) {
+            System.out.println(s);
+        }
+        System.out.println("excelUtilities.getRowIndexNumForGivenValue(\"email\",\"jake.bayer@hotmail.com\") = " + excelUtilities.getRowIndexNumForGivenValue("email", "jake.bayer@hotmail.com"));
+    }
+
+    @Test
+    public void test11(){
+        ExcelUtilities excelUtilities = new ExcelUtilities(ConfigurationReader.getProperty("registration_excel_path"), "jhi_user");
+        System.out.println(excelUtilities.getRandomRowNumWithinSameProfile("ROLE_USER"));
+        System.out.println(excelUtilities.getRandomRowNumWithinSameProfile("ROLE_USER"));
+        System.out.println(excelUtilities.getRandomRowNumWithinSameProfile("ROLE_ADMIN"));
+        System.out.println(excelUtilities.getRandomRowNumWithinSameProfile("ROLE_USER"));
+        System.out.println(excelUtilities.getSpecifiedRow(2));
+    }
 }

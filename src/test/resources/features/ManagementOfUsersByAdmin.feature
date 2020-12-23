@@ -1,4 +1,4 @@
-@wip
+
 Feature: System should allow the Admin to manage users
 
 
@@ -9,7 +9,7 @@ Feature: System should allow the Admin to manage users
     Then verify that such an information message "A user is updated with" is appeared after operation on users_page
     And verify that activation status has changed
 
-  @activation
+  @activation @wip
   Scenario Outline: Verify that admin can activate users with different roles by retrieving required information from excel "<userType>"
 
     Given user sign in to the system as "admin"

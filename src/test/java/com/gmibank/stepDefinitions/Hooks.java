@@ -32,6 +32,12 @@ public class Hooks {
         BrowserUtils.waitFor(1);
         Driver.closeDriver();
     }
+
+    /**
+     * bu before methodu sadece @activation olan senaryolarda calisir. Bu senaryolar icin
+     * excel'den veri cekilmesi gerekir. Bu methodun fonksiyonu excel icinde cekilecek veriyi hazirlamaktir
+     * eger veri yoksa yenilerini ekler, varsa degisiklik yapmadan devam eder
+     */
     @Before ("@activation")
     public void setupActivation(){
         new RegistrationPage().makeSureThereExistRegistrantInExcel();

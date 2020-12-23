@@ -267,4 +267,33 @@ public class DatabaseUtility {
 
     }
 
+    public static List<String> getCountryNames(){
+        String query = "select * from tp_country;";
+        List<Map<String, Object>> queryResultMap = getQueryResultMap(query);
+        List<String> countryNameList = new ArrayList<>();
+        for (Map<String, Object> map : queryResultMap) {
+            countryNameList.add((String)map.get("name"));
+        }
+        return countryNameList;
+    }
+
+    public static boolean compareMapFromDbAndMapFromExcel(Map<String, Object> map, Map<String, String> mapFromExcel){
+        Map<String, Boolean> compareResultMap = new HashMap<>();
+        compareResultMap.put("equalFirstName", ((String) map.get("first_name")).equals(mapFromExcel.get("firstName")));
+        compareResultMap.put("equalUserName", ((String) map.get("login")).equals(mapFromExcel.get("userName")));
+        compareResultMap.put("equalActivationStatus", (String.valueOf(map.get("activated"))).equals(mapFromExcel.get("activation")));
+        compareResultMap.put("equalAuthority", ((String) map.get("authority_name")).equals(mapFromExcel.get("profiles")));
+        compareResultMap.put("equalLastName", ((String) map.get("last_name")).equals(mapFromExcel.get("lastName")));
+        compareResultMap.put("equalId", String.valueOf(map.get("user_id")).equals(mapFromExcel.get("id")));
+
+        for (String key : compareResultMap.keySet()) {
+            if (!compareResultMap.get(key)){
+                System.out.println(key + " information does not match!!!");
+                return false;
+            }
+        }
+        return true;
+
+    }
+
 }

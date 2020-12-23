@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // We can use this excel utilities class to read and write excel files (for xls, xlsx files).
 // These are the reusable custom methods we can use in our test classes
@@ -71,6 +68,24 @@ public class ExcelUtilities {
         List<String> columns = getColumnsNames();
         int lastRow = rowCount();
         Row row = workSheet.getRow(lastRow - 1);
+        // creating map of the row using the column and value
+        // key=column, value=cell
+        Map<String, String> rowMap = new HashMap<String, String>();
+        for (Cell cell : row) {
+            int columnIndex = cell.getColumnIndex();
+            rowMap.put(columns.get(columnIndex), cell.toString());
+        }
+        return rowMap;
+    }
+
+    /**
+     *
+     * @param rowIndex
+     * @return verilen satirdaki biligyi verir. Header dahil olara 0-based say.
+     */
+    public Map<String, String> getSpecifiedRow(int rowIndex){
+        List<String> columns = getColumnsNames();
+        Row row = workSheet.getRow(rowIndex);
         // creating map of the row using the column and value
         // key=column, value=cell
         Map<String, String> rowMap = new HashMap<String, String>();
@@ -352,5 +367,71 @@ public class ExcelUtilities {
         setCellData(newValue,editColumnName,rowIndex);
     }
 
+    /**
+     *
+     * @param columnName
+     * @return header dahil etmeden verilen column ismine gore datayi doner.
+     */
+    public List<String> getGivenColumnValues(String columnName){
+        List<String> columnValueList = new ArrayList<>();
+        int colNum = getColumnsNames().indexOf(columnName);
+        int rowNum = workSheet.getLastRowNum();
+        for (int i = 0; i < rowNum; i++) {
+             columnValueList.add(getCellData(i + 1,colNum));
+        }
+        return columnValueList;
+    }
+
+    /**
+     *
+     * @param columnName
+     * @param value
+     * @return sheet icindeki row index'i 0'dan basliyor. Buradan alinacak sayi sayfanin
+     *          tamami icin gecerli olacak sekilde row index numarasidir. Yani header'i dahil
+     *          eder sayarken. Header 0 index'ine karsilik gelir.
+     */
+    public int getRowIndexNumForGivenValue(String columnName ,String value){
+        List<String> columnValueList = getGivenColumnValues(columnName);
+        for (int i = 0; i < columnValueList.size(); i++) {
+             if (columnValueList.get(i).equals(value)){
+                 return i + 1;
+             }
+        }
+        return -1;
+    }
+
+    /**
+     *
+     * @param columnValue
+     * @return verilen kolon icindeki data sayisina gore random sayi ureterek o index'teki degeri doner
+     */
+    public String getRandomValueFromGivenColumn(String columnValue){
+        List<String> valueList = getGivenColumnValues(columnValue);
+        int max = valueList.size();
+        Random random = new Random();
+        int rndNum = random.nextInt(max);
+        return valueList.get(rndNum);
+    }
+
+    /**
+     *
+     * @param profile
+     * @return verilen profil tipindeki satirlar arasindan rastgele secim yaparak
+     *         secilen satirin satir index numarasini doner. Dondugu numara icinde
+     *         header satiri da vardir. 0-based
+     */
+    public int getRandomRowNumWithinSameProfile(String profile){
+        List<String> allValues = getGivenColumnValues("profiles");
+        List<Integer> wantedValuesIndexNumberList = new ArrayList<>();
+        for (int i = 0; i < allValues.size(); i++) {
+             if (allValues.get(i).equals(profile)){
+                 wantedValuesIndexNumberList.add(i);
+             }
+        }
+        int max = wantedValuesIndexNumberList.size();
+        Random random = new Random();
+        int rndNum = random.nextInt(max);
+        return wantedValuesIndexNumberList.get(rndNum) + 1;
+    }
 
 }
