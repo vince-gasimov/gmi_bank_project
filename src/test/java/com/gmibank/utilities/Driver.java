@@ -54,6 +54,7 @@ public class Driver {
         driver.manage().window().maximize();
         return driver;
     }
+
     public static void closeDriver() {
         // Eğer driver nesnesi NULL değilse, yani hafızada varsa
         if (driver != null) {
@@ -61,12 +62,7 @@ public class Driver {
             driver = null;  // driver'ı hafızadan temizle.
         }
 
-
-
-
-
-
-    }
+}
 
 }
 
