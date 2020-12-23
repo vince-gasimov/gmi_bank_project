@@ -19,7 +19,7 @@ Feature: Read countries
       | endPoint                                 | id     |
       | https://www.gmibank.com/api/tp-countries | /59638 |
 
-  @wip
+
   Scenario: creation of a new country
     Given send a new country with generated name
     Then verify that new country is created

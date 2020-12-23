@@ -16,4 +16,27 @@ public class StringUtilities {
         return getInnerStringBetweenIndexes(mainText, startIndex, endIndex).trim();
     }
 
+    public static String reverseWord(String word){
+        String[] strArray = word.split("");
+        String newString = "";
+        for (int i = strArray.length - 1; i >= 0 ; i--) {
+            newString += strArray[i];
+        }
+        return newString;
+    }
+
+    public static String userTypeRoleConversion(String userType){
+        switch (userType){
+            case "admin":
+                return "ROLE_ADMIN";
+            case "user":
+                return "ROLE_USER";
+            case "employee":
+                return "ROLE_EMPLOYEE";
+            case "customer":
+                return "ROLE_CUSTOMER";
+        }
+        return null;
+    }
+
 }

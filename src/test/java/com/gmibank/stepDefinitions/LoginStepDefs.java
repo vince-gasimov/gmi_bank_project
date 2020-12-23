@@ -22,7 +22,8 @@ public class LoginStepDefs {
     public void user_sign_in_to_the_system_as(String userType) throws Exception {
         basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
         loginPage.loginWithValidInfo(userType);
-        BrowserUtils.waitForTextAppearInElement(basePage.accountMenuIcon, "group16", 10);
+        BrowserUtils.waitForVisibility(new BasePage().myOperationsNavItem, 5);
+        //BrowserUtils.waitForTextAppearInElement(basePage.accountMenuIcon, "group16", 10);
     }
 
     @When("user types and submit the valid {string} credentials")

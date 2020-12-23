@@ -139,3 +139,8 @@ Feature:  System should allow any user to register with valid credentials valida
   Scenario: US_002 TC_0013 email cannot be left blank
     Given user types click and leaves blank "email" textbox
     Then  Verify that this error message "Your email is required." is displayed
+
+  Scenario: a new user should be able to register to the system with a new valid SSN and a valid password with length of 7 chars
+    When user types required information and click to register button
+    Then verify that new user is registered by getting such a message "Registration saved!"
+

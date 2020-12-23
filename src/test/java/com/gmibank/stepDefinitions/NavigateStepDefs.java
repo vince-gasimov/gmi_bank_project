@@ -1,6 +1,7 @@
 package com.gmibank.stepDefinitions;
 
 import com.gmibank.pages.BasePage;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 
 public class NavigateStepDefs {
@@ -16,6 +17,12 @@ public class NavigateStepDefs {
     @When("user navigates to {string} page under My Operations menu")
     public void user_navigates_to_page_under_My_Operations_menu(String pageName) throws Exception {
         new BasePage().clickAndSelectDropDownItemUnderMyOperationsNavItem(pageName);
+    }
+
+    @Given("user navigates to {string} page under {string} menu")
+    public void user_navigates_to_page_under_menu(String dropDownItem, String navItem) {
+        BasePage basePage = new BasePage();
+        basePage.clickGivenNavItemAndSelectGivenDropDownItem(navItem, dropDownItem);
     }
 
 }
