@@ -246,6 +246,9 @@ public class ExcelUtilities {
                 case "zipCode":
                     setCellData(user.getZipCode(),columnName,rowIndex);
                     break;
+                case "country":
+                    setCellData(user.getCountry(),columnName,rowIndex);
+                    break;
                 case "state":
                     setCellData(user.getState(),columnName,rowIndex);
                     break;
@@ -350,6 +353,9 @@ public class ExcelUtilities {
                 break;
             case "user":
                 authority = "ROLE_USER";
+                break;
+            case "customer":
+                authority = "ROLE_CUSTOMER";
                 break;
         }
         user.setProfiles(authority);

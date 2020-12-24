@@ -66,6 +66,7 @@ public class UsersPageWithTable extends TablePage {
             }
         }
         moveToFirstPage();
+        BrowserUtils.executeJScommand("window.scrollTo(0, -document.body.scrollHeight)");//**********************''''
         boolean devam = true;
         while (devam){
             columnElementsOnCurrentPage = getAllItemsInTheGivenColumn(column);
@@ -79,6 +80,7 @@ public class UsersPageWithTable extends TablePage {
                 }
             }
             devam = moveToNextPage();
+            BrowserUtils.executeJScommand("window.scrollTo(0, -document.body.scrollHeight)");//*************************
             BrowserUtils.waitFor(2);
         }
         return null;

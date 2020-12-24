@@ -45,6 +45,16 @@ public class User {
 
     private String zelloEnrolled;
 
+    private String country;
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public String getSsnNumber() {
         return ssnNumber;
     }
@@ -197,7 +207,7 @@ public class User {
         this.zelloEnrolled = zelloEnrolled;
     }
 
-    public User(String ssn, String firstName, String lastName, String address, String mobilePhoneNumber, String username, String email, String password, String zipCode, String city, String state, String phoneNumber, String activation, String profiles, String id, String createdDate, String account1, String account2, String zelloEnrolled) {
+    public User(String ssn, String firstName, String lastName, String address, String mobilePhoneNumber, String username, String email, String password, String zipCode, String city, String state, String phoneNumber, String activation, String profiles, String id, String createdDate, String account1, String account2, String zelloEnrolled, String country) {
         this.ssnNumber = ssn;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -217,6 +227,7 @@ public class User {
         this.account1 = account1;
         this.account2 = account2;
         this.zelloEnrolled = zelloEnrolled;
+        this.country = country;
     }
 
     public User() {
@@ -235,6 +246,7 @@ public class User {
         this.zipCode = userInfoMap.get("zipCode");
         this.city = userInfoMap.get("city");
         this.state = userInfoMap.get("state");
+        this.country=userInfoMap.get("country");
     }
 
 

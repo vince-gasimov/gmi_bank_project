@@ -233,6 +233,16 @@ public class DatabaseUtility {
         return rowCount > 0;
     }
 
+    public static Map<String, Object> getUserInformationWithEmailFromGivenTable(String tableName, String email){
+        //   select * from tpaccount_registration where email = 'donnell.marvin@yahoo.com';
+        String query = "select * from " + tableName + " where email = '" + email + "';";
+        if (!doesExistAnyRow(query)){
+            System.out.println("satir yok");
+            return null;
+        }
+        System.out.println("satir var");
+        return getRowMap(query);
+    }
 
     public static Map<String, Object> getUserInformationIncludingAuthorityAndActivation(String email) {
         /*
@@ -256,6 +266,23 @@ public class DatabaseUtility {
         compareResultMap.put("equalAuthority", ((String) map.get("authority_name")).equals(user.getProfiles()));
         compareResultMap.put("equalLastName", ((String) map.get("last_name")).equals(user.getLastName()));
         compareResultMap.put("equalId", String.valueOf(map.get("user_id")).equals(user.getId()));
+
+        for (String key : compareResultMap.keySet()) {
+            if (!compareResultMap.get(key)){
+                System.out.println(key + " information does not match!!!");
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public static boolean compareMapFromDbAndUserObjectForNewRegistration(Map<String, Object> dbMap, User user){
+        Map<String, Boolean> compareResultMap = new HashMap<>();
+        compareResultMap.put("equalFirstName", ((String) dbMap.get("first_name")).equals(user.getFirstName()));
+        compareResultMap.put("equalUserName", ((String) dbMap.get("user_name")).equals(user.getUserName()));
+        compareResultMap.put("equalLastName", ((String) dbMap.get("last_name")).equals(user.getLastName()));
+        compareResultMap.put("equalMobilePhoneNumber", ((String) dbMap.get("mobile_phone_number")).equals(user.getMobilePhoneNumber()));
 
         for (String key : compareResultMap.keySet()) {
             if (!compareResultMap.get(key)){
