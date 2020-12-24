@@ -19,7 +19,7 @@ Feature: Read countries
       | endPoint                                 | id     |
       | https://www.gmibank.com/api/tp-countries | /59638 |
 
-  @wip
+
   Scenario: US_021 read all countries
     Given get all countries
     And verify that all countries data
