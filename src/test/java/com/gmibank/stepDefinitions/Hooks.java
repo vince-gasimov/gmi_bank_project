@@ -30,7 +30,7 @@ public class Hooks {
         }
 
         BrowserUtils.waitFor(1);
-        //Driver.closeDriver();
+        Driver.closeDriver();
     }
 
     /**
