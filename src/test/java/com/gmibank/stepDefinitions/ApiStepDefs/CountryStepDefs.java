@@ -6,6 +6,7 @@ import com.gmibank.Api.ApiUtilities.ApiCountriesUtilities;
 import com.gmibank.Api.pojos.Country;
 import com.gmibank.Api.pojos.Customer;
 import com.gmibank.utilities.DummyDataGenerator;
+import com.gmibank.utilities.ExcelUtilities;
 import com.gmibank.utilities.ReadTxt;
 import com.gmibank.utilities.WriteToTxt;
 import io.cucumber.java.en.Given;
@@ -20,41 +21,65 @@ import java.util.List;
 
 public class CountryStepDefs {
 
-    //Response response;
-    //Country[] countries;
+    Response response;
+    Country[] countries;
 
     @Given("get all countries")
     public void get_all_countries() {
         Response getAllCountries = ApiCountriesUtilities.getAllCountries();
-        getAllCountries.prettyPrint();
+        //getAllCountries.prettyPrint();
     }
 
     //List<String> allCountries = new ArrayList<>();
     @Given("verify that all countries data")
-    public void verify_that_all_countries_data() throws IOException {
-    /*    //Response allCountriesResponse = ApiCountriesUtilities.getAllCountries();
+    public void verify_that_all_countries_data() throws Exception {
+        Response allCountriesResponse = ApiCountriesUtilities.getAllCountries();
+
         ObjectMapper objectMapper = new ObjectMapper();
-        countries = objectMapper.readValue(response.asString(), Country[].class);
+
+        countries = objectMapper.readValue(allCountriesResponse.asString(), Country[].class);
 
         for (int i =0; i<countries.length; i++){
-            allCountries.add(countries[i].getName());
+            System.out.println(countries[i].getName());
         }
-        System.out.println(allCountries);
 
         WriteToTxt.saveAllCountries("allCountriesName.txt", countries);
-        List<String > allCountriesNameList = ReadTxt.returnCustomerSNNList("allCountriesName.txt");
-        Assert.assertEquals("not verify", allCountries, allCountriesNameList);
-        */
+        ExcelUtilities excel = new ExcelUtilities("src/test/resources/GMIBank-16.xlsx", "Tabelle1");
+
     }
 
-    @Then("verify that data of country id {int}")
-    public void verify_that_data_of_country_id(Integer int1) {
-        Response aCountryResponse = ApiCountriesUtilities.getSpecifiedCountryInfo(id);
+    @Given("read and verify that all countries data")
+    public void read_and_verify_that_all_countries_data(){
+       // List<String> expectedCountries = new ArrayList<>();
+       // expectedCountries.add("JAPONYA");
+        System.out.println("************************''**''");
+        boolean flag = false;
+        for (Country country : countries) {
+            if(country.getName() == null){
+                continue;
+            }
+            if (country.getName().equals("JAPONYA")){
+                flag = true;
+                break;
+            }
+        }
+        Assert.assertTrue(flag);
+
+       // List<String > allCountriesNameList = ReadTxt.returnCustomerSNNList("allCountriesName.txt");
+        //Assert.assertTrue("not verify", allCountriesNameList.containsAll(expectedCountries));
+        //System.out.println("Validation has been Successfully");
+
+
+    }
+
+    @Then("verify that data of country id")
+    public void verify_that_data_of_country_id() {
+        Response aCountryResponse = ApiCountriesUtilities.getAllCountries();
         JsonPath jsonPath = aCountryResponse.jsonPath();
-        int actualId = jsonPath.getInt("id");
+        String actualId = jsonPath.getString("id");
         String actualName = jsonPath.getString("name");
-        Assert.assertEquals(id, actualId);
-        Assert.assertEquals(name,actualName);
+        Assert.assertTrue("not verify", actualId.contains("60778"));
+        Assert.assertTrue("not verify", actualName.contains("USA"));
     }
 
 

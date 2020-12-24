@@ -23,11 +23,10 @@ Feature: Read countries
   Scenario: US_021 read all countries
     Given get all countries
     And verify that all countries data
-    Then verify that data of country id 60778
+    And read and verify that all countries data
+    Then verify that data of country id
 
   Scenario: US_025 creation of a new country
-
-  Scenario: creation of a new country
     Given send a new country with generated name
     Then verify that new country is created
 
