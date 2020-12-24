@@ -8,6 +8,8 @@ import com.gmibank.Api.ApiUtilities.ApiCustomerUtilities;
 import com.gmibank.Api.ApiUtilities.ApiStatesUtilities;
 import org.testng.annotations.Test;
 
+import java.util.Map;
+
 public class TestClassKadir {
 
     @Test
@@ -54,6 +56,17 @@ public class TestClassKadir {
     public void test9(){
         ApiStatesUtilities.getSpecifiedStateInfo(60667);
     }
+
+@Test
+    public  void test10(){
+
+
+   ApiStatesUtilities.getSpecifiedStateInfo(31099).prettyPrint();
+    System.out.println("statuscode"+ApiStatesUtilities.getSpecifiedStateInfo(31099).getStatusCode());
+
+}
+
+
 
 
 }
