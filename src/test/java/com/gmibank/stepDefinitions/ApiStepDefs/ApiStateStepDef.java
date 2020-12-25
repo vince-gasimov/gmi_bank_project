@@ -9,6 +9,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.Assert;
 
+
 import java.io.IOException;
 
 public class ApiStateStepDef {
@@ -49,6 +50,16 @@ public class ApiStateStepDef {
 
         Assert.assertTrue("not verify", actualId.contains("58975"));
         Assert.assertTrue("not verify", actualName.contains("texas"));
+    }
+
+    @Given("user deletes the state of a given id")
+    public void user_deletes_the_state_of_a_given_id() {
+        ApiStatesUtilities.deleteOneState("/62210");
+    }
+
+    @Then("verifies the state he deleted")
+    public void verifies_the_state_he_deleted() {
+        Assert.assertEquals("not verify", ApiStatesUtilities.getSpecifiedStateInfo(62210).getStatusCode(), 404);
     }
 
 
