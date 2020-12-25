@@ -1,16 +1,17 @@
 package com.gmibank.stepDefinitions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gmibank.Api.ApiUtilities.ApiAccountUtilities;
 import com.gmibank.Api.ApiUtilities.ApiApplicantsUtilities;
-import com.gmibank.pages.BasePage;
-import com.gmibank.pages.LoginPage;
-import com.gmibank.pages.RegistrationPage;
+import com.gmibank.pages.*;
 import com.gmibank.utilities.*;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.Assert;
+import org.openqa.selenium.WebElement;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -27,9 +28,15 @@ public class CustmerEndToEndStepDefs {
     Response response;
     com.gmibank.Api.pojos.User userFromApi;
     ObjectMapper oMapper;
-    BasePage basePage;
-    LoginPage loginPage;
-
+    BasePage basePage = new BasePage();
+    LoginPage loginPage = new LoginPage();
+    AccountsPageWithTable accountsPageWithTable;
+    CreateOrEditAccountPage createOrEditAccountPage;
+    String account1Description;
+    String account2Description;
+    Map<String, String> account1FromUI;
+    Map<String, String> account2FromUI;
+    JsonPath jsonPath;
 
     @When("a customer candidate register itself with valid information on registration page")
     public void a_customer_candidate_register_itself_with_valid_information_on_registration_page() {
@@ -98,16 +105,78 @@ public class CustmerEndToEndStepDefs {
 
     @When("employee creates two different accounts for this customer with a description of its username")
     public void employee_creates_two_different_accounts_for_this_customer_with_a_description_of_its_username() {
+        basePage.clickGivenNavItemAndSelectGivenDropDownItem("My Operations", "Manage Accounts");
+        accountsPageWithTable = new AccountsPageWithTable();
+        BrowserUtils.waitForVisibility(accountsPageWithTable.table,15);
+        accountsPageWithTable.clickCreateButton();
+        createOrEditAccountPage = new CreateOrEditAccountPage();
+        String account1Description = userFromExcel.getUserName() + " account 1";
+        createOrEditAccountPage.createNewAccount(account1Description, 1000, "CHECKING");
+        //account olustugunu dogrula
+        accountsPageWithTable.verifyGivenAccountExist(account1Description);
+
+
+        BrowserUtils.scrollUpWithActionClass();
+        BrowserUtils.waitFor(5);
+        System.out.println("buradayim");
+        accountsPageWithTable.clickCreateButton();
+        System.out.println("click yaptim");
+        account2Description = userFromExcel.getUserName() + " account 2";
+        createOrEditAccountPage.createNewAccount(account2Description, 2000, "CHECKING");
+        //account olustugunu dogrula
+        accountsPageWithTable.verifyGivenAccountExist(account2Description);
 
     }
 
     @Then("verify the newcreated account information directly from database")
     public void verify_the_newcreated_account_information_directly_from_database() {
+        Map<String, Object> account1InfoMapFromDb = DatabaseUtility.getAccountInfoWithGivenDescription(account1Description);
+        Map<String, Object> account2InfoMapFromDb = DatabaseUtility.getAccountInfoWithGivenDescription(account2Description);
 
+        assertTrue(DatabaseUtility.compareMapsForAccoutnsFromDbAndUI(account1InfoMapFromDb,account1FromUI));
+        assertTrue(DatabaseUtility.compareMapsForAccoutnsFromDbAndUI(account2InfoMapFromDb,account2FromUI));
+
+/*        assertEquals(account1FromUI.get("ID"), (String) account1InfoMapFromDb.get("id"));
+        assertEquals(account1FromUI.get("Balance"),String.valueOf(account1InfoMapFromDb.get("balance"));
+        assertEquals(account1FromUI.get("Account Type"), account1InfoMapFromDb.get("account_type"));*/
+
+        /*assertEquals(account1Description,account1InfoMapFromDb.get("description"));
+        assertEquals(account2Description,account2InfoMapFromDb.get("description"));*/
     }
 
     @Then("verify the newcreated account information with the help of API")
     public void verify_the_newcreated_account_information_with_the_help_of_API() {
+        response = ApiAccountUtilities.getAccountInfoFromApiWithGivenId(Integer.parseInt(account1FromUI.get("ID")));
+        jsonPath = response.jsonPath();
+        String descriptionFromApi = jsonPath.getString("description");
+        int balanceFromApi = jsonPath.getInt("balance");
+        String accountTypeFromApi = jsonPath.getString("accountType");
+        assertEquals(account1FromUI.get("Description"),descriptionFromApi);
+        assertEquals(account1FromUI.get("Balance"),String.valueOf(balanceFromApi));
+        assertEquals(account1FromUI.get("Account Type"), accountTypeFromApi);
+
+        response = ApiAccountUtilities.getAccountInfoFromApiWithGivenId(Integer.parseInt(account2FromUI.get("ID")));
+        jsonPath = response.jsonPath();
+        descriptionFromApi = jsonPath.getString("description");
+        balanceFromApi = jsonPath.getInt("balance");
+        accountTypeFromApi = jsonPath.getString("accountType");
+        assertEquals(account2FromUI.get("Description"),descriptionFromApi);
+        assertEquals(account2FromUI.get("Balance"),String.valueOf((balanceFromApi)));
+        assertEquals(account2FromUI.get("Account Type"), accountTypeFromApi);
+
+        /*
+        {
+    "id": 2313,
+    "description": "Saving",
+    "balance": 1377539,
+    "accountType": "CHECKING",
+    "accountStatusType": "ACTIVE",
+    "createDate": "2020-11-05T05:00:00Z",
+    "closedDate": "2020-11-05T05:00:00Z",
+    "employee": null,
+    "accountlogs": null
+}
+         */
 
     }
 

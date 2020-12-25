@@ -1,5 +1,10 @@
 package com.gmibank.pages;
 
+import com.gmibank.utilities.BrowserUtils;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 public class AccountsPageWithTable extends TablePage{
 
     /***
@@ -9,5 +14,17 @@ public class AccountsPageWithTable extends TablePage{
      * tablePage class'inda yoksa direkt buraya (AccountsPageWithTable class'ina) kendin ekleyeebilirsin.
      */
 
+    public boolean verifyGivenAccountExist(String description){
+        //BrowserUtils.waitForVisibility(table,15);
+        BrowserUtils.waitForPresenceOfElement(By.xpath("//table"), 15);
+        BrowserUtils.scrollDownWithActionClass();
+        WebElement createdAccount = locateWantedCellWithGivenColumnAndValue("Description", description);
+        if (createdAccount.getText().equals(description)){
+            System.out.println("createdAccount.getText() = " + createdAccount.getText());
+            return true;
+        }
+        System.out.println("account ile ilgili problem var!!!");
+        return false;
+    }
 
 }

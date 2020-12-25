@@ -1,5 +1,6 @@
 package com.gmibank.stepDefinitions;
 
+import com.gmibank.Api.ApiUtilities.ApiAccountUtilities;
 import com.gmibank.pages.*;
 import com.gmibank.utilities.*;
 import org.openqa.selenium.By;
@@ -9,11 +10,9 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.net.UnknownServiceException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class TestClass {
@@ -238,5 +237,40 @@ public class TestClass {
         System.out.println(excelUtilities.getRandomRowNumWithinSameProfile("ROLE_ADMIN"));
         System.out.println(excelUtilities.getRandomRowNumWithinSameProfile("ROLE_USER"));
         System.out.println(excelUtilities.getSpecifiedRow(2));
+    }
+
+    @Test
+    public void test12() throws Exception {
+        BasePage basePage = new BasePage();
+        basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Sign in");
+        LoginPage loginPage = new LoginPage();
+        loginPage.loginWithValidInfo("employee");
+        BrowserUtils.waitForVisibility(new BasePage().myOperationsNavItem, 5);
+        basePage.clickGivenNavItemAndSelectGivenDropDownItem("My Operations", "Manage Accounts");
+        AccountsPageWithTable accountsPageWithTable = new AccountsPageWithTable();
+        BrowserUtils.waitForVisibility(accountsPageWithTable.table,15);
+        accountsPageWithTable.clickCreateButton();
+        CreateOrEditAccountPage createOrEditAccountPage = new CreateOrEditAccountPage();
+        createOrEditAccountPage.createNewAccount("kuzenin hesabi", 100, "CHECKING");
+        BrowserUtils.waitForVisibility(accountsPageWithTable.table,15);
+
+
+        accountsPageWithTable.clickCreateButton();
+        Assert.assertTrue(accountsPageWithTable.verifyGivenAccountExist("kuzenin hesabi"));
+        BrowserUtils.scrollUpWithActionClass();
+        createOrEditAccountPage.createNewAccount("dayimin hesabi", 100, "CHECKING");
+        BrowserUtils.waitForVisibility(accountsPageWithTable.table,15);
+        Assert.assertTrue(accountsPageWithTable.verifyGivenAccountExist("dayimin hesabi"));
+
+    }
+
+    @Test
+    public void test13(){
+        ApiAccountUtilities.getAccountInfoFromApiWithGivenId(2313).prettyPrint();
+    }
+
+    @Test
+    public void test14(){
+        System.out.println(DatabaseUtility.getAccountInfoWithGivenDescription("lindsay.morissette account 2"));
     }
 }

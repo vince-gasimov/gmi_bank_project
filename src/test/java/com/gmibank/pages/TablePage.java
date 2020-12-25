@@ -52,6 +52,8 @@ public class TablePage extends BasePage {
     @FindBy(xpath = "//*[@class='modal-footer']/button[2]")
     public WebElement deleteButtonInConfirmationBox;
 
+    @FindBy (xpath = "//table[@class='table']")
+    public WebElement table;
 
     public boolean isDeleteConfirmationBoxDisplayed() {
         BrowserUtils.waitForVisibility(deleteConfirmationBox, 5);

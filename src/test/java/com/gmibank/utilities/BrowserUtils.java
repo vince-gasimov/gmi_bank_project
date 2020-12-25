@@ -409,4 +409,13 @@ public class BrowserUtils {
     }
 
 
+    public static void scrollDownWithActionClass(){
+        Actions actions = new Actions(Driver.getDriver());
+        actions.sendKeys(Keys.PAGE_DOWN).perform();
+    }
+
+    public static void scrollUpWithActionClass(){
+        Actions actions = new Actions(Driver.getDriver());
+        actions.sendKeys(Keys.PAGE_UP).perform();
+    }
 }

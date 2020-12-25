@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+
 public class DatabaseUtility {
     private static Connection connection;
     private static Statement statement;
@@ -312,6 +314,36 @@ public class DatabaseUtility {
         compareResultMap.put("equalAuthority", ((String) map.get("authority_name")).equals(mapFromExcel.get("profiles")));
         compareResultMap.put("equalLastName", ((String) map.get("last_name")).equals(mapFromExcel.get("lastName")));
         compareResultMap.put("equalId", String.valueOf(map.get("user_id")).equals(mapFromExcel.get("id")));
+
+        for (String key : compareResultMap.keySet()) {
+            if (!compareResultMap.get(key)){
+                System.out.println(key + " information does not match!!!");
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+
+    public static Map<String, Object> getAccountInfoWithGivenDescription(String description){
+        //  select * from tp_account where description = 'Saving';
+
+        String query = "select * from tp_account where description = '" + description + "';";
+        if (!doesExistAnyRow(query)){
+            System.out.println("satir yok");
+            return null;
+        }
+        System.out.println("satir var");
+        return getRowMap(query);
+    }
+
+    public static boolean compareMapsForAccoutnsFromDbAndUI(Map<String, Object> dbMap, Map<String, String> uiMap){
+        Map<String, Boolean> compareResultMap = new HashMap<>();
+        compareResultMap.put("equalId", uiMap.get("ID").equals(String.valueOf(dbMap.get("id"))));
+        compareResultMap.put("equalBalance", uiMap.get("Balance").equals(String.valueOf(dbMap.get("balance"))));
+        compareResultMap.put("equalAccountType", uiMap.get("Account Type").equals(dbMap.get("account_type")));
+
 
         for (String key : compareResultMap.keySet()) {
             if (!compareResultMap.get(key)){
