@@ -15,6 +15,10 @@ public class Country {
         //this.states = states;
     }
 
+    public Country() {
+
+    }
+
     public int getId() {
         return id;
     }

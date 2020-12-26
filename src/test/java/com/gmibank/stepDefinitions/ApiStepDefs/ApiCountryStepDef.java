@@ -1,112 +1,128 @@
 package com.gmibank.stepDefinitions.ApiStepDefs;
 
-import com.gmibank.utilities.ConfigurationReader;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gmibank.Api.ApiUtilities.ApiCountriesUtilities;
+import com.gmibank.Api.pojos.Country;
+import com.gmibank.utilities.DummyDataGenerator;
+import com.gmibank.utilities.ExcelUtilities;
+import com.gmibank.utilities.ReadTxt;
+import com.gmibank.utilities.WriteToTxt;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.Assert;
 
-import static io.restassured.RestAssured.given;
+import java.io.IOException;
 
 public class ApiCountryStepDef {
 
     Response response;
-    Response responseAll;
+    Country[] countries;
 
-    @Given("user sets the response using api end point {string} and creates country using {string} and {string}")
-    public void user_sets_the_response_using_api_end_point_and_creates_country_using_and(String endpoint, String type, String country) {
-            response = given().headers(
-                                            "Authorization",
-                                            "Bearer " + ConfigurationReader.getProperty("token"),
-                                            "Content-Type",
-                                            ContentType.JSON,
-                                            "Accept",
-                                            ContentType.JSON)
-                .when()
-                .body("{\"" + type + "\":\"" + country + "\"}")
-                .post(endpoint)
-                            .then()
-                            .contentType(ContentType.JSON)
-                            .extract()
-                            .response();
+    @Given("get all countries")
+    public void get_all_countries() {
+        Response getAllCountries = ApiCountriesUtilities.getAllCountries();
+        //getAllCountries.prettyPrint();
+    }
 
-                response.prettyPrint();
+    //List<String> allCountries = new ArrayList<>();
+    @Given("verify that all countries data")
+    public void verify_that_all_countries_data() throws IOException {
+        Response allCountriesResponse = ApiCountriesUtilities.getAllCountries();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        countries = objectMapper.readValue(allCountriesResponse.asString(), Country[].class);
+
+        for (int i =0; i<countries.length; i++){
+            System.out.println(countries[i].getName());
+        }
+
+        //WriteToTxt.saveAllCountries("allCountriesName.txt", countries);
+        //ExcelUtilities excel = new ExcelUtilities("src/test/resources/GMIBank-16.xlsx", "Tabelle1");
 
     }
 
-    @Given("user sets the countries to response using {string}")
-    public void user_sets_the_countries_to_response_using(String endpoint) {
-                responseAll = given().headers(
-                                                "Authorization",
-                                                "Bearer " + ConfigurationReader.getProperty("token"),
-                                                "Content-Type",
-                                                ContentType.JSON,
-                                                "Accept",
-                                                ContentType.JSON).
-                                        when().
-                                        get(endpoint).
-                                        then().
-                                        contentType(ContentType.JSON).
-                                        extract().
-                                        response();
+    @Given("read and verify that all countries data")
+    public void read_and_verify_that_all_countries_data(){
+       // List<String> expectedCountries = new ArrayList<>();
+       // expectedCountries.add("JAPONYA");
+        System.out.println("************************''**''");
+        boolean flag = false;
+        for (Country country : countries) {
+            if(country.getName() == null){
+                continue;
+            }
+            if (country.getName().equals("JAPONYA")){
+                flag = true;
+                break;
+            }
+        }
+        Assert.assertTrue(flag);
 
-                 responseAll.prettyPrint();
-
-    }
-
-    @Given("user saves the countries to correspondent files")
-    public void user_saves_the_countries_to_correspondent_files() {
-        JsonPath jsonPath = responseAll.jsonPath();
-
-        String id = jsonPath.getString("id");
-
-        Assert.assertTrue("not verify", id.contains("59637"));
+       // List<String > allCountriesNameList = ReadTxt.returnCustomerSNNList("allCountriesName.txt");
+        //Assert.assertTrue("not verify", allCountriesNameList.containsAll(expectedCountries));
+        //System.out.println("Validation has been Successfully");
 
 
     }
 
-    @Then("user validates the countries")
-    public void user_validates_the_countries() {
+    @Then("verify that data of country id")
+    public void verify_that_data_of_country_id() {
+        Response aCountryResponse = ApiCountriesUtilities.getAllCountries();
+        JsonPath jsonPath = aCountryResponse.jsonPath();
 
+        String actualId = jsonPath.getString("id");
+        String actualName = jsonPath.getString("name");
+
+        Assert.assertTrue("not verify", actualId.contains("60778"));
+        Assert.assertTrue("not verify", actualName.contains("USA"));
     }
 
-    @Given("user deletes a country using endpoint {string} and its extension {string}")
-    public void user_deletes_a_country_using_endpoint_and_its_extension(String endpoint, String id) {
-        Response response = given().headers(
-                                            "Authorization",
-                                            "Bearer " + ConfigurationReader.getProperty("token"),
-                                            "Content-Type",
-                                            ContentType.JSON,
-                                            "Accept",
-                                            ContentType.JSON)
-                .when().
-                delete(endpoint + id).
-                then().
-                extract().
-                response();
 
-        responseAll = given().headers(
-                                    "Authorization",
-                                    "Bearer " + ConfigurationReader.getProperty("token"),
-                                    "Content-Type",
-                                    ContentType.JSON,
-                                    "Accept",
-                                    ContentType.JSON).
-                                    when().
-                                    get(endpoint).
-                                    then().
-                                    contentType(ContentType.JSON).
-                                    extract().
-                                    response();
+    int id;
+    String name;
 
-        JsonPath jsonPath = responseAll.jsonPath();
-
-        String idAll = jsonPath.getString("id");
-
-        Assert.assertFalse("not verify", idAll.contains(id));
-
+    @Given("send a new country with generated name")
+    public void send_a_new_country_with_generated_name() throws JsonProcessingException {
+        //butun name'leri cek, farkli name uret.
+        name = DummyDataGenerator.faker.country().name();
+        Response creationResponse = ApiCountriesUtilities.postOneCountry(name);
+        creationResponse.prettyPrint();
+        Assert.assertEquals(creationResponse.statusCode(),201);
+        JsonPath jsonPath = creationResponse.jsonPath();
+        id = jsonPath.getInt("id");
     }
+
+    @Then("verify that new country is created")
+    public void verify_that_new_country_is_created() {
+        Response createdCountryResponse = ApiCountriesUtilities.getSpecifiedCountryInfo(id);
+        JsonPath jsonPath = createdCountryResponse.jsonPath();
+        int actualId = jsonPath.getInt("id");
+        String actualName = jsonPath.getString("name");
+        Assert.assertEquals(id, actualId);
+        Assert.assertEquals(name,actualName);
+    }
+
+    @Given("update a random selected country with a new generated name")
+    public void update_a_random_selected_country_with_a_new_generated_name() {
+        Response updateCountryResponse = ApiCountriesUtilities.updateCountry(60779, "Belize_island");
+        JsonPath jsonPath = updateCountryResponse.jsonPath();
+        updateCountryResponse.prettyPrint();
+        Assert.assertEquals(updateCountryResponse.statusCode(),200);
+    }
+
+    @Then("verify that country information is update")
+    public void verify_that_country_information_is_update() {
+        Response updatedCountryResponse = ApiCountriesUtilities.getSpecifiedCountryInfo(60779);
+        JsonPath jsonPath = updatedCountryResponse.jsonPath();
+        int actualId = jsonPath.getInt("id");
+        String actualName = jsonPath.getString("name");
+        Assert.assertEquals(60779, actualId);
+        Assert.assertEquals("Belize_island",actualName);
+    }
+
 
 }

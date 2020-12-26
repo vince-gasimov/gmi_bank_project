@@ -20,10 +20,17 @@ Feature: Read countries
       | https://www.gmibank.com/api/tp-countries | /59638 |
 
 
-  Scenario: creation of a new country
+  Scenario: US_021 read all countries
+    Given get all countries
+    And verify that all countries data
+    And read and verify that all countries data
+    Then verify that data of country id
+
+  Scenario: US_025 creation of a new country
     Given send a new country with generated name
     Then verify that new country is created
 
-  Scenario: update a random selected country
+
+  Scenario: US_026 update a random selected country
     Given update a random selected country with a new generated name
     Then verify that country information is update
