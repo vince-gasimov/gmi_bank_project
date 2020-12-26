@@ -1,7 +1,7 @@
 @applicant
 Feature: Read All Applicants
 
-  @US_023 @wip
+  @US_023
   Scenario: System should allow to read applicants
     Given get all applicants
     And verify that all applicants data
