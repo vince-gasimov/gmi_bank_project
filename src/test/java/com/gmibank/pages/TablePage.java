@@ -242,6 +242,7 @@ public class TablePage extends BasePage {
      */
     public void clickCreateButton() {
         BrowserUtils.waitForClickablility(createButton, 5);
+        BrowserUtils.hover(createButton);
         createButton.click();
     }
 
@@ -300,6 +301,23 @@ public class TablePage extends BasePage {
         }
         return columnInfoMap;
     }
+
+    public Map<String, String> getAllInformationFromOneLineUsingGivenCellValueWithHighlight(String cellValue) {
+        //    //*[contains(text(),'Tako')]/ancestor::tr  >>>> one lcoator sample
+        Map<String, String> columnInfoMap = new HashMap<>();
+        String locatorForRow = "//*[contains(text(),'" + cellValue + "')]/ancestor::tr";
+        WebElement row = Driver.getDriver().findElement(By.xpath(locatorForRow));
+        BrowserUtils.hover(row);
+        BrowserUtils.highlight(row);
+        //to find row elements, chaining is applied for locating.
+        List<WebElement> cellElementList = row.findElements(By.xpath(".//td"));
+        List<String> columns = getColumnNameList();
+        for (int i = 0; i < columns.size(); i++) {
+            columnInfoMap.put(columns.get(i), cellElementList.get(i).getText());
+        }
+        return columnInfoMap;
+    }
+
 
 
 }

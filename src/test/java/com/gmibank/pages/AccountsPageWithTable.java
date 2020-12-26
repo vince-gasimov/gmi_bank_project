@@ -17,7 +17,6 @@ public class AccountsPageWithTable extends TablePage{
     public boolean verifyGivenAccountExist(String description){
         //BrowserUtils.waitForVisibility(table,15);
         BrowserUtils.waitForPresenceOfElement(By.xpath("//table"), 15);
-        BrowserUtils.scrollDownWithActionClass();
         WebElement createdAccount = locateWantedCellWithGivenColumnAndValue("Description", description);
         if (createdAccount.getText().equals(description)){
             System.out.println("createdAccount.getText() = " + createdAccount.getText());

@@ -174,6 +174,29 @@ public class ExcelUtilities {
         return data;
     }
 
+    public List<Map<String, String>> getDataListForSpecifiedColumns(List<String> wantedColumnList) {
+        // getting all columns
+        List<String> columns = getColumnsNames();
+        // method will return this
+        List<Map<String, String>> data = new ArrayList<>();
+        for (int i = 1; i < rowCount(); i++) {
+            // get each row
+            Row row = workSheet.getRow(i);
+            // creating map of the row using the column and value
+            // key=column, value=cell
+            Map<String, String> rowMap = new HashMap<String, String>();
+            for (Cell cell : row) {
+                int columnIndex = cell.getColumnIndex();
+                if (wantedColumnList.contains(columns.get(columnIndex))){
+                    rowMap.put(columns.get(columnIndex), cell.toString());
+                }
+            }
+            data.add(rowMap);
+        }
+        return data;
+    }
+
+
     /**
      * check whether there exist any row except for header
      * @return

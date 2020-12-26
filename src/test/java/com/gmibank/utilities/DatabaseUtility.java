@@ -355,4 +355,32 @@ public class DatabaseUtility {
 
     }
 
+    public static Map<String, Object> getAccountOwnerWithAccountId(String accountId) {
+        /*
+        select * from tp_customer_account where account_id = 55037;
+        */
+
+        String query = "select * from tp_customer_account where account_id = " + accountId + ";";
+        if (!doesExistAnyRow(query)){
+            System.out.println("satir yok");
+            return null;
+        }
+        System.out.println("satir var");
+        return getRowMap(query);
+    }
+
+    public static Map<String, Object> getCustomerInfoFromCustomerTable(String email) {
+        /*
+        select * from tp_customer where email = 'farrah.mante@gmail.com';
+        */
+
+        String query = "select * from tp_customer where email = '" + email + "';";
+        if (!doesExistAnyRow(query)){
+            System.out.println("satir yok");
+            return null;
+        }
+        System.out.println("satir var");
+        return getRowMap(query);
+    }
+
 }

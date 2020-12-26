@@ -24,12 +24,11 @@ Feature: End to end test for a customer with database and API validation
     Then verify the newcreated account information directly from database
     And verify the newcreated account information with the help of API
     When the employee approves the customer application by filling out additional information and binding created accounts
-    Then verify the approved customer information directly from database
-    And verify the approved customer information with the help of API
     When after successful "approval" operation of this customer, an "admin" sign in to the system
     And the admin activate the customer as a customer in the system
+    Then verify the approved customer information directly from database
+    And verify the approved customer information with the help of API
     Then verify that customer can sign in to the system with its valid credentials
-    And verify that the customer can see its own accounts
     And verify the activated customer information directly from database
     And verify the activated customer information with the help of API
     And the all customers' information is printed out

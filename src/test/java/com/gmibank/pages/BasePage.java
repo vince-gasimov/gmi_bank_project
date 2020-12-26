@@ -174,8 +174,12 @@ public class BasePage {
     }
 
 
-    public void singOut() throws Exception {
-        clickAndSelectDropDownItemUnderAccountMenuIcon("Sign Out");
+    public void singOut() {
+        try {
+            clickAndSelectDropDownItemUnderAccountMenuIcon("Sign Out");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
