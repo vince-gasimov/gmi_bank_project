@@ -174,6 +174,29 @@ public class ExcelUtilities {
         return data;
     }
 
+    public List<Map<String, String>> getDataListForSpecifiedColumns(List<String> wantedColumnList) {
+        // getting all columns
+        List<String> columns = getColumnsNames();
+        // method will return this
+        List<Map<String, String>> data = new ArrayList<>();
+        for (int i = 1; i < rowCount(); i++) {
+            // get each row
+            Row row = workSheet.getRow(i);
+            // creating map of the row using the column and value
+            // key=column, value=cell
+            Map<String, String> rowMap = new HashMap<String, String>();
+            for (Cell cell : row) {
+                int columnIndex = cell.getColumnIndex();
+                if (wantedColumnList.contains(columns.get(columnIndex))){
+                    rowMap.put(columns.get(columnIndex), cell.toString());
+                }
+            }
+            data.add(rowMap);
+        }
+        return data;
+    }
+
+
     /**
      * check whether there exist any row except for header
      * @return
@@ -245,6 +268,9 @@ public class ExcelUtilities {
                     break;
                 case "zipCode":
                     setCellData(user.getZipCode(),columnName,rowIndex);
+                    break;
+                case "country":
+                    setCellData(user.getCountry(),columnName,rowIndex);
                     break;
                 case "state":
                     setCellData(user.getState(),columnName,rowIndex);
@@ -350,6 +376,9 @@ public class ExcelUtilities {
                 break;
             case "user":
                 authority = "ROLE_USER";
+                break;
+            case "customer":
+                authority = "ROLE_CUSTOMER";
                 break;
         }
         user.setProfiles(authority);

@@ -131,6 +131,15 @@ public class CustomersPageWithTable extends TablePage{
     }
 
 
+    public void createNewCustomerSearchedWithSsn(String ssn, String zipCode, String phoneNumber, String city, String country, String state, String account1, String account2Value){
+        clickCreateButton();
+        CreateOrEditCustomer createOrEditCustomer = new CreateOrEditCustomer();
+        BrowserUtils.waitForVisibility(createOrEditCustomer.ssnTextBox,5);
+        createOrEditCustomer.typeSsnAndClickSearchButton(ssn);
+        createOrEditCustomer.doesContainSuchAMessageInsideAlert("tPAccountRegistration.updated");
+        createOrEditCustomer.fillUpAllInformationToCreateCustomerAfterSearch(zipCode,phoneNumber, city, country, state, account1, account2Value);
+        createOrEditCustomer.clickSaveButton();
+    }
 
 
 }

@@ -335,9 +335,13 @@ public class RegistrationPage extends BasePage {
     }
 
 
-    public void navigateAndRegisterNewUserWithRandomGeneratedValue() throws Exception {
+    public void navigateAndRegisterNewUserWithRandomGeneratedValue(){
         BasePage basePage = new BasePage();
-        basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Register");
+        try {
+            basePage.clickAndSelectDropDownItemUnderAccountMenuIcon("Register");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         BrowserUtils.waitForVisibility(ssnTextBox,5);
         registerNewUserWithRandomGeneratedValue();
         BrowserUtils.waitFor(1);
@@ -351,6 +355,7 @@ public class RegistrationPage extends BasePage {
      */
     public void registerNewUserWithRandomGeneratedValue(){
         String path = ConfigurationReader.getProperty("registration_excel_path");
+        String registrationSheetName = ConfigurationReader.getProperty("registration_sheet_name");
         Map<String, String> keyValuePairs = DummyDataGenerator.generateAllNeededInformationExceptPassword();
 
         //password liste icinde yok ekle.   password
@@ -382,7 +387,7 @@ public class RegistrationPage extends BasePage {
             } else if(resultMessage.contains("Registration saved!")) {
                 System.out.println("no problem it should be passed");
                 System.out.println(keyValuePairs);
-                ExcelUtilities excelUtilities = new ExcelUtilities(path, "registered");
+                ExcelUtilities excelUtilities = new ExcelUtilities(path, registrationSheetName);
                 excelUtilities.writeUserIntoExcel(keyValuePairs);
                 break;
             }else{

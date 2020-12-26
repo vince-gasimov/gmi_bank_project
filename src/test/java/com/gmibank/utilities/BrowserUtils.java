@@ -409,4 +409,19 @@ public class BrowserUtils {
     }
 
 
+    public static void scrollDownWithActionClass(){
+        Actions actions = new Actions(Driver.getDriver());
+        actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).perform();
+    }
+
+    public static void scrollUpWithActionClass(){
+        Actions actions = new Actions(Driver.getDriver());
+        actions.keyDown(Keys.CONTROL).sendKeys(Keys.HOME).perform();
+    }
+
+    public static void zoomInOutBrowser(double zoomPercentage){
+        JavascriptExecutor executor = (JavascriptExecutor)Driver.getDriver();
+        executor.executeScript("document.body.style.zoom = '" + zoomPercentage + "'");
+    }
+
 }
