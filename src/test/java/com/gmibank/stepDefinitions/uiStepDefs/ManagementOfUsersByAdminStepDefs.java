@@ -1,4 +1,4 @@
-package com.gmibank.stepDefinitions;
+package com.gmibank.stepDefinitions.uiStepDefs;
 
 import com.gmibank.pages.UsersPageWithTable;
 import com.gmibank.utilities.BrowserUtils;

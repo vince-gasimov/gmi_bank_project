@@ -1,10 +1,8 @@
-package com.gmibank.Api.ApiUtilities;
+package com.gmibank.api.ApiUtilities;
 
 import com.gmibank.utilities.ConfigurationReader;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-
-import javax.security.auth.login.Configuration;
 
 import static io.restassured.RestAssured.given;
 

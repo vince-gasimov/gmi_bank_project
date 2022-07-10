@@ -1,8 +1,7 @@
-package com.gmibank.Api.ApiUtilities;
+package com.gmibank.api.ApiUtilities;
 
 import com.gmibank.utilities.ConfigurationReader;
 import io.restassured.RestAssured;
-import static io.restassured.RestAssured.baseURI;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;

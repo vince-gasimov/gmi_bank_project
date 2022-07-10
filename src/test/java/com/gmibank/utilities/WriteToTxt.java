@@ -1,8 +1,8 @@
 package com.gmibank.utilities;
 
-import com.gmibank.Api.pojos.Country;
-import com.gmibank.Api.pojos.Customer;
-import com.gmibank.Api.pojos.States;
+import com.gmibank.api.pojos.Country;
+import com.gmibank.api.pojos.Customer;
+import com.gmibank.api.pojos.States;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

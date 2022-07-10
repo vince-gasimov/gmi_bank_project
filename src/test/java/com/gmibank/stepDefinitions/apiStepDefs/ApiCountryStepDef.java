@@ -1,13 +1,10 @@
-package com.gmibank.stepDefinitions.ApiStepDefs;
+package com.gmibank.stepDefinitions.apiStepDefs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmibank.Api.ApiUtilities.ApiCountriesUtilities;
-import com.gmibank.Api.pojos.Country;
+import com.gmibank.api.ApiUtilities.ApiCountriesUtilities;
+import com.gmibank.api.pojos.Country;
 import com.gmibank.utilities.DummyDataGenerator;
-import com.gmibank.utilities.ExcelUtilities;
-import com.gmibank.utilities.ReadTxt;
-import com.gmibank.utilities.WriteToTxt;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.path.json.JsonPath;

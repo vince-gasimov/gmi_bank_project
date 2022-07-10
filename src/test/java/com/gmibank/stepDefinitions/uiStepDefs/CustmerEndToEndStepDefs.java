@@ -1,9 +1,9 @@
-package com.gmibank.stepDefinitions;
+package com.gmibank.stepDefinitions.uiStepDefs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmibank.Api.ApiUtilities.ApiAccountUtilities;
-import com.gmibank.Api.ApiUtilities.ApiApplicantsUtilities;
-import com.gmibank.Api.ApiUtilities.ApiCustomerUtilities;
+import com.gmibank.api.ApiUtilities.ApiAccountUtilities;
+import com.gmibank.api.ApiUtilities.ApiApplicantsUtilities;
+import com.gmibank.api.ApiUtilities.ApiCustomerUtilities;
 import com.gmibank.pages.*;
 import com.gmibank.utilities.*;
 import io.cucumber.java.en.Then;
@@ -13,7 +13,6 @@ import io.restassured.response.Response;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.json.Json;
 
 import static org.junit.Assert.*;
 
@@ -31,7 +30,7 @@ public class CustmerEndToEndStepDefs {
     String emailFromExcel;
     long idFromDb;
     Response response;
-    com.gmibank.Api.pojos.User userFromApi;
+    com.gmibank.api.pojos.User userFromApi;
     ObjectMapper oMapper;
     BasePage basePage = new BasePage();
     LoginPage loginPage = new LoginPage();

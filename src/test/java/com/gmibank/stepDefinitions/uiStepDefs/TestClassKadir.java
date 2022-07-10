@@ -1,14 +1,12 @@
-package com.gmibank.stepDefinitions;
+package com.gmibank.stepDefinitions.uiStepDefs;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.gmibank.Api.ApiUtilities.ApiApplicantsUtilities;
-import com.gmibank.Api.ApiUtilities.ApiCountriesUtilities;
-import com.gmibank.Api.ApiUtilities.ApiCustomerUtilities;
-import com.gmibank.Api.ApiUtilities.ApiStatesUtilities;
+import com.gmibank.api.ApiUtilities.ApiApplicantsUtilities;
+import com.gmibank.api.ApiUtilities.ApiCountriesUtilities;
+import com.gmibank.api.ApiUtilities.ApiCustomerUtilities;
+import com.gmibank.api.ApiUtilities.ApiStatesUtilities;
 import org.testng.annotations.Test;
-
-import java.util.Map;
 
 public class TestClassKadir {
 

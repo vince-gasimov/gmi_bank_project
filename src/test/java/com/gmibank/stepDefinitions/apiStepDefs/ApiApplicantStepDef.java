@@ -1,8 +1,8 @@
-package com.gmibank.stepDefinitions.ApiStepDefs;
+package com.gmibank.stepDefinitions.apiStepDefs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmibank.Api.ApiUtilities.ApiApplicantsUtilities;
-import com.gmibank.Api.pojos.Applicant;
+import com.gmibank.api.ApiUtilities.ApiApplicantsUtilities;
+import com.gmibank.api.pojos.Applicant;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.restassured.path.json.JsonPath;

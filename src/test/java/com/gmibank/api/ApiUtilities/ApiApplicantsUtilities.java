@@ -1,4 +1,4 @@
-package com.gmibank.Api.ApiUtilities;
+package com.gmibank.api.ApiUtilities;
 
 import com.gmibank.utilities.ConfigurationReader;
 import io.restassured.http.ContentType;

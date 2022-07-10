@@ -1,7 +1,7 @@
-package com.gmibank.stepDefinitions;
+package com.gmibank.stepDefinitions.uiStepDefs;
 
-import com.gmibank.Api.ApiUtilities.ApiAccountUtilities;
-import com.gmibank.Api.ApiUtilities.ApiCustomerUtilities;
+import com.gmibank.api.ApiUtilities.ApiAccountUtilities;
+import com.gmibank.api.ApiUtilities.ApiCustomerUtilities;
 import com.gmibank.pages.*;
 import com.gmibank.utilities.*;
 import com.itextpdf.text.Document;
@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class TestClass {
 

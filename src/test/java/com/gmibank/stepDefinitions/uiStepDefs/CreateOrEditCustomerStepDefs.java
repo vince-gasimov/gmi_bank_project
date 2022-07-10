@@ -1,4 +1,4 @@
-package com.gmibank.stepDefinitions;
+package com.gmibank.stepDefinitions.uiStepDefs;
 
 import com.gmibank.pages.CreateOrEditCustomer;
 import com.gmibank.pages.CustomersPageWithTable;

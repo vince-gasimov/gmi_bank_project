@@ -1,4 +1,4 @@
-package com.gmibank.Api.ApiUtilities;
+package com.gmibank.api.ApiUtilities;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gmibank.utilities.ConfigurationReader;
